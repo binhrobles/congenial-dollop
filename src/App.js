@@ -82,12 +82,12 @@ function IsVictory(cells, lastTurn) {
   // if lastTurn id rests on diag, check diags
   else if (lastTurn % 2 === 0) {
     if ([0, 4, 8].includes(lastTurn) &&
-        cells[4] === cells[0] && 
+        cells[4] === cells[0] &&
         cells[4] === cells[8]) {
       result = true;
     }
     else if ([2, 4, 6].includes(lastTurn) &&
-             cells[4] === cells[2] && 
+             cells[4] === cells[2] &&
              cells[4] === cells[6]) {
       result = true;
     }
@@ -102,7 +102,7 @@ function IsDraw(cells) {
 }
 
 const TicTacToe = {
-  setup: () => ({ 
+  setup: () => ({
     cells: Array(9).fill(null),
     lastTurn: null,
   }),
@@ -128,9 +128,7 @@ const TicTacToe = {
   },
 };
 
-const App = Client({ 
+const App = Client({
   game: TicTacToe,
   board: TicTacToeBoard,
 });
-
-export default App;
