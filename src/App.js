@@ -1,31 +1,31 @@
 import { Client } from 'boardgame.io/react';
+import { STANDARD_DECK } from './constants';
+// import assert from 'assert';
 
-const standardDeck = [
-  'H2', 'H3', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9', 'H10', 'HJ', 'HQ', 'HK', 'HA',
-  'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10', 'DJ', 'DQ', 'DK', 'DA', 
-  'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'CJ', 'CQ', 'CK', 'CA',
-  'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'SJ', 'SQ', 'SK', 'SA'
-];
+export function init(ctx) {
+  return {
+    hands: dealCards(ctx.numPlayers, ctx.random.Shuffle(STANDARD_DECK)),
+  };
+}
 
-function gameSetup(G, ctx) {
+export function dealCards(numPlayers, deck) {
+  const hands = Array(numPlayers).fill().map(() => []); // fills `hands` with unique Array objects
 
+  for (let i = 0; i <= 12; i++) {
+    hands.forEach(hand => hand.push(deck.pop()));
+  }
+
+  return hands;
 }
 
 const Thirteen = {
   name: 'thirteen',
-
-  setup: () => ({
-    deck: standardDeck,
-  }),
-
-  moves: {
-    shuffle: (G, ctx) => {
-      G.deck = ctx.random.Shuffle(G.deck);
-    },
-  },
+  setup: ctx => init(ctx),
 };
 
 const App = Client({
   game: Thirteen,
   numPlayers: 4,
 });
+
+export default App;
