@@ -1,8 +1,8 @@
-import { STANDARD_DECK } from './constants';
+import { generateStandardDeck } from './cards';
 import { dealCards } from './App';
 
 it('should deal every card just once', () => {
-  const hands = dealCards(4, STANDARD_DECK);
+  const hands = dealCards(4, generateStandardDeck());
 
   expect(hands[0].length + hands[1].length + hands[2].length + hands[3].length).toEqual(52);
 
