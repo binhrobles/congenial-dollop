@@ -1,6 +1,6 @@
 import { Client } from 'boardgame.io/react';
 import { generateStandardDeck, Card } from './cards';
-import { OpeningPlay, ResponsePlay } from './moves';
+import { MakeMove } from './moves';
 
 export function setup(ctx) {
   return {
@@ -24,7 +24,7 @@ export function dealCards(numPlayers, deck) {
 const Thirteen = {
   name: 'thirteen',
   setup,
-  moves: { OpeningPlay, ResponsePlay },
+  moves: { MakeMove },
 
   // phases: reorder -> play
 };
