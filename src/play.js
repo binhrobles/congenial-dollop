@@ -30,6 +30,7 @@ export class Play {
     if (SinglePlay.matchCombo(cards)) return COMBO.SINGLE;
     if (PairPlay.matchCombo(cards)) return COMBO.PAIR;
     if (TriplePlay.matchCombo(cards)) return COMBO.TRIPLE;
+    if (QuadPlay.matchCombo(cards)) return COMBO.QUAD;
     else return COMBO.INVALID;
   }
 
