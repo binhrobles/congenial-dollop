@@ -1,24 +1,24 @@
 export const SUIT = Object.freeze({
-  'H': 0x3,
-  'D': 0x2,
-  'C': 0x1,
-  'S': 0x0,
+  'S': 0,
+  'C': 1,
+  'D': 2,
+  'H': 3,
 });
 
 export const RANK = Object.freeze({
-  'TWO': 0xC0,
-  'ACE': 0xB0,
-  'KING': 0xA0,
-  'QUEEN': 0x90,
-  'JACK': 0x80,
-  'TEN': 0x70,
-  'NINE': 0x60,
-  'EIGHT': 0x50,
-  'SEVEN': 0x40,
-  'SIX': 0x30,
-  'FIVE': 0x20,
-  'FOUR': 0x10,
-  'THREE': 0x0,
+  'THREE': 0,
+  'FOUR': 1,
+  'FIVE': 2,
+  'SIX': 3,
+  'SEVEN': 4,
+  'EIGHT': 5,
+  'NINE': 6,
+  'TEN': 7,
+  'JACK': 8,
+  'QUEEN': 9,
+  'KING': 10,
+  'ACE': 11,
+  'TWO': 12,
 });
 
 export class Card {
@@ -32,11 +32,15 @@ export class Card {
   }
 
   valueOf() {
-    return this.rank + this.suit;
+    return this.rank * 4 + this.suit;
   }
 
   toString() {
-    return `${this.suit}:${this.rank.toString(16)}`;
+    return `${Object.keys(SUIT)[this.suit]}:${Object.keys(RANK)[this.rank]}`;
+  }
+
+  static Compare(a, b) {
+    return a.valueOf() - b.valueOf();
   }
 }
 
