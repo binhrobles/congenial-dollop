@@ -50,13 +50,13 @@ export class SinglePlay extends Play {
   }
 
   valueOf() {
-    return this.cards[0];
+    return this.cards[0].rank;
   }
 }
 
 export class PairPlay extends Play {
   static matchCombo(cards) {
-    return cards.length === 2 && cards[0].equals(cards[1]);
+    return cards.length === 2 && cards[0].rank === cards[1].rank;
   }
 
   constructor(cards) {
@@ -72,7 +72,9 @@ export class PairPlay extends Play {
 
 export class TriplePlay extends Play {
   static matchCombo(cards) {
-    return cards.length === 3 && cards[0].equals(cards[1]) && cards[0].equals(cards[2]);
+    return cards.length === 3 &&
+           cards[0].rank === cards[1].rank &&
+           cards[0].rank === cards[2].rank;
   }
 
   constructor(cards) {
@@ -89,9 +91,9 @@ export class TriplePlay extends Play {
 export class QuadPlay extends Play {
   static matchCombo(cards) {
     return cards.length === 4 && 
-           cards[0].equals(cards[1]) && 
-           cards[0].equals(cards[2]) &&
-           cards[0].equals(cards[3]);
+           cards[0].rank === cards[1].rank &&
+           cards[0].rank === cards[2].rank &&
+           cards[0].rank === cards[3].rank;
   }
 
   constructor(cards) {
