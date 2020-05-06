@@ -9,6 +9,7 @@ export function setup(ctx) {
       ctx.random.Shuffle(GenerateStandardDeck())
     ),
     lastPlay: null,
+    currentCombo: null,
   };
 }
 

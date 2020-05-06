@@ -1,6 +1,5 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { COMBO } from './plays/common';
-import PlayFactory from './plays/factory';
+import { COMBO, Play } from './play';
 
 export function getCardsFromIds(hand, ids) {
   const cards = [];
@@ -14,29 +13,28 @@ export function getCardsFromIds(hand, ids) {
 }
 
 export function standardMove(lastPlay, cards) {
-  if (!lastPlay.constructor.matchCombo(cards)) {
+  if (!lastPlay.matchesCombo(cards)) {
+    console.log(`${cards} is not a ${lastPlay.combo}`);
     return INVALID_MOVE;
   }
 
-  const attemptedPlay = Object.create(lastPlay);
-  attemptedPlay.cards = cards;
-
-  if (attemptedPlay < lastPlay) {
+  if (!lastPlay.isBeatenBy(cards)) {
+    console.log(`${cards} does not beat ${lastPlay.cards}`);
     return INVALID_MOVE;
   }
 
-  return attemptedPlay;
+  return new Play(lastPlay.combo, cards);
 }
 
 export function openingMove(cards) {
-  const combo = PlayFactory.DetermineCombo(cards);
+  const combo = Play.DetermineCombo(cards);
 
   if (combo === COMBO.INVALID) {
     return INVALID_MOVE;
   }
 
   // TODO: suited?
-  return PlayFactory.InstantiatePlay(combo, cards);
+  return new Play(combo, cards);
 }
 
 export function MakeMove(G, ctx, cardIds) {

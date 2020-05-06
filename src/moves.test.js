@@ -1,14 +1,11 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { Card, RANK, SUIT } from './cards';
 import { MakeMove } from './moves';
-import SinglePlay from './plays/single';
-import PairPlay from './plays/pair';
-import TriplePlay from './plays/triple';
-import QuadPlay from './plays/quad';
+import { COMBO, Play } from './play';
 
 it('should allow a stronger single to beat a weaker single', () => {
   const G = {
-    lastPlay: new SinglePlay([new Card(RANK.THREE, SUIT.H)]),
+    lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.THREE, SUIT.H)]),
     hands: [[new Card(RANK.TWO, SUIT.H)]],
   };
 
@@ -28,7 +25,7 @@ it('should allow a stronger single to beat a weaker single', () => {
 
 it('should not allow a weaker single to beat a stronger single', () => {
   const G = {
-    lastPlay: new SinglePlay([new Card(RANK.TWO, SUIT.H)]),
+    lastPlay: new Play(COMBO.PAIR, [new Card(RANK.TWO, SUIT.H)]),
     hands: [[new Card(RANK.THREE, SUIT.S)]],
   };
 
@@ -40,13 +37,12 @@ it('should not allow a weaker single to beat a stronger single', () => {
   };
 
   expect(MakeMove(G, ctx, [0])).toBe(INVALID_MOVE);
-
   expect(ctx.events.endTurn).not.toHaveBeenCalled();
 });
 
 it('should allow a stronger double to beat a weaker double', () => {
   const G = {
-    lastPlay: new PairPlay([
+    lastPlay: new Play(COMBO.PAIR, [
       new Card(RANK.THREE, SUIT.H),
       new Card(RANK.THREE, SUIT.S),
     ]),
@@ -75,7 +71,7 @@ it('should allow a stronger double to beat a weaker double', () => {
 
 it('should allow a stronger trip to beat a weaker trip', () => {
   const G = {
-    lastPlay: new TriplePlay([
+    lastPlay: new Play(COMBO.TRIPLE, [
       new Card(RANK.THREE, SUIT.H),
       new Card(RANK.THREE, SUIT.S),
       new Card(RANK.THREE, SUIT.C),
@@ -105,7 +101,7 @@ it('should allow a stronger trip to beat a weaker trip', () => {
 
 it('should allow a stronger quad to beat a weaker quad', () => {
   const G = {
-    lastPlay: new QuadPlay([
+    lastPlay: new Play(COMBO.QUAD, [
       new Card(RANK.THREE, SUIT.H),
       new Card(RANK.THREE, SUIT.D),
       new Card(RANK.THREE, SUIT.S),
@@ -137,7 +133,7 @@ it('should allow a stronger quad to beat a weaker quad', () => {
 
 it('should not allow a weaker quad to beat a stronger quad', () => {
   const G = {
-    lastPlay: new QuadPlay([
+    lastPlay: new Play(COMBO.QUAD, [
       new Card(RANK.FIVE, SUIT.H),
       new Card(RANK.FIVE, SUIT.D),
       new Card(RANK.FIVE, SUIT.C),
