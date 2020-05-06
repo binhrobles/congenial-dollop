@@ -44,12 +44,26 @@ export class Card {
   }
 }
 
-export function generateStandardDeck() {
+export function GenerateStandardDeck() {
   const deck = [];
-  for (const suit in Object.keys(SUIT)) {
-    for (const rank in Object.keys(RANK)) {
+  Object.keys(SUIT).forEach((suit) => {
+    Object.keys(RANK).forEach((rank) => {
       deck.push(new Card(rank, suit));
-    }
-  }
+    });
+  });
   return deck;
+}
+
+export function DealCards(numPlayers, deck) {
+  const hands = Array(numPlayers)
+    .fill()
+    .map(() => []); // fills `hands` with unique Array objects
+
+  for (let i = 0; i <= 12; i += 1) {
+    hands.forEach((hand) => hand.push(deck.pop()));
+  }
+
+  hands.forEach((hand) => hand.sort(Card.Compare));
+
+  return hands;
 }

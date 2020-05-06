@@ -1,13 +1,14 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { Play, COMBO } from './play';
+import { COMBO } from './plays/common';
+import PlayFactory from './plays/factory';
 
 export function getCardsFromIds(hand, ids) {
   const cards = [];
 
-  for (const id of ids) {
+  ids.forEach((id) => {
     // instead of copying from proxied `G` object, create local versions
     cards.push({ ...hand[id] });
-  }
+  });
 
   return cards;
 }
@@ -28,19 +29,19 @@ export function standardMove(lastPlay, cards) {
 }
 
 export function openingMove(cards) {
-  const combo = Play.determineCombo(cards);
+  const combo = PlayFactory.DetermineCombo(cards);
 
   if (combo === COMBO.INVALID) {
     return INVALID_MOVE;
   }
 
   // TODO: suited?
-  return Play.instantiatePlay(combo, cards);
+  return PlayFactory.InstantiatePlay(combo, cards);
 }
 
-export function MakeMove(G, ctx, card_ids) {
-  const current_player_id = parseInt(ctx.currentPlayer);
-  const cards = getCardsFromIds(G.hands[current_player_id], card_ids);
+export function MakeMove(G, ctx, cardIds) {
+  const currentPlayerId = parseInt(ctx.currentPlayer, 10);
+  const cards = getCardsFromIds(G.hands[currentPlayerId], cardIds);
 
   const currentPlay = G.lastPlay
     ? standardMove(G.lastPlay, cards)
@@ -48,17 +49,17 @@ export function MakeMove(G, ctx, card_ids) {
   if (currentPlay === INVALID_MOVE) return INVALID_MOVE;
 
   // deep copy object so we don't modify state
-  const new_hands = JSON.parse(JSON.stringify(G.hands));
+  const newHands = JSON.parse(JSON.stringify(G.hands));
 
   // reverse array before splicing ids, since array will be modified
-  for (const id of card_ids.reverse()) {
-    new_hands[current_player_id].splice(id, 1);
-  }
+  cardIds.reverse().forEach((id) => {
+    newHands[currentPlayerId].splice(id, 1);
+  });
 
   ctx.events.endTurn();
   return {
     ...G,
-    hands: new_hands,
+    hands: newHands,
     lastPlay: currentPlay,
   };
 }

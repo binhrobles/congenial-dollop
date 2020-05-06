@@ -1,7 +1,10 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { SinglePlay, PairPlay, TriplePlay, QuadPlay } from './play';
 import { Card, RANK, SUIT } from './cards';
 import { MakeMove } from './moves';
+import SinglePlay from './plays/single';
+import PairPlay from './plays/pair';
+import TriplePlay from './plays/triple';
+import QuadPlay from './plays/quad';
 
 it('should allow a stronger single to beat a weaker single', () => {
   const G = {
@@ -16,11 +19,11 @@ it('should allow a stronger single to beat a weaker single', () => {
     },
   };
 
-  const new_G = MakeMove(G, ctx, [0]);
+  const newG = MakeMove(G, ctx, [0]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(new_G.hands[0].length).toBe(0);
-  expect(new_G.lastPlay).not.toBe(G.lastPlay);
+  expect(newG.hands[0].length).toBe(0);
+  expect(newG.lastPlay).not.toBe(G.lastPlay);
 });
 
 it('should not allow a weaker single to beat a stronger single', () => {
@@ -63,11 +66,11 @@ it('should allow a stronger double to beat a weaker double', () => {
     },
   };
 
-  const new_G = MakeMove(G, ctx, [0, 2]);
+  const newG = MakeMove(G, ctx, [0, 2]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(new_G.hands[0].length).toBe(1);
-  expect(new_G.lastPlay).not.toBe(G.lastPlay);
+  expect(newG.hands[0].length).toBe(1);
+  expect(newG.lastPlay).not.toBe(G.lastPlay);
 });
 
 it('should allow a stronger trip to beat a weaker trip', () => {
@@ -93,11 +96,11 @@ it('should allow a stronger trip to beat a weaker trip', () => {
     },
   };
 
-  const new_G = MakeMove(G, ctx, [0, 1, 2]);
+  const newG = MakeMove(G, ctx, [0, 1, 2]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(new_G.hands[0].length).toBe(0);
-  expect(new_G.lastPlay).not.toBe(G.lastPlay);
+  expect(newG.hands[0].length).toBe(0);
+  expect(newG.lastPlay).not.toBe(G.lastPlay);
 });
 
 it('should allow a stronger quad to beat a weaker quad', () => {
@@ -125,11 +128,11 @@ it('should allow a stronger quad to beat a weaker quad', () => {
     },
   };
 
-  const new_G = MakeMove(G, ctx, [0, 1, 2, 3]);
+  const newG = MakeMove(G, ctx, [0, 1, 2, 3]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(new_G.hands[0].length).toBe(0);
-  expect(new_G.lastPlay).not.toBe(G.lastPlay);
+  expect(newG.hands[0].length).toBe(0);
+  expect(newG.lastPlay).not.toBe(G.lastPlay);
 });
 
 it('should not allow a weaker quad to beat a stronger quad', () => {
