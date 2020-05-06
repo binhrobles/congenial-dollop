@@ -13,12 +13,17 @@ export class Play {
   // cards: [] of CARD strings
   // suited: bool (only relevant for runs)
   static instantiatePlay(combo, cards, suited = false) {
-    switch(combo) {
-      case COMBO.SINGLE: return new SinglePlay(cards);
-      case COMBO.PAIR: return new PairPlay(cards);
-      case COMBO.TRIPLE: return new TriplePlay(cards);
-      case COMBO.QUAD: return new QuadPlay(cards);
-      default: throw new Error(COMBO.INVALID);
+    switch (combo) {
+      case COMBO.SINGLE:
+        return new SinglePlay(cards);
+      case COMBO.PAIR:
+        return new PairPlay(cards);
+      case COMBO.TRIPLE:
+        return new TriplePlay(cards);
+      case COMBO.QUAD:
+        return new QuadPlay(cards);
+      default:
+        throw new Error(COMBO.INVALID);
     }
   }
 
@@ -73,9 +78,11 @@ export class PairPlay extends Play {
 
 export class TriplePlay extends Play {
   static matchCombo(cards) {
-    return cards.length === 3 &&
-           cards[0].rank === cards[1].rank &&
-           cards[0].rank === cards[2].rank;
+    return (
+      cards.length === 3 &&
+      cards[0].rank === cards[1].rank &&
+      cards[0].rank === cards[2].rank
+    );
   }
 
   constructor(cards) {
@@ -91,10 +98,12 @@ export class TriplePlay extends Play {
 
 export class QuadPlay extends Play {
   static matchCombo(cards) {
-    return cards.length === 4 && 
-           cards[0].rank === cards[1].rank &&
-           cards[0].rank === cards[2].rank &&
-           cards[0].rank === cards[3].rank;
+    return (
+      cards.length === 4 &&
+      cards[0].rank === cards[1].rank &&
+      cards[0].rank === cards[2].rank &&
+      cards[0].rank === cards[3].rank
+    );
   }
 
   constructor(cards) {
@@ -107,4 +116,3 @@ export class QuadPlay extends Play {
     return this.cards[0].rank;
   }
 }
-
