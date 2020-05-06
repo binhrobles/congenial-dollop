@@ -14,16 +14,18 @@ export function getCardsFromIds(hand, ids) {
 
 export function standardMove(lastPlay, cards) {
   if (!lastPlay.matchesCombo(cards)) {
-    console.log(`${cards} is not a ${lastPlay.combo}`);
+    console.log(`${JSON.stringify(cards)} is not a ${lastPlay.combo}`);
     return INVALID_MOVE;
   }
 
-  if (!lastPlay.isBeatenBy(cards)) {
-    console.log(`${cards} does not beat ${lastPlay.cards}`);
+  const attemptedPlay = new Play(lastPlay.combo, cards);
+
+  if (lastPlay > attemptedPlay) {
+    console.log(`${attemptedPlay.cards[0]} does not beat ${lastPlay.cards[0]}`);
     return INVALID_MOVE;
   }
 
-  return new Play(lastPlay.combo, cards);
+  return attemptedPlay;
 }
 
 export function openingMove(cards) {

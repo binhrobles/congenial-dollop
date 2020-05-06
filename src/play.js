@@ -34,7 +34,7 @@ export function isQuad(cards) {
 
 export class Play {
   constructor(combo, cards) {
-    this.cards = cards;
+    this.cards = cards.sort().reverse(); // cards[0] now holds highest value card
     this.combo = combo;
   }
 
@@ -53,16 +53,8 @@ export class Play {
     }
   }
 
-  isBeatenBy(cards) {
-    switch (this.combo) {
-      case COMBO.SINGLE:
-      case COMBO.PAIR:
-      case COMBO.TRIPLE:
-      case COMBO.QUAD:
-        return this.cards[0].rank < cards[0].rank;
-      default:
-        throw new Error(COMBO.INVALID);
-    }
+  valueOf() {
+    return this.cards[0].rank;
   }
 
   toString() {
