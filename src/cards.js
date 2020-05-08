@@ -24,7 +24,9 @@ export const RANK = Object.freeze({
 export class Card {
   constructor(rank, suit) {
     this.rank = rank;
+    this.rankText = Object.keys(RANK)[rank];
     this.suit = suit;
+    this.suitText = Object.keys(SUIT)[suit];
   }
 
   equals(card) {
@@ -36,7 +38,7 @@ export class Card {
   }
 
   toString() {
-    return `${Object.keys(SUIT)[this.suit]}:${Object.keys(RANK)[this.rank]}`;
+    return `${this.suitText}:${this.rankText}`;
   }
 
   static Compare(a, b) {
@@ -46,9 +48,10 @@ export class Card {
 
 export function GenerateStandardDeck() {
   const deck = [];
-  Object.keys(SUIT).forEach((suit) => {
-    Object.keys(RANK).forEach((rank) => {
-      deck.push(new Card(rank, suit));
+  Object.values(SUIT).forEach((suit) => {
+    Object.values(RANK).forEach((rank) => {
+      const card = new Card(rank, suit);
+      deck.push(card);
     });
   });
   return deck;
