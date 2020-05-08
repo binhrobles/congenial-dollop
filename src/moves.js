@@ -63,3 +63,9 @@ export function MakeMove(G, ctx, cardIds) {
     lastPlay: currentPlay,
   };
 }
+
+export function Pass(G, ctx) {
+  // TODO: something's messed up in the rotation after a pass
+  ctx.events.endTurn();
+  return G;
+}

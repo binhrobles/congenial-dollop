@@ -1,6 +1,6 @@
 import { Client } from 'boardgame.io/react';
 import { GenerateStandardDeck, DealCards } from './cards';
-import { MakeMove } from './moves';
+import { MakeMove, Pass } from './moves';
 import board from './renderings/debug';
 
 export function setup(ctx) {
@@ -16,7 +16,7 @@ export function setup(ctx) {
 const Thirteen = {
   name: 'thirteen',
   setup,
-  moves: { MakeMove },
+  moves: { MakeMove, Pass },
 
   // phases: reorder -> play
 };

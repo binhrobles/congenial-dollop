@@ -6,7 +6,7 @@ import { Card } from '../cards';
 function renderCard(card) {
   return (
     <div>
-    {card.suitText} : {card.rankText}
+      {card.suitText} : {card.rankText}
     </div>
   );
 }
@@ -21,6 +21,7 @@ export default class Debug extends React.Component {
 
     this.selectCard = this.selectCard.bind(this);
     this.playMove = this.playMove.bind(this);
+    this.pass = this.pass.bind(this);
   }
 
   selectCard(id) {
@@ -53,6 +54,12 @@ export default class Debug extends React.Component {
       }
       return state;
     });
+  }
+
+  pass() {
+    const { moves } = this.props;
+
+    moves.Pass();
   }
 
   renderHands(G, ctx) {
@@ -105,6 +112,9 @@ export default class Debug extends React.Component {
         <button type="button" onClick={() => this.playMove()}>
           Play it!
         </button>
+        <button type="button" onClick={() => this.pass()}>
+          Pass
+        </button>
       </div>
     );
   }
@@ -120,6 +130,7 @@ Debug.propTypes = {
     currentPlayer: PropTypes.string,
   }).isRequired,
   moves: PropTypes.shape({
+    Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
 };
