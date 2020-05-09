@@ -1,5 +1,5 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { COMBO, Play } from './play';
+import { COMBO, Play } from '../play';
 
 export function getCardsFromIds(hand, ids) {
   const cards = [];
@@ -39,7 +39,7 @@ export function openingMove(cards) {
   return new Play(combo, cards);
 }
 
-export function MakeMove(G, ctx, cardIds) {
+export default function MakeMove(G, ctx, cardIds) {
   // ensure card selection is valid (should be done on the client as well)
   const selectionSet = new Set(cardIds);
   if (cardIds.length !== selectionSet.size) return INVALID_MOVE;
@@ -64,32 +64,5 @@ export function MakeMove(G, ctx, cardIds) {
     ...G,
     hands: newHands,
     lastPlay: currentPlay,
-  };
-}
-
-export function Pass(G, ctx) {
-  const remainingPlayers = [...G.remainingPlayers];
-
-  const currentIndex = remainingPlayers.findIndex(
-    (x) => x === ctx.currentPlayer
-  );
-
-  remainingPlayers.splice(currentIndex, 1);
-
-  // if everyone but 1 has passed, assign next turn to the 1, and clear the board
-  if (remainingPlayers.length === 1) {
-    ctx.events.endTurn({ next: remainingPlayers[0] });
-
-    return {
-      ...G,
-      lastPlay: null,
-      remainingPlayers: [...ctx.playOrder],
-    };
-  }
-
-  ctx.events.endTurn(); // allow the default `turn` function to determine next player
-  return {
-    ...G,
-    remainingPlayers,
   };
 }
