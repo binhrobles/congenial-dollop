@@ -21,7 +21,7 @@ export const RANK = Object.freeze({
   TWO: 12,
 });
 
-export class Card {
+export default class Card {
   constructor(rank, suit) {
     this.rank = rank;
     this.rankText = Object.keys(RANK)[rank];

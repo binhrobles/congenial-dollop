@@ -1,5 +1,5 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { Card, RANK, SUIT } from './cards';
+import Card, { RANK, SUIT } from './cards';
 import { MakeMove } from './moves';
 import { COMBO, Play } from './play';
 
@@ -156,8 +156,6 @@ it('should not allow a weaker quad to beat a stronger quad', () => {
     },
   };
 
-  MakeMove(G, ctx, [0, 1, 2, 3]);
-
-  expect(MakeMove(G, ctx, [0])).toBe(INVALID_MOVE);
+  expect(MakeMove(G, ctx, [0, 1, 2, 3])).toBe(INVALID_MOVE);
   expect(ctx.events.endTurn).not.toHaveBeenCalled();
 });

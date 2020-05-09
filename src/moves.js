@@ -65,7 +65,28 @@ export function MakeMove(G, ctx, cardIds) {
 }
 
 export function Pass(G, ctx) {
-  // TODO: something's messed up in the rotation after a pass
-  ctx.events.endTurn();
-  return G;
+  const remainingPlayers = [...G.remainingPlayers];
+
+  const currentIndex = remainingPlayers.findIndex(
+    (x) => x === ctx.currentPlayer
+  );
+
+  remainingPlayers.splice(currentIndex, 1);
+
+  // if everyone but 1 has passed, assign next turn to the 1, and clear the board
+  if (remainingPlayers.length === 1) {
+    ctx.events.endTurn({ next: remainingPlayers[0] });
+
+    return {
+      ...G,
+      lastPlay: null,
+      remainingPlayers: [...ctx.playOrder],
+    };
+  }
+
+  ctx.events.endTurn(); // allow the default `turn` function to determine next player
+  return {
+    ...G,
+    remainingPlayers,
+  };
 }

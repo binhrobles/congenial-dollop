@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { Card } from '../cards';
+import Card from '../cards';
 
 function renderCard(card) {
   return (
@@ -22,6 +22,7 @@ export default class Debug extends React.Component {
     this.selectCard = this.selectCard.bind(this);
     this.playMove = this.playMove.bind(this);
     this.pass = this.pass.bind(this);
+    this.clear = this.clear.bind(this);
   }
 
   selectCard(id) {
@@ -41,11 +42,24 @@ export default class Debug extends React.Component {
     });
   }
 
+  clear() {
+    this.setState((state) => {
+      return {
+        ...state,
+        selectedIds: [],
+        selectedCards: [],
+      };
+    });
+  }
+
   playMove() {
     const { moves } = this.props;
+    const { selectedIds } = this.state;
+
+    const moveResult = moves.MakeMove(selectedIds);
 
     this.setState((state) => {
-      if (moves.MakeMove(state.selectedIds) !== INVALID_MOVE) {
+      if (moveResult !== INVALID_MOVE) {
         return {
           ...state,
           selectedIds: [],
@@ -109,11 +123,14 @@ export default class Debug extends React.Component {
         </table>
         Last Play ::: {G.lastPlay && G.lastPlay.combo} {G.lastPlay && G.lastPlay.cards.map(renderCard)}
         Current Selection ::: {selectedCards.map(renderCard)}
-        <button type="button" onClick={() => this.playMove()}>
+        <button type="button" onClick={this.playMove}>
           Play it!
         </button>
-        <button type="button" onClick={() => this.pass()}>
+        <button type="button" onClick={this.pass}>
           Pass
+        </button>
+        <button type="button" onClick={this.clear}>
+          Clear
         </button>
       </div>
     );

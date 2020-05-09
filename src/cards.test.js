@@ -1,4 +1,4 @@
-import { Card, DealCards, RANK, SUIT, GenerateStandardDeck } from './cards';
+import Card, { DealCards, RANK, SUIT, GenerateStandardDeck } from './cards';
 
 it('should correctly compare various single cards', () => {
   expect(new Card(RANK.TWO, SUIT.H) > new Card(RANK.TWO, SUIT.D)).toBeTruthy();
@@ -38,4 +38,11 @@ it('should deal every card just once', () => {
   const recombine = hands.reduce((combined, hand) => combined.concat(hand), []);
   const set = new Set(recombine);
   expect(set.size).toEqual(52);
+});
+
+it('should evaluate cards to numeric values', () => {
+  expect(new Card(RANK.THREE, SUIT.S).valueOf()).toBe(0);
+  expect(new Card(RANK.THREE, SUIT.C).valueOf()).toBe(1);
+  expect(new Card(RANK.TWO, SUIT.D).valueOf()).toBe(50);
+  expect(new Card(RANK.TWO, SUIT.H).valueOf()).toBe(51);
 });

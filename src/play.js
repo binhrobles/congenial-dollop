@@ -1,3 +1,5 @@
+import Card from './cards';
+
 export const COMBO = Object.freeze({
   SINGLE: 'Single',
   PAIR: 'Pair',
@@ -34,7 +36,7 @@ export function isQuad(cards) {
 
 export class Play {
   constructor(combo, cards) {
-    this.cards = cards.sort().reverse(); // cards[0] now holds highest value card
+    this.cards = cards.sort(Card.Compare).reverse(); // cards[0] now holds highest value card
     this.combo = combo;
   }
 
