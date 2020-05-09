@@ -139,8 +139,8 @@ export default class Debug extends React.Component {
 
 Debug.propTypes = {
   G: PropTypes.shape({
-    hands: PropTypes.node,
-    lastPlay: PropTypes.node,
+    hands: PropTypes.arrayOf(PropTypes.arrayOf(Card)),
+    lastPlay: PropTypes.instanceOf(Card),
   }).isRequired,
   ctx: PropTypes.shape({
     numPlayers: PropTypes.number,

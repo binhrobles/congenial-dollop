@@ -22,7 +22,7 @@ export function next(G, ctx) {
   // go around the table looking for the next `in` player
   do {
     nextPlayer = (nextPlayer + 1) % ctx.numPlayers;
-  } while (!G.remainingPlayers.includes(nextPlayer));
+  } while (!G.remainingPlayers.includes(nextPlayer.toString()));
 
   return nextPlayer;
 }
@@ -31,7 +31,12 @@ const Thirteen = {
   name: 'thirteen',
   setup,
   moves: { MakeMove, Pass },
-  turn: { next },
+  turn: {
+    order: {
+      first: () => 0,
+      next,
+    },
+  },
 
   // phases: reorder -> play
 };
