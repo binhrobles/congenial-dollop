@@ -1,5 +1,5 @@
 import Card, { RANK, SUIT } from './cards';
-import { COMBO, Play } from './play';
+import { COMBO, Play, isRun } from './play';
 
 const H2 = new Card(RANK.TWO, SUIT.H);
 const D2 = new Card(RANK.TWO, SUIT.D);
@@ -42,4 +42,29 @@ it('should sort pairs, trips, quads with highest card lowest', () => {
   expect(TD2.cards[0]).toBe(D2);
 
   expect(QH2.cards[0]).toBe(H2);
+});
+
+it('should verify valid runs', () => {
+  const R345 = [
+    new Card(RANK.FIVE, SUIT.S),
+    new Card(RANK.FOUR, SUIT.D),
+    new Card(RANK.THREE, SUIT.H),
+  ];
+
+  const R346 = [
+    new Card(RANK.SIX, SUIT.S),
+    new Card(RANK.FOUR, SUIT.D),
+    new Card(RANK.THREE, SUIT.H),
+  ];
+
+  const RJQKA = [
+    new Card(RANK.KING, SUIT.S),
+    new Card(RANK.JACK, SUIT.S),
+    new Card(RANK.ACE, SUIT.D),
+    new Card(RANK.QUEEN, SUIT.H),
+  ];
+
+  expect(isRun(R345)).toBeTruthy();
+  expect(isRun(RJQKA)).toBeTruthy();
+  expect(isRun(R346)).toBeFalsy();
 });

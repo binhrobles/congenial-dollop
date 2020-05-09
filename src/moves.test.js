@@ -10,7 +10,7 @@ it('should allow a stronger single to beat a weaker single', () => {
   };
 
   const ctx = {
-    currentPlayer: 0,
+    playOrderPos: 0,
     events: {
       endTurn: jest.fn(),
     },
@@ -30,7 +30,7 @@ it('should not allow a weaker single to beat a stronger single', () => {
   };
 
   const ctx = {
-    currentPlayer: 0,
+    playOrderPos: 0,
     events: {
       endTurn: jest.fn(),
     },
@@ -56,7 +56,7 @@ it('should allow a stronger double to beat a weaker double', () => {
   };
 
   const ctx = {
-    currentPlayer: 0,
+    playOrderPos: 0,
     events: {
       endTurn: jest.fn(),
     },
@@ -86,7 +86,7 @@ it('should allow a stronger trip to beat a weaker trip', () => {
   };
 
   const ctx = {
-    currentPlayer: 0,
+    playOrderPos: 0,
     events: {
       endTurn: jest.fn(),
     },
@@ -118,7 +118,7 @@ it('should allow a stronger quad to beat a weaker quad', () => {
   };
 
   const ctx = {
-    currentPlayer: 0,
+    playOrderPos: 0,
     events: {
       endTurn: jest.fn(),
     },
@@ -150,7 +150,7 @@ it('should not allow a weaker quad to beat a stronger quad', () => {
   };
 
   const ctx = {
-    currentPlayer: 0,
+    playOrderPos: 0,
     events: {
       endTurn: jest.fn(),
     },

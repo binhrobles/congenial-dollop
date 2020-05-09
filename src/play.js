@@ -34,6 +34,20 @@ export function isQuad(cards) {
   );
 }
 
+export function isRun(cards) {
+  const sorted = cards.sort(Card.Compare);
+  let running = true;
+
+  for (let i = 0; i < sorted.length - 1; i += 1) {
+    if (sorted[i].rank + 1 !== sorted[i + 1].rank) {
+      running = false;
+      break;
+    }
+  }
+
+  return running;
+}
+
 export class Play {
   constructor(combo, cards) {
     this.cards = cards.sort(Card.Compare).reverse(); // cards[0] now holds highest value card
@@ -50,6 +64,8 @@ export class Play {
         return isTriple(cards);
       case COMBO.QUAD:
         return isQuad(cards);
+      case COMBO.RUN:
+        return cards.length === this.cards.length && isRun(cards);
       default:
         throw new Error(COMBO.INVALID);
     }
@@ -70,6 +86,7 @@ export class Play {
     if (isPair(cards)) return COMBO.PAIR;
     if (isTriple(cards)) return COMBO.TRIPLE;
     if (isQuad(cards)) return COMBO.QUAD;
+    if (isRun(cards)) return COMBO.RUN;
     return COMBO.INVALID;
   }
 }
