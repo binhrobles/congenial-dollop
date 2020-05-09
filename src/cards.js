@@ -33,6 +33,10 @@ export default class Card {
     return this.valueOf() === card.valueOf();
   }
 
+  // Have no idea why this is not being invoked on
+  // cards within Play.cards
+  // somehow, the default valueOf functionality is being
+  // invoked
   valueOf() {
     return this.rank * 4 + this.suit;
   }

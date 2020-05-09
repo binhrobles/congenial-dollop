@@ -40,8 +40,11 @@ export function openingMove(cards) {
 }
 
 export function MakeMove(G, ctx, cardIds) {
-  const currentPlayerId = parseInt(ctx.currentPlayer, 10);
-  const cards = getCardsFromIds(G.hands[currentPlayerId], cardIds);
+  // ensure card selection is valid (should be done on the client as well)
+  const selectionSet = new Set(cardIds);
+  if (cardIds.length !== selectionSet.size) return INVALID_MOVE;
+
+  const cards = getCardsFromIds(G.hands[ctx.playOrderPos], cardIds);
 
   const currentPlay = G.lastPlay
     ? standardMove(G.lastPlay, cards)
@@ -53,7 +56,7 @@ export function MakeMove(G, ctx, cardIds) {
 
   // reverse array before splicing ids, since array will be modified
   cardIds.reverse().forEach((id) => {
-    newHands[currentPlayerId].splice(id, 1);
+    newHands[ctx.playOrderPos].splice(id, 1);
   });
 
   ctx.events.endTurn();

@@ -56,7 +56,9 @@ export class Play {
   }
 
   valueOf() {
-    return this.cards[0].valueOf();
+    // should really be this
+    // return this.cards[0].valueOf();
+    return this.cards[0].rank * 4 + this.cards[0].suit;
   }
 
   toString() {
