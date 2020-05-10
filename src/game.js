@@ -62,7 +62,7 @@ export function next(G, ctx) {
   return nextPlayer;
 }
 
-const Thirteen = {
+export const Thirteen = {
   name: 'thirteen',
   setup,
   moves: { MakeMove, Pass },
@@ -79,10 +79,10 @@ const Thirteen = {
   // phases: reorder -> play
 };
 
-const App = Client({
+const Game = Client({
   game: Thirteen,
   board,
   numPlayers: 4,
 });
 
-export default App;
+export default Game;
