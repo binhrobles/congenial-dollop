@@ -50,6 +50,7 @@ export default function MakeMove(G, ctx, cardIds) {
     ? standardMove(G.lastPlay, cards)
     : openingMove(cards);
   if (currentPlay === INVALID_MOVE) return INVALID_MOVE;
+  currentPlay.player = ctx.currentPlayer;
 
   // deep copy object so we don't modify state
   const newHands = JSON.parse(JSON.stringify(G.hands));

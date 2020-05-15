@@ -36,8 +36,9 @@ export function isQuad(cards) {
 
 export function isRun(cards) {
   const sorted = cards.sort(Card.Compare);
-  let running = true;
+  if (sorted.length < 3) return false;
 
+  let running = true;
   for (let i = 0; i < sorted.length - 1; i += 1) {
     if (sorted[i].rank + 1 !== sorted[i + 1].rank) {
       running = false;
@@ -49,9 +50,10 @@ export function isRun(cards) {
 }
 
 export class Play {
-  constructor(combo, cards) {
+  constructor(combo, cards, player) {
     this.cards = cards.sort(Card.Compare).reverse(); // cards[0] now holds highest value card
     this.combo = combo;
+    this.player = player;
   }
 
   matchesCombo(cards) {
