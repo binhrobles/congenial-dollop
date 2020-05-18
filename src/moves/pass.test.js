@@ -1,38 +1,45 @@
 import { Client } from 'boardgame.io/client';
 import { Thirteen } from '../game';
 
-// TODO: should take this over to `game.test.js` in some form
-// it('should pass power to the person after the winner, if all pass after a win', () => {
-//   const scenario = {
-//     ...Thirteen,
-//     setup: () => ({
-//       hands: [[], [0, 1, 2], [2, 3, 4], [5, 6, 7]],
-//       lastPlay: { foo: 1 },
-//       playersInGame: ['1', '2', '3'],
-//       playersInRound: ['1', '2', '3'],
-//       winOrder: [0],
-//     }),
-//     turn: {
-//       ...Thirteen.turn,
-//       order: {
-//         ...Thirteen.turn.order,
-//         first: () => 1,
-//       },
-//     },
-//   };
+it('should remove a player from the round', () => {
+  const scenario = {
+    ...Thirteen,
+    setup: () => ({
+      hands: [
+        [8, 9, 10],
+        [0, 1, 2],
+        [2, 3, 4],
+        [5, 6, 7],
+      ],
+      lastPlay: { foo: 1 },
+      playersInGame: ['0', '1', '2', '3'],
+      playersInRound: ['0', '1', '2', '3'],
+      winOrder: [],
+    }),
+  };
 
-//   const client = Client({
-//     game: scenario,
-//     numPlayers: 4,
-//   });
+  const client = Client({
+    game: scenario,
+    numPlayers: 4,
+  });
 
-//   client.moves.Pass(); // p1 passes
-//   client.moves.Pass(); // p2 passes
-//   client.moves.Pass(); // p3 passes
+  client.moves.Pass(); // p0 passes
+  let { G, ctx } = client.store.getState();
 
-//   const { G, ctx } = client.store.getState();
+  expect(ctx.playOrderPos).toBe(1);
+  expect(G.playersInRound).not.toContain('0');
 
-//   // now, power should go to p1
-//   expect(ctx.playOrderPos).toBe(1);
-//   expect(G.lastPlay).toBeNull();
-// });
+  client.moves.Pass(); // p1 passes
+  ({ G, ctx } = client.store.getState());
+
+  expect(ctx.playOrderPos).toBe(2);
+  expect(G.playersInRound).not.toContain('1');
+
+  client.moves.Pass(); // p2 passes
+  ({ G, ctx } = client.store.getState());
+
+  expect(ctx.playOrderPos).toBe(3);
+  expect(G.playersInRound).not.toContain('2');
+
+  expect(G.playersInGame).toStrictEqual(['0', '1', '2', '3']);
+});

@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@culturehq/add-to-calendar": "*",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
     "boardgame.io": "^0.39.9",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
@@ -17,6 +13,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:debug": "ndb react-scripts test --runTestsByPath",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -39,6 +36,9 @@
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
     "prettier": "^2.0.5"
   }
 }

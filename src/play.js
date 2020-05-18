@@ -49,6 +49,18 @@ export function isRun(cards) {
   return running;
 }
 
+export function isBomb(cards) {
+  const sorted = cards.sort(Card.Compare);
+  if (sorted.length < 6) return false;
+
+  return (
+    isPair(sorted.slice(0, 2)) &&
+    isPair(sorted.slice(2, 4)) &&
+    isPair(sorted.slice(4, 6)) &&
+    isRun([sorted[0], sorted[2], sorted[4]])
+  );
+}
+
 export class Play {
   constructor(combo, cards, player) {
     this.cards = cards.sort(Card.Compare).reverse(); // cards[0] now holds highest value card
@@ -68,6 +80,8 @@ export class Play {
         return isQuad(cards);
       case COMBO.RUN:
         return cards.length === this.cards.length && isRun(cards);
+      case COMBO.BOMB:
+        return isBomb(cards);
       default:
         throw new Error(COMBO.INVALID);
     }
@@ -89,6 +103,7 @@ export class Play {
     if (isTriple(cards)) return COMBO.TRIPLE;
     if (isQuad(cards)) return COMBO.QUAD;
     if (isRun(cards)) return COMBO.RUN;
+    if (isBomb(cards)) return COMBO.BOMB;
     return COMBO.INVALID;
   }
 }

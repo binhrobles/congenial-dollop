@@ -27,7 +27,7 @@ it('should mark winner after playing final card', () => {
 
     // and p0 should be removed from game
     expect(G.playersInGame).not.toContain('0');
-    expect(G.playersInRound).toContain('0');
+    expect(G.playersInRound).not.toContain('0');
     expect(G.winOrder).toContain(0);
 
     // if everyone passes, power goes to p1
@@ -75,11 +75,44 @@ it('should mark second after playing last card', () => {
 
   // and p1 should be removed from game
   expect(G.playersInGame).not.toContain('1');
-  expect(G.playersInRound).toContain('1');
+  expect(G.playersInRound).not.toContain('1');
   expect(G.winOrder).toContain(1);
 
   // but p3 should be next and be able to beat the lastPlay
   expect(ctx.playOrderPos).toBe(3);
   expect(G.playersInRound.length).toBe(1);
   expect(G.playersInRound).toContain('3');
+});
+
+it('should pass power to the person after the winner, if all pass after a win', () => {
+  const scenario = {
+    ...Thirteen,
+    setup: () => ({
+      hands: [[], [0, 1, 2], [2, 3, 4], [5, 6, 7]],
+      lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.EIGHT, SUIT.D)], '0'),
+      playersInGame: ['1', '2', '3'],
+      playersInRound: ['3'],
+      winOrder: [0],
+    }),
+    turn: {
+      ...Thirteen.turn,
+      order: {
+        ...Thirteen.turn.order,
+        first: () => 3,
+      },
+    },
+  };
+
+  const client = Client({
+    game: scenario,
+    numPlayers: 4,
+  });
+
+  client.moves.Pass(); // p3 passes
+
+  const { G, ctx } = client.store.getState();
+
+  // now, power should go to p1
+  expect(ctx.playOrderPos).toBe(1);
+  expect(G.lastPlay).toBeNull();
 });

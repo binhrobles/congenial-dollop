@@ -1,7 +1,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import Card, { RANK, SUIT } from './cards';
-import { MakeMove } from './moves';
-import { COMBO, Play } from './play';
+import Card, { RANK, SUIT } from '../cards';
+import MakeMove from './makeMove';
+import { COMBO, Play } from '../play';
 
 it('should allow a stronger single to beat a weaker single', () => {
   const G = {
@@ -158,4 +158,62 @@ it('should not allow a weaker quad to beat a stronger quad', () => {
 
   expect(MakeMove(G, ctx, [0, 1, 2, 3])).toBe(INVALID_MOVE);
   expect(ctx.events.endTurn).not.toHaveBeenCalled();
+});
+
+it('should allow a quad to beat a two', () => {
+  const G = {
+    lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.S)]),
+    hands: [
+      [
+        new Card(RANK.FOUR, SUIT.H),
+        new Card(RANK.FOUR, SUIT.D),
+        new Card(RANK.FOUR, SUIT.S),
+        new Card(RANK.FOUR, SUIT.C),
+      ],
+    ],
+  };
+
+  const ctx = {
+    playOrderPos: 0,
+    events: {
+      endTurn: jest.fn(),
+    },
+  };
+
+  const newG = MakeMove(G, ctx, [0, 1, 2, 3]);
+
+  expect(ctx.events.endTurn).toHaveBeenCalled();
+  expect(newG.hands[0].length).toBe(0);
+  expect(newG.lastPlay).not.toBe(G.lastPlay);
+  expect(newG.lastPlay.combo).toBe(COMBO.QUAD);
+});
+
+it('should allow a bomb to beat a two', () => {
+  const G = {
+    lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.H)]),
+    hands: [
+      [
+        new Card(RANK.FOUR, SUIT.H),
+        new Card(RANK.FOUR, SUIT.D),
+        new Card(RANK.FIVE, SUIT.S),
+        new Card(RANK.FIVE, SUIT.C),
+        new Card(RANK.SIX, SUIT.H),
+        new Card(RANK.SIX, SUIT.C),
+      ],
+    ],
+  };
+
+  const ctx = {
+    playOrderPos: 0,
+    events: {
+      endTurn: jest.fn(),
+    },
+  };
+
+  const newG = MakeMove(G, ctx, [0, 1, 2, 3, 4, 5]);
+
+  expect(ctx.events.endTurn).toHaveBeenCalled();
+  expect(newG.hands[0].length).toBe(0);
+  expect(newG.lastPlay).not.toBe(G.lastPlay);
+  expect(newG.lastPlay.combo).toBe(COMBO.BOMB);
 });

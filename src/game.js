@@ -26,7 +26,9 @@ export function onBegin(G, ctx) {
   // if everyone (else other than the lastPlay.player) has passed, clear the board
   // lastPlayer.player may have gone `out`, so other condition would be playersInRound === 0
   if (
-    (G.lastPlay && G.lastPlay.player === ctx.currentPlayer) ||
+    (G.lastPlay &&
+      G.lastPlay.player &&
+      G.lastPlay.player === ctx.currentPlayer) ||
     G.playersInRound.length === 0
   ) {
     return {
@@ -102,7 +104,7 @@ export const Thirteen = {
     onBegin,
     onEnd,
     order: {
-      first: () => 0,
+      first: () => 0, // TODO: should be the person with 3 of spades
       next,
     },
   },
