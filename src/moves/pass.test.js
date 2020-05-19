@@ -1,9 +1,9 @@
 import { Client } from 'boardgame.io/client';
-import { Thirteen } from '../game';
+import Game from '../game';
 
 it('should remove a player from the round', () => {
   const scenario = {
-    ...Thirteen,
+    ...Game,
     setup: () => ({
       hands: [
         [8, 9, 10],

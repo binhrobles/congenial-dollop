@@ -1,11 +1,11 @@
 import { Client } from 'boardgame.io/client';
 import Card, { SUIT, RANK } from './cards';
 import { Play, COMBO } from './play';
-import { Thirteen } from './game';
+import Game from './game';
 
 it('should mark winner after playing final card', () => {
   const scenario = {
-    ...Thirteen,
+    ...Game,
     setup: () => ({
       hands: [[new Card(RANK.TWO, SUIT.H)], [0, 1, 2], [2, 3, 4], [5, 6, 7]],
       lastPlay: null,
@@ -47,7 +47,7 @@ it('should mark winner after playing final card', () => {
 
 it('should mark second after playing last card', () => {
   const scenario = {
-    ...Thirteen,
+    ...Game,
     setup: () => ({
       hands: [[0, 1, 2], [new Card(RANK.TWO, SUIT.H)], [], [2, 3, 4]],
       lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.D)]),
@@ -56,9 +56,9 @@ it('should mark second after playing last card', () => {
       winOrder: [2],
     }),
     turn: {
-      ...Thirteen.turn,
+      ...Game.turn,
       order: {
-        ...Thirteen.turn.order,
+        ...Game.turn.order,
         first: () => 1,
       },
     },
@@ -86,7 +86,7 @@ it('should mark second after playing last card', () => {
 
 it('should pass power to the person after the winner, if all pass after a win', () => {
   const scenario = {
-    ...Thirteen,
+    ...Game,
     setup: () => ({
       hands: [[], [0, 1, 2], [2, 3, 4], [5, 6, 7]],
       lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.EIGHT, SUIT.D)], '0'),
@@ -95,9 +95,9 @@ it('should pass power to the person after the winner, if all pass after a win', 
       winOrder: [0],
     }),
     turn: {
-      ...Thirteen.turn,
+      ...Game.turn,
       order: {
-        ...Thirteen.turn.order,
+        ...Game.turn.order,
         first: () => 3,
       },
     },

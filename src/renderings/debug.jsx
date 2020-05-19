@@ -4,6 +4,7 @@ import { INVALID_MOVE } from 'boardgame.io/core';
 import Card from '../cards';
 
 function renderCard(card) {
+  // could be card.valueOf() indexed lookup into an image array
   return (
     <div>
       {card.suitText} : {card.rankText}
@@ -76,52 +77,44 @@ export default class Debug extends React.Component {
     moves.Pass();
   }
 
-  renderHands(G, ctx) {
-    const currentHands = [];
-    const currentPlayer = parseInt(ctx.currentPlayer, 10);
+  renderHand(G, ctx) {
+    const { playerID } = this.props;
 
-    const header = ['NA'];
-    for (let i = 0; i < 13; i += 1) {
-      header.push(<td>{i}</td>);
-    }
-    currentHands.push(<tr>{header}</tr>);
+    const hand = [];
+    const disabled = ctx.currentPlayer !== playerID;
 
-    for (let player = 0; player < ctx.numPlayers; player += 1) {
-      const hands = [`Player ${player} ::: `];
-      const disabled = currentPlayer !== player;
-
-      for (let id = 0; id < G.hands[player].length; id += 1) {
-        const card = G.hands[player][id];
-        hands.push(
-          <td>
-            <button
-              type="button"
-              onClick={() => this.selectCard(id)}
-              disabled={disabled}
-            >
-              {renderCard(card)}
-            </button>
-          </td>
-        );
-      }
-      currentHands.push(<tr key={player}>{hands}</tr>);
+    for (let id = 0; id < G.hands[playerID].length; id += 1) {
+      const card = G.hands[playerID][id];
+      hand.push(
+        <td>
+          <button
+            type="button"
+            onClick={() => this.selectCard(id)}
+            disabled={disabled}
+          >
+            {renderCard(card)}
+          </button>
+        </td>
+      );
     }
 
-    return currentHands;
+    return hand;
   }
 
   render() {
-    const { G, ctx } = this.props;
+    const { G, ctx, playerID } = this.props;
     const { selectedCards } = this.state;
 
-    const currentHandsTable = this.renderHands(G, ctx);
+    const currentHand = this.renderHand(G, ctx);
 
     return (
       <div>
+        Player {playerID}
         <table id="board">
-          <tbody>{currentHandsTable}</tbody>
+          <tbody>{currentHand}</tbody>
         </table>
-        Last Play ::: {G.lastPlay && G.lastPlay.combo} {G.lastPlay && G.lastPlay.cards.map(renderCard)}
+        Last Play ::: {G.lastPlay && G.lastPlay.combo}{' '}
+        {G.lastPlay && G.lastPlay.cards.map(renderCard)}
         Current Selection ::: {selectedCards.map(renderCard)}
         <button type="button" onClick={this.playMove}>
           Play it!
@@ -150,4 +143,5 @@ Debug.propTypes = {
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
+  playerID: PropTypes.string.isRequired,
 };

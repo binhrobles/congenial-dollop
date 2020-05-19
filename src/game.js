@@ -1,18 +1,12 @@
-import { Client } from 'boardgame.io/react';
 import { GenerateStandardDeck, DealCards } from './cards';
 import MakeMove from './moves/makeMove';
 import Pass from './moves/pass';
-import board from './renderings/debug';
 
 export function setup(ctx) {
   return {
     lastPlay: null,
-    playersInRound: [
-      ...ctx.playOrder, // NOTE: relying on natural play order for obj key:pair sync
-    ],
-    playersInGame: [
-      ...ctx.playOrder, // NOTE: relying on natural play order for obj key:pair sync
-    ],
+    playersInRound: [...ctx.playOrder],
+    playersInGame: [...ctx.playOrder],
     winOrder: [],
     hands: DealCards(
       ctx.numPlayers,
@@ -96,7 +90,7 @@ export function next(G, ctx) {
   return nextPlayer;
 }
 
-export const Thirteen = {
+const Game = {
   name: 'thirteen',
   setup,
   moves: { MakeMove, Pass },
@@ -113,11 +107,5 @@ export const Thirteen = {
 
   // phases: reorder -> play
 };
-
-const Game = Client({
-  game: Thirteen,
-  board,
-  numPlayers: 4,
-});
 
 export default Game;
