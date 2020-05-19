@@ -27,10 +27,10 @@ export default class Debug extends React.Component {
   }
 
   selectCard(id) {
-    const { G, ctx } = this.props;
+    const { G, playerID } = this.props;
 
     this.setState((state) => {
-      const card = G.hands[parseInt(ctx.currentPlayer, 10)][id];
+      const card = G.hands[parseInt(playerID, 10)][id];
 
       const selectedIds = state.selectedIds.concat(id);
       const selectedCards = state.selectedCards.concat(card).sort(Card.Compare);
@@ -67,6 +67,8 @@ export default class Debug extends React.Component {
           selectedCards: [],
         };
       }
+
+      alert('Invalid Move');
       return state;
     });
   }
@@ -77,20 +79,17 @@ export default class Debug extends React.Component {
     moves.Pass();
   }
 
-  renderHand(G, ctx) {
-    const { playerID } = this.props;
+  renderHand(hand, isActive) {
+    const rendered_hand = [];
 
-    const hand = [];
-    const disabled = ctx.currentPlayer !== playerID;
-
-    for (let id = 0; id < G.hands[playerID].length; id += 1) {
-      const card = G.hands[playerID][id];
-      hand.push(
+    for (let id = 0; id < hand.length; id += 1) {
+      const card = hand[id];
+      rendered_hand.push(
         <td>
           <button
             type="button"
             onClick={() => this.selectCard(id)}
-            disabled={disabled}
+            disabled={!isActive}
           >
             {renderCard(card)}
           </button>
@@ -98,14 +97,14 @@ export default class Debug extends React.Component {
       );
     }
 
-    return hand;
+    return rendered_hand;
   }
 
   render() {
-    const { G, ctx, playerID } = this.props;
+    const { G, playerID, isActive } = this.props;
     const { selectedCards } = this.state;
 
-    const currentHand = this.renderHand(G, ctx);
+    const currentHand = this.renderHand(G.hands[playerID], isActive);
 
     return (
       <div>
@@ -144,4 +143,5 @@ Debug.propTypes = {
     MakeMove: PropTypes.func,
   }).isRequired,
   playerID: PropTypes.string.isRequired,
+  isActive: PropTypes.bool.isRequired,
 };

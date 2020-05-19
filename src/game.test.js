@@ -1,6 +1,6 @@
 import { Client } from 'boardgame.io/client';
 import Card, { SUIT, RANK } from './cards';
-import { Play, COMBO } from './play';
+import Play, { COMBO } from './play';
 import Game from './game';
 
 it('should mark winner after playing final card', () => {

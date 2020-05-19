@@ -1,5 +1,5 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { COMBO, Play } from '../play';
+import Play, { COMBO } from '../play';
 import { RANK } from '../cards';
 
 export function getCardsFromIds(hand, ids) {
@@ -14,7 +14,7 @@ export function getCardsFromIds(hand, ids) {
 }
 
 export function standardMove(lastPlay, cards) {
-  if (!lastPlay.matchesCombo(cards)) {
+  if (!Play.MatchesCombo(lastPlay, cards)) {
     // generally, if this play isn't of the same combo type, we can disqualify,
     // but in the case of SINGLE twos being chopped, we can switch to BOMBs or QUADs
     if (
@@ -27,14 +27,12 @@ export function standardMove(lastPlay, cards) {
       }
     }
 
-    console.log(`${JSON.stringify(cards)} is not a ${lastPlay.combo}`);
     return INVALID_MOVE;
   }
 
   const attemptedPlay = new Play(lastPlay.combo, cards);
 
-  if (lastPlay > attemptedPlay) {
-    console.log(`${attemptedPlay.cards[0]} does not beat ${lastPlay.cards[0]}`);
+  if (Play.ValueOf(lastPlay) > Play.ValueOf(attemptedPlay)) {
     return INVALID_MOVE;
   }
 

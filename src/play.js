@@ -61,40 +61,11 @@ export function isBomb(cards) {
   );
 }
 
-export class Play {
+export default class Play {
   constructor(combo, cards, player) {
     this.cards = cards.sort(Card.Compare).reverse(); // cards[0] now holds highest value card
     this.combo = combo;
     this.player = player;
-  }
-
-  matchesCombo(cards) {
-    switch (this.combo) {
-      case COMBO.SINGLE:
-        return isSingle(cards);
-      case COMBO.PAIR:
-        return isPair(cards);
-      case COMBO.TRIPLE:
-        return isTriple(cards);
-      case COMBO.QUAD:
-        return isQuad(cards);
-      case COMBO.RUN:
-        return cards.length === this.cards.length && isRun(cards);
-      case COMBO.BOMB:
-        return isBomb(cards);
-      default:
-        throw new Error(COMBO.INVALID);
-    }
-  }
-
-  valueOf() {
-    // should really be this
-    // return this.cards[0].valueOf();
-    return this.cards[0].rank * 4 + this.cards[0].suit;
-  }
-
-  toString() {
-    return `Combo: ${this.combo}\nCards: ${this.cards}\nSuited? ${this.suited}`;
   }
 
   static DetermineCombo(cards) {
@@ -105,5 +76,28 @@ export class Play {
     if (isRun(cards)) return COMBO.RUN;
     if (isBomb(cards)) return COMBO.BOMB;
     return COMBO.INVALID;
+  }
+
+  static MatchesCombo(play, attempt) {
+    switch (play.combo) {
+      case COMBO.SINGLE:
+        return isSingle(attempt);
+      case COMBO.PAIR:
+        return isPair(attempt);
+      case COMBO.TRIPLE:
+        return isTriple(attempt);
+      case COMBO.QUAD:
+        return isQuad(attempt);
+      case COMBO.RUN:
+        return attempt.length === play.cards.length && isRun(attempt);
+      case COMBO.BOMB:
+        return isBomb(attempt);
+      default:
+        throw new Error(COMBO.INVALID);
+    }
+  }
+
+  static ValueOf(play) {
+    return Card.ValueOf(play.cards[0]);
   }
 }

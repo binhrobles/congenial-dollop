@@ -29,24 +29,12 @@ export default class Card {
     this.suitText = Object.keys(SUIT)[suit];
   }
 
-  equals(card) {
-    return this.valueOf() === card.valueOf();
-  }
-
-  // Have no idea why this is not being invoked on
-  // cards within Play.cards
-  // somehow, the default valueOf functionality is being
-  // invoked
-  valueOf() {
-    return this.rank * 4 + this.suit;
-  }
-
-  toString() {
-    return `${this.suitText}:${this.rankText}`;
+  static ValueOf(card) {
+    return card.rank * 4 + card.suit;
   }
 
   static Compare(a, b) {
-    return a.valueOf() - b.valueOf();
+    return Card.ValueOf(a) - Card.ValueOf(b);
   }
 }
 

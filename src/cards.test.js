@@ -1,22 +1,26 @@
 import Card, { DealCards, RANK, SUIT, GenerateStandardDeck } from './cards';
 
 it('should correctly compare various single cards', () => {
-  expect(new Card(RANK.TWO, SUIT.H) > new Card(RANK.TWO, SUIT.D)).toBeTruthy();
-  expect(new Card(RANK.ACE, SUIT.H) > new Card(RANK.TWO, SUIT.S)).toBeFalsy();
+  expect(
+    Card.ValueOf(new Card(RANK.TWO, SUIT.H)) >
+      Card.ValueOf(new Card(RANK.TWO, SUIT.D))
+  ).toBeTruthy();
+  expect(
+    Card.ValueOf(new Card(RANK.ACE, SUIT.H)) >
+      Card.ValueOf(new Card(RANK.TWO, SUIT.S))
+  ).toBeFalsy();
 
   expect(
-    new Card(RANK.THREE, SUIT.S) < new Card(RANK.THREE, SUIT.C)
+    Card.ValueOf(new Card(RANK.THREE, SUIT.S)) <
+      Card.ValueOf(new Card(RANK.THREE, SUIT.C))
   ).toBeTruthy();
   expect(
-    new Card(RANK.EIGHT, SUIT.D) < new Card(RANK.NINE, SUIT.D)
-  ).toBeTruthy();
-  expect(new Card(RANK.KING, SUIT.C) < new Card(RANK.TEN, SUIT.S)).toBeFalsy();
-
-  expect(
-    new Card(RANK.QUEEN, SUIT.D).equals(new Card(RANK.QUEEN, SUIT.D))
+    Card.ValueOf(new Card(RANK.EIGHT, SUIT.D)) <
+      Card.ValueOf(new Card(RANK.NINE, SUIT.D))
   ).toBeTruthy();
   expect(
-    new Card(RANK.TWO, SUIT.D).equals(new Card(RANK.QUEEN, SUIT.D))
+    Card.ValueOf(new Card(RANK.KING, SUIT.C)) <
+      Card.ValueOf(new Card(RANK.TEN, SUIT.S))
   ).toBeFalsy();
 });
 
@@ -41,8 +45,8 @@ it('should deal every card just once', () => {
 });
 
 it('should evaluate cards to numeric values', () => {
-  expect(new Card(RANK.THREE, SUIT.S).valueOf()).toBe(0);
-  expect(new Card(RANK.THREE, SUIT.C).valueOf()).toBe(1);
-  expect(new Card(RANK.TWO, SUIT.D).valueOf()).toBe(50);
-  expect(new Card(RANK.TWO, SUIT.H).valueOf()).toBe(51);
+  expect(Card.ValueOf(new Card(RANK.THREE, SUIT.S)).valueOf()).toBe(0);
+  expect(Card.ValueOf(new Card(RANK.THREE, SUIT.C)).valueOf()).toBe(1);
+  expect(Card.ValueOf(new Card(RANK.TWO, SUIT.D)).valueOf()).toBe(50);
+  expect(Card.ValueOf(new Card(RANK.TWO, SUIT.H)).valueOf()).toBe(51);
 });

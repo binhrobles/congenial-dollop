@@ -1,5 +1,5 @@
 import Card, { RANK, SUIT } from './cards';
-import { COMBO, Play, isRun } from './play';
+import Play, { COMBO, isRun } from './play';
 
 const H2 = new Card(RANK.TWO, SUIT.H);
 const D2 = new Card(RANK.TWO, SUIT.D);
@@ -24,14 +24,14 @@ const TD2 = new Play(COMBO.TRIPLE, [S2, C2, D2]);
 const QH2 = new Play(COMBO.QUAD, [S2, D2, H2, C2]);
 
 it('should eval a stronger single to beat a weaker single', () => {
-  expect(SH2 > SH3).toBeTruthy();
-  expect(SD2 > SD3).toBeTruthy();
+  expect(Play.ValueOf(SH2) > Play.ValueOf(SH3)).toBeTruthy();
+  expect(Play.ValueOf(SD2) > Play.ValueOf(SD3)).toBeTruthy();
 
-  expect(SH2 > SD2).toBeTruthy();
-  expect(SH2 < SD2).toBeFalsy();
+  expect(Play.ValueOf(SH2) > Play.ValueOf(SD2)).toBeTruthy();
+  expect(Play.ValueOf(SH2) < Play.ValueOf(SD2)).toBeFalsy();
 
-  expect(SH3 > SS3).toBeTruthy();
-  expect(SH3 < SS3).toBeFalsy();
+  expect(Play.ValueOf(SH3) > Play.ValueOf(SS3)).toBeTruthy();
+  expect(Play.ValueOf(SH3) < Play.ValueOf(SS3)).toBeFalsy();
 });
 
 it('should sort pairs, trips, quads with highest card lowest', () => {
@@ -58,10 +58,10 @@ it('should verify valid runs', () => {
   ];
 
   const RJQKA = [
-    new Card(RANK.KING, SUIT.S),
-    new Card(RANK.JACK, SUIT.S),
     new Card(RANK.ACE, SUIT.D),
+    new Card(RANK.JACK, SUIT.S),
     new Card(RANK.QUEEN, SUIT.H),
+    new Card(RANK.KING, SUIT.S),
   ];
 
   expect(isRun(R345)).toBeTruthy();
