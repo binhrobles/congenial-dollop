@@ -34,7 +34,7 @@ export function onBegin(G, ctx) {
 }
 
 // eslint-disable-next-line consistent-return
-export function onEnd(G, ctx) {
+export function onTurnEnd(G, ctx) {
   // if no more cards, this player is out
   if (G.hands[ctx.playOrderPos].length === 0) {
     const winOrder = [...G.winOrder];
@@ -62,6 +62,11 @@ export function endIf(G) {
   if (G.winOrder.length === 3) {
     return { winner: G.winOrder[0] };
   }
+}
+
+export function onGameEnd(G, ctx) {
+  // update scores for every player
+  // Need to save and retrieve the game ID from the Lobby call
 }
 
 // Handles turn progression, but only cycles through `G.playersInRound`
@@ -96,7 +101,7 @@ const Game = {
   moves: { MakeMove, Pass },
   turn: {
     onBegin,
-    onEnd,
+    onEnd: onTurnEnd,
     order: {
       first: () => 0, // TODO: should be the person with 3 of spades
       next,
@@ -104,6 +109,8 @@ const Game = {
   },
   endIf,
   // phases: reorder -> play
+  minPlayers: 4,
+  maxPlayers: 4,
 };
 
 export default Game;
