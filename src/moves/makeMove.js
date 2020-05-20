@@ -1,6 +1,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import Play, { COMBO } from '../play';
-import { RANK } from '../cards';
+import Play from '../Play';
+import { COMBO } from '../Play/constants';
+import { RANK } from '../Card/constants';
 
 export function getCardsFromIds(hand, ids) {
   const cards = [];

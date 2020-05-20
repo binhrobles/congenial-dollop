@@ -1,5 +1,5 @@
 import React from 'react';
-// import { Local } from 'boardgame.io/multiplayer';
+import { Local } from 'boardgame.io/multiplayer';
 import { SocketIO } from 'boardgame.io/multiplayer';
 import { Client } from 'boardgame.io/react';
 import Debug from './renderings/debug';
@@ -8,9 +8,10 @@ import Game from './game';
 const ThirteenClient = Client({
   game: Game,
   board: Debug,
-  // multiplayer: Local(),
-  multiplayer: SocketIO({ server: 'http://localhost:8000/' }),
   numPlayers: 4,
+  multiplayer: process.env.DEBUG
+    ? Local()
+    : SocketIO({ server: 'http://localhost:8000/' }),
   debug: process.env.DEBUG || false,
 });
 

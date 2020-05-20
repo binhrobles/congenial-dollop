@@ -1,4 +1,4 @@
-import { GenerateStandardDeck, DealCards } from './cards';
+import { GenerateStandardDeck, DealCards } from './Deck';
 import MakeMove from './moves/makeMove';
 import Pass from './moves/pass';
 

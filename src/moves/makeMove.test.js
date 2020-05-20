@@ -2,7 +2,8 @@ import { INVALID_MOVE } from 'boardgame.io/core';
 import MakeMove from './makeMove';
 import Card from '../Card';
 import { RANK, SUIT } from '../Card/constants';
-import Play, { COMBO } from '../play';
+import Play from '../Play';
+import { COMBO } from '../Play/constants';
 
 it('should allow a stronger single to beat a weaker single', () => {
   const G = {
