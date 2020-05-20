@@ -102,9 +102,7 @@ const Game = {
       next,
     },
   },
-
   endIf,
-
   // phases: reorder -> play
 };
 

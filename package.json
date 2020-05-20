@@ -12,10 +12,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:client-debug": "REACT_APP_DEBUG=1 react-scripts start",
     "start:server": "node -r esm src/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:clearCache": "jest --clearCache",
+    "test:clear-cache": "jest --clearCache",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

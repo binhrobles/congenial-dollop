@@ -9,10 +9,10 @@ const ThirteenClient = Client({
   game: Game,
   board: Debug,
   numPlayers: 4,
-  multiplayer: process.env.DEBUG
-    ? Local()
-    : SocketIO({ server: 'http://localhost:8000/' }),
-  debug: process.env.DEBUG || false,
+  // multiplayer: process.env.REACT_APP_DEBUG
+  //   ? Local()
+  //   : SocketIO({ server: 'http://localhost:8000/' }),
+  debug: process.env.REACT_APP_DEBUG || false,
 });
 
 class App extends React.Component {
