@@ -26,14 +26,14 @@ const TD2 = new Play(COMBO.TRIPLE, [S2, C2, D2]);
 const QH2 = new Play(COMBO.QUAD, [S2, D2, H2, C2]);
 
 it('should eval a stronger single to beat a weaker single', () => {
-  expect(Play.ValueOf(SH2) > Play.ValueOf(SH3)).toBeTruthy();
-  expect(Play.ValueOf(SD2) > Play.ValueOf(SD3)).toBeTruthy();
+  expect(SH2.value > SH3.value).toBeTruthy();
+  expect(SD2.value > SD3.value).toBeTruthy();
 
-  expect(Play.ValueOf(SH2) > Play.ValueOf(SD2)).toBeTruthy();
-  expect(Play.ValueOf(SH2) < Play.ValueOf(SD2)).toBeFalsy();
+  expect(SH2.value > SD2.value).toBeTruthy();
+  expect(SH2.value < SD2.value).toBeFalsy();
 
-  expect(Play.ValueOf(SH3) > Play.ValueOf(SS3)).toBeTruthy();
-  expect(Play.ValueOf(SH3) < Play.ValueOf(SS3)).toBeFalsy();
+  expect(SH3.value > SS3.value).toBeTruthy();
+  expect(SH3.value < SS3.value).toBeFalsy();
 });
 
 it('should sort pairs, trips, quads with highest card lowest', () => {

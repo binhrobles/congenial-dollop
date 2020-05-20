@@ -9,12 +9,7 @@ export default class Card {
     this.value = this.rank * 4 + this.suit;
   }
 
-  // TODO: stop using these
-  static ValueOf(card) {
-    return card.rank * 4 + card.suit;
-  }
-
   static Compare(a, b) {
-    return Card.ValueOf(a) - Card.ValueOf(b);
+    return a.value - b.value;
   }
 }

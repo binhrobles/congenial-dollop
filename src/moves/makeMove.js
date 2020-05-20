@@ -33,7 +33,7 @@ export function standardMove(lastPlay, cards) {
 
   const attemptedPlay = new Play(lastPlay.combo, cards);
 
-  if (Play.ValueOf(lastPlay) > Play.ValueOf(attemptedPlay)) {
+  if (lastPlay.value > attemptedPlay.value) {
     return INVALID_MOVE;
   }
 

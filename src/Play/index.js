@@ -57,6 +57,7 @@ export default class Play {
     this.cards = cards.sort(Card.Compare).reverse(); // cards[0] now holds highest value card
     this.combo = combo;
     this.player = player;
+    this.value = this.cards[0].value;
   }
 
   static DetermineCombo(cards) {
@@ -86,9 +87,5 @@ export default class Play {
       default:
         throw new Error(COMBO.INVALID);
     }
-  }
-
-  static ValueOf(play) {
-    return Card.ValueOf(play.cards[0]);
   }
 }
