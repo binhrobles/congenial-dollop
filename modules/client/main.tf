@@ -27,7 +27,7 @@ POLICY
   - servers content from our S3 bucket on our domain
  */
 data "aws_acm_certificate" "ssl_cert" {
-  domain   = var.root_domain_name
+  domain   = var.application_domain_name
   statuses = ["ISSUED"]
 }
 
