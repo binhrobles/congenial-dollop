@@ -11,6 +11,12 @@
 # production
 /build
 
+# terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+
+
 # misc
 /db
 
