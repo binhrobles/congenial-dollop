@@ -7,7 +7,7 @@ on:
 jobs:
 
   #### ---- Last tests ---- ####
-  test_client:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -32,6 +32,6 @@ jobs:
     - name: Install dependencies
       run: yarn --frozen-lockfile
 
-    - run: npm test
+    - run: yarn test
       env:
         CI: true
