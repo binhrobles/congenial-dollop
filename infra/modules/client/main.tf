@@ -18,6 +18,13 @@ POLICY
     index_document = "index.html"
     error_document = "index.html"
   }
+
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["GET", "PUT", "POST"]
+    allowed_origins = ["https://${var.application_domain_name}"]
+    max_age_seconds = 3000
+  }
 }
 
 /**
