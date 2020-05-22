@@ -8,29 +8,30 @@ export default class Debug extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIds: [],
-      selectedCards: [],
+      selectedCardIds: [],
     };
 
+    this.deselectCard = this.deselectCard.bind(this);
     this.selectCard = this.selectCard.bind(this);
     this.playMove = this.playMove.bind(this);
     this.pass = this.pass.bind(this);
     this.clear = this.clear.bind(this);
   }
 
-  selectCard(id) {
-    const { G, playerID } = this.props;
-
+  deselectCard(id) {
     this.setState((state) => {
-      const card = G.hands[parseInt(playerID, 10)][id];
-
-      const selectedIds = state.selectedIds.concat(id);
-      const selectedCards = state.selectedCards.concat(card).sort(Card.Compare);
-
       return {
         ...state,
-        selectedIds,
-        selectedCards,
+        selectedCardIds: state.selectedCardIds.filter((x) => x !== id),
+      };
+    });
+  }
+
+  selectCard(id) {
+    this.setState((state) => {
+      return {
+        ...state,
+        selectedCardIds: state.selectedCardIds.concat(id),
       };
     });
   }
@@ -39,24 +40,21 @@ export default class Debug extends React.Component {
     this.setState((state) => {
       return {
         ...state,
-        selectedIds: [],
-        selectedCards: [],
+        selectedCardIds: [],
       };
     });
   }
 
   playMove() {
     const { moves } = this.props;
-    const { selectedIds } = this.state;
-
-    const moveResult = moves.MakeMove(selectedIds);
 
     this.setState((state) => {
+      const moveResult = moves.MakeMove(state.selectedCardIds);
+
       if (moveResult !== INVALID_MOVE) {
         return {
           ...state,
-          selectedIds: [],
-          selectedCards: [],
+          selectedCardIds: [],
         };
       }
 
@@ -72,40 +70,49 @@ export default class Debug extends React.Component {
 
   render() {
     const { G, ctx, playerID, isActive } = this.props;
-    const { selectedCards } = this.state;
+    const { selectedCardIds } = this.state;
 
     return (
       <div>
         <h1>Shitty Thirteen</h1>
         <h2>You are Player {playerID}</h2>
         <h3>
-          {playerID === ctx.currentPlayer
+          {playerID && playerID === ctx.currentPlayer
             ? 'On you'
             : `On Player ${ctx.currentPlayer}`}
         </h3>
-
         <div>
           <h3>{G.lastPlay ? 'to beat:' : 'to open.'}</h3>
           {G.lastPlay && <Hand cards={G.lastPlay.cards} />}
         </div>
         <br />
-
+        {/* TODO: Needs to refresh underlying Hand ids when selectedCardIds changes */}
         <div visibility={isActive ? 'visible' : 'hidden'}>
           <h3>Your Selection</h3>
-          <Hand cards={selectedCards} />
+          <Hand
+            cards={
+              playerID
+                ? G.hands[playerID].filter((_, idx) =>
+                    selectedCardIds.includes(idx)
+                  )
+                : []
+            }
+            isActive={isActive}
+            selectable
+            onSelect={this.deselectCard}
+          />
         </div>
         <br />
-
         <h3>Your Hand</h3>
         <Hand
-          cards={G.hands[playerID]}
+          cards={playerID ? G.hands[playerID] : []}
           isActive={isActive}
           selectable
           onSelect={this.selectCard}
         />
         <br />
-
         <div>
+          {/* TODO: get some better style */}
           <button type="button" onClick={this.playMove}>
             Play it!
           </button>
