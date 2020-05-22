@@ -29,6 +29,7 @@ POLICY
 data "aws_acm_certificate" "ssl_cert" {
   domain   = var.application_domain_name
   statuses = ["ISSUED"]
+  provider = aws.virginia
 }
 
 resource "aws_cloudfront_distribution" "frontend_cloudfront_distribution" {
