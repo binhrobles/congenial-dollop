@@ -13,7 +13,7 @@ provider "aws" {
 }
 
 module "client" {
-  source                  = "./modules/client"
+  source                  = "../modules/client"
   application_domain_name = var.application_domain_name
   root_domain_name        = var.root_domain_name
 }

@@ -1,4 +1,4 @@
-name: Client Build and Deploy Process
+name: Production Client
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
 env:
   APPLICATION_DOMAIN_NAME: 'shitty-thirteen.binhrobles.com'
   REGION: 'us-west-1'
+  TF_WORKING_DIR: 'infra/production/'
 
 jobs:
   test:
@@ -76,6 +77,10 @@ jobs:
 
   infra:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -91,14 +96,18 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
 
+    - name: Set region
+      run: sed -i 's/REPLACE_REGION/${{ env.REGION }}/g' terraform.tfvars
+
+    - name: Set domain name
+      run: sed -i 's/REPLACE_APPLICATION_DOMAIN_NAME/${{ env.APPLICATION_DOMAIN_NAME }}/g' terraform.tfvars
+
     - name: Terraform Plan
-      run: terraform plan
+      run: terraform plan -var-file="terraform.tfvars"
 
     - name: Terraform Apply
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: 'terraform apply -auto-approve 
-                            -var="application_domain_name=${{ env.APPLICATION_DOMAIN_NAME }}"
-                            -var="region=${{ env.REGION }}"'
+      run: terraform apply -var-file="terraform.tfvars" -auto-approve
 
   deploy:
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
