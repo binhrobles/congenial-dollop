@@ -2,7 +2,12 @@ name: Client Build and Deploy Process
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master ] # -> production
+  pull_request:
+
+env:
+  APPLICATION_DOMAIN_NAME: 'shitty-thirteen.binhrobles.com'
+  REGION: 'us-west-1'
 
 jobs:
   test:
@@ -69,8 +74,38 @@ jobs:
         name: build
         path: build/
 
+  infra:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Format
+      run: terraform fmt -check
+
+    - name: Terraform Plan
+      run: terraform plan
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: 'terraform apply -auto-approve 
+                            -var="application_domain_name=${{ env.APPLICATION_DOMAIN_NAME }}"
+                            -var="region=${{ env.REGION }}"'
+
   deploy:
-    needs: build
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    needs: 
+      - build
+      - infra
     runs-on: ubuntu-latest
     steps:
       - name: Download build artifact
@@ -83,8 +118,8 @@ jobs:
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }} # TODO: should be an SSM lookup
+          AWS_S3_BUCKET: ${{ env.APPLICATION_DOMAIN_NAME }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'us-west-1'
+          AWS_REGION: ${{ env.REGION }}
           SOURCE_DIR: 'build'
