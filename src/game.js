@@ -5,6 +5,7 @@ import Pass from './moves/pass';
 export function setup(ctx) {
   return {
     lastPlay: null,
+    log: [],
     playersInRound: [...ctx.playOrder],
     playersInGame: [...ctx.playOrder],
     winOrder: [],
@@ -33,8 +34,11 @@ export function onBegin(G, ctx) {
   }
 }
 
-// eslint-disable-next-line consistent-return
 export function onTurnEnd(G, ctx) {
+  // first push last move into the game log
+  const log = [...G.log];
+  log.push(G.lastPlay);
+
   // if no more cards, this player is out
   if (G.hands[ctx.playOrderPos].length === 0) {
     const winOrder = [...G.winOrder];
@@ -50,11 +54,17 @@ export function onTurnEnd(G, ctx) {
 
     return {
       ...G,
+      log,
       playersInGame,
       playersInRound,
       winOrder,
     };
   }
+
+  return {
+    ...G,
+    log,
+  };
 }
 
 // eslint-disable-next-line consistent-return
@@ -109,7 +119,7 @@ const Game = {
   },
   endIf,
   // phases: reorder -> play
-  minPlayers: 4,
+  minPlayers: 1,
   maxPlayers: 4,
 };
 

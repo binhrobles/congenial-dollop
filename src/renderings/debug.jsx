@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Layout } from 'antd';
 import 'antd/dist/antd.css';
 import Card from '../Card';
+import Play from '../Play';
 import PlayerView from '../Components/playerView';
+import History from '../Components/history';
 
 const { Content, Footer } = Layout;
 
@@ -12,7 +14,9 @@ function Debug(props) {
 
   return (
     <Layout>
-      <Content>Log</Content>
+      <Content>
+        <History log={G.log} />
+      </Content>
       {playerID && (
         <Footer style={{ padding: 2 }}>
           <PlayerView
@@ -46,6 +50,7 @@ function Debug(props) {
 Debug.propTypes = {
   G: PropTypes.shape({
     hands: PropTypes.arrayOf(PropTypes.arrayOf(Card)),
+    log: PropTypes.arrayOf(Play),
     lastPlay: PropTypes.instanceOf(Card),
   }).isRequired,
   ctx: PropTypes.shape({
