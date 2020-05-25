@@ -1,64 +1,49 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Button, Layout } from 'antd';
-import { INVALID_MOVE } from 'boardgame.io/core';
+import { Button, Space, Popconfirm } from 'antd';
 import Hand from './hand';
 import Card from '../Card';
-
-const { Content, Footer } = Layout;
+import './index.css';
 
 function PlayerView(props) {
   const { cards, currentPlayer, isActive, moves } = props;
-  const [selectedCardIds, updateSelectedCardIds] = React.useState([]);
-  const [hasError, updateError] = React.useState(false);
+  const [selected, updateSelected] = React.useState([]);
 
   function deselectCard(id) {
-    updateSelectedCardIds(selectedCardIds.filter((x) => x !== id));
+    updateSelected((prev) => prev.filter((x) => x !== id));
   }
 
   function selectCard(id) {
-    updateSelectedCardIds(selectedCardIds.concat(id));
+    updateSelected((prev) => prev.concat(id));
   }
 
   function clear() {
-    updateSelectedCardIds([]);
+    updateSelected([]);
   }
 
   // should only return IDs
   function playMove() {
-    const moveResult = moves.MakeMove(selectedCardIds);
+    moves.MakeMove(selected);
 
-    if (moveResult === INVALID_MOVE) {
-      updateError(true);
-    } else {
-      clear();
-    }
-  }
+    // TODO: we don't get feedback on the result of the move: https://github.com/nicolodavis/boardgame.io/issues/592
+    // so check if we're still active, or something, implying the move didn't fire
 
-  if (hasError) {
-    return (
-      <Alert
-        message="You can't do that"
-        type="error"
-        closable
-        onClose={() => updateError(false)}
-      />
-    );
+    clear();
   }
 
   return (
-    <Layout>
-      <Content style={{ textAlign: 'center' }}>
-        {/* TODO: Needs to refresh underlying Hand ids when selectedCardIds changes */}
-        {isActive && (
-          <div>
-            <Hand
-              cards={cards.filter((_, idx) => selectedCardIds.includes(idx))}
-              isActive={isActive}
-              selectable
-              onSelect={deselectCard}
-            />
-            {selectedCardIds.length > 0 ? (
+    <Space direction="vertical" align="center">
+      {/* TODO: Needs to refresh underlying Hand ids when selected changes */}
+      {isActive && (
+        <Space direction="vertical">
+          <Hand
+            cards={cards.filter((_, idx) => selected.includes(idx))}
+            isActive={isActive}
+            selectable
+            onSelect={deselectCard}
+          />
+          <Space>
+            {selected.length > 0 ? (
               <div>
                 <Button type="primary" onClick={playMove}>
                   Play it!
@@ -68,24 +53,28 @@ function PlayerView(props) {
                 </Button>
               </div>
             ) : (
-              <Button type="default" onClick={moves.Pass}>
-                Pass
-              </Button>
+              <Popconfirm
+                title="Really?"
+                okText="Really."
+                cancelText="No"
+                onConfirm={moves.Pass}
+              >
+                <Button type="default">Pass</Button>
+              </Popconfirm>
             )}
-          </div>
-        )}
-        {isActive || <div>On Player {currentPlayer}</div>}
-      </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        <h3>Your Hand</h3>
+          </Space>
+        </Space>
+      )}
+      {isActive || <div>On Player {currentPlayer}</div>}
+      <div className="child">
         <Hand
           cards={cards}
           isActive={isActive}
           selectable
           onSelect={selectCard}
         />
-      </Footer>
-    </Layout>
+      </div>
+    </Space>
   );
 }
 

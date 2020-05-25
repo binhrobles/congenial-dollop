@@ -20,6 +20,3 @@ export const RANK = Object.freeze({
   ACE: 11,
   TWO: 12,
 });
-
-export const CARD_WIDTH = 80;
-export const CARD_HEIGHT = 120;
