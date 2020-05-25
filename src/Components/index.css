@@ -1,23 +1,20 @@
-.parent {
-  text-align: center;
-}
-
-.child {
-  display: inline-block;
-}
-
-.flex {
-  display: flex;
-  flex-direction: row;
+.card {
+  width: 80;
+  height: 120;
+  border-radius: 8;
 }
 
 .scrolling-wrapper {
   display: flex;
   flex-wrap: nowrap;
-  flex-direction: row;
   overflow-x: auto;
+  max-width: 100vw;
 
   -webkit-overflow-scrolling: touch;
+
+  .card {
+    flex: 0 0 auto;
+  }
 }
 
 .scrolling-wrapper::webkit-scrollbar {

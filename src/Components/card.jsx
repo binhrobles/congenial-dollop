@@ -1,12 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '../Card';
+import './index.css';
 
 const CardComponent = (props) => {
   const { card } = props;
 
   return (
     <img
+      // className="card"
       style={{
         width: 80,
         height: 120,

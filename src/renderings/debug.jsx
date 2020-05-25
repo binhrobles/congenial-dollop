@@ -12,9 +12,9 @@ function Debug(props) {
 
   return (
     <Layout>
-      <Content style={{ textAlign: 'center' }}>Log</Content>
+      <Content>Log</Content>
       {playerID && (
-        <Footer style={{ textAlign: 'center' }}>
+        <Footer style={{ padding: 2 }}>
           <PlayerView
             cards={G.hands[playerID]}
             currentPlayer={ctx.currentPlayer}

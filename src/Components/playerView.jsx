@@ -32,16 +32,11 @@ function PlayerView(props) {
   }
 
   return (
-    <Space direction="vertical" align="center">
+    <Space direction="vertical" size="large" align="center">
       {/* TODO: Needs to refresh underlying Hand ids when selected changes */}
       {isActive && (
         <Space direction="vertical">
-          <Hand
-            cards={cards.filter((_, idx) => selected.includes(idx))}
-            isActive={isActive}
-            selectable
-            onSelect={deselectCard}
-          />
+          <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
           <Space>
             {selected.length > 0 ? (
               <div>
@@ -66,14 +61,12 @@ function PlayerView(props) {
         </Space>
       )}
       {isActive || <div>On Player {currentPlayer}</div>}
-      <div className="child">
-        <Hand
-          cards={cards}
-          isActive={isActive}
-          selectable
-          onSelect={selectCard}
-        />
-      </div>
+      <Hand
+        cards={cards}
+        isActive={isActive}
+        selectable
+        onSelect={selectCard}
+      />
     </Space>
   );
 }

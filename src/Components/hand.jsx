@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Space } from 'antd';
 import Card from '../Card';
 import CardComponent from './card';
 import './index.css';
@@ -14,6 +15,7 @@ const Hand = (props) => {
   if (selectable) {
     cardComponents = cardComponents.map((x, idx) => (
       <button
+        className="card"
         key={x.key}
         type="button"
         onClick={() => onSelect(idx)}
@@ -24,7 +26,7 @@ const Hand = (props) => {
     ));
   }
 
-  return <div className="scrolling-wrapper">{cardComponents}</div>;
+  return <Space className="scrolling-wrapper">{cardComponents}</Space>;
 };
 
 Hand.propTypes = {
