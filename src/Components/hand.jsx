@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '../Card';
-import CardComponent from '../Card/component';
+import CardComponent from './card';
+import './index.css';
 
 const Hand = (props) => {
   const { cards, isActive, selectable, onSelect } = props;
@@ -23,15 +24,7 @@ const Hand = (props) => {
     ));
   }
 
-  return (
-    <table id="hand">
-      <tbody>
-        <tr>
-          <td>{cardComponents}</td>
-        </tr>
-      </tbody>
-    </table>
-  );
+  return <div className="scrolling-wrapper">{cardComponents}</div>;
 };
 
 Hand.propTypes = {

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Card from './index';
-import { CARD_WIDTH, CARD_HEIGHT } from './constants';
+import Card from '../Card';
 
 const CardComponent = (props) => {
   const { card } = props;
@@ -9,8 +8,8 @@ const CardComponent = (props) => {
   return (
     <img
       style={{
-        width: CARD_WIDTH,
-        height: CARD_HEIGHT,
+        width: 80,
+        height: 120,
         borderRadius: 8,
       }}
       src={require(`../../public/assets/cards/${card.rankText}${card.suitText}.png`)}
