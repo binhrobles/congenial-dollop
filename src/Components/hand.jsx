@@ -6,13 +6,13 @@ import CardComponent from './card';
 import './index.css';
 
 const Hand = (props) => {
-  const { cards, isActive, selectable, onSelect } = props;
+  const { cards, isActive, onSelect } = props;
 
   let cardComponents = cards.map((x) => (
     <CardComponent key={x.value} card={x} />
   ));
 
-  if (selectable) {
+  if (isActive) {
     cardComponents = cardComponents.map((x, idx) => (
       <button
         className="card"
@@ -32,13 +32,11 @@ const Hand = (props) => {
 Hand.propTypes = {
   cards: PropTypes.arrayOf(Card).isRequired,
   isActive: PropTypes.bool,
-  selectable: PropTypes.bool,
   onSelect: PropTypes.func,
 };
 
 Hand.defaultProps = {
   isActive: false,
-  selectable: false,
   onSelect: () => null,
 };
 

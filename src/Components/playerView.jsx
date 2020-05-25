@@ -9,10 +9,6 @@ function PlayerView(props) {
   const { cards, currentPlayer, isActive, moves } = props;
   const [selected, updateSelected] = React.useState([]);
 
-  function deselectCard(id) {
-    updateSelected((prev) => prev.filter((x) => x !== id));
-  }
-
   function selectCard(id) {
     updateSelected((prev) => prev.concat(id));
   }
@@ -35,7 +31,7 @@ function PlayerView(props) {
     <Space direction="vertical" size="large" align="center">
       {/* TODO: Needs to refresh underlying Hand ids when selected changes */}
       {isActive && (
-        <Space direction="vertical">
+        <Space direction="vertical" align="center">
           <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
           <Space>
             {selected.length > 0 ? (
@@ -61,12 +57,7 @@ function PlayerView(props) {
         </Space>
       )}
       {isActive || <div>On Player {currentPlayer}</div>}
-      <Hand
-        cards={cards}
-        isActive={isActive}
-        selectable
-        onSelect={selectCard}
-      />
+      <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
     </Space>
   );
 }
