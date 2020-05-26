@@ -13,7 +13,17 @@ const History = (props) => {
     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
   });
 
+  // render history just so
   const label = (player) => `Player ${player}`;
+
+  const renderItem = (play) => (
+    <List.Item key={play.value}>
+      <Space>
+        {label(play.player)}
+        {play.cards.length ? <Hand cards={play.cards} /> : <div>Passed</div>}
+      </Space>
+    </List.Item>
+  );
 
   return (
     <List
@@ -26,14 +36,7 @@ const History = (props) => {
       dataSource={log}
       itemLayout="vertical"
       footer={<div ref={bottomRef} />}
-      renderItem={(play) => (
-        <List.Item key={play.value}>
-          <Space>
-            {label(play.player)}
-            <Hand cards={play.cards} />
-          </Space>
-        </List.Item>
-      )}
+      renderItem={renderItem}
     />
   );
 };

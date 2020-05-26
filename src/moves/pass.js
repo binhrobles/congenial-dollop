@@ -12,8 +12,12 @@ export default function Pass(G, ctx) {
 
   ctx.events.endTurn(); // allow the default `next` function to determine next player
 
+  // store move into game log
+  const log = [...G.log].concat({ player: ctx.currentPlayer, cards: [] });
+
   return {
     ...G,
+    log,
     playersInRound,
   };
 }

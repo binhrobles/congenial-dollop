@@ -73,8 +73,13 @@ export default function MakeMove(G, ctx, cardIds) {
   });
 
   ctx.events.endTurn();
+
+  // store move into game log
+  const log = [...G.log].concat(currentPlay);
+
   return {
     ...G,
+    log,
     hands: newHands,
     lastPlay: currentPlay,
   };

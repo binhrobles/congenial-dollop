@@ -8,6 +8,7 @@ import { COMBO } from '../Play/constants';
 it('should allow a stronger single to beat a weaker single', () => {
   const G = {
     lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.THREE, SUIT.H)]),
+    log: [],
     hands: [[new Card(RANK.TWO, SUIT.H)]],
   };
 
@@ -28,6 +29,7 @@ it('should allow a stronger single to beat a weaker single', () => {
 it('should not allow a weaker single to beat a stronger single', () => {
   const G = {
     lastPlay: new Play(COMBO.PAIR, [new Card(RANK.TWO, SUIT.H)]),
+    log: [],
     hands: [[new Card(RANK.THREE, SUIT.S)]],
   };
 
@@ -48,6 +50,7 @@ it('should allow a stronger double to beat a weaker double', () => {
       new Card(RANK.THREE, SUIT.H),
       new Card(RANK.THREE, SUIT.S),
     ]),
+    log: [],
     hands: [
       [
         new Card(RANK.EIGHT, SUIT.H),
@@ -78,6 +81,7 @@ it('should allow a stronger trip to beat a weaker trip', () => {
       new Card(RANK.THREE, SUIT.S),
       new Card(RANK.THREE, SUIT.C),
     ]),
+    log: [],
     hands: [
       [
         new Card(RANK.EIGHT, SUIT.H),
@@ -109,6 +113,7 @@ it('should allow a stronger quad to beat a weaker quad', () => {
       new Card(RANK.THREE, SUIT.S),
       new Card(RANK.THREE, SUIT.C),
     ]),
+    log: [],
     hands: [
       [
         new Card(RANK.EIGHT, SUIT.H),
@@ -165,6 +170,7 @@ it('should not allow a weaker quad to beat a stronger quad', () => {
 it('should allow a quad to beat a two', () => {
   const G = {
     lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.S)]),
+    log: [],
     hands: [
       [
         new Card(RANK.FOUR, SUIT.H),
@@ -193,6 +199,7 @@ it('should allow a quad to beat a two', () => {
 it('should allow a bomb to beat a two', () => {
   const G = {
     lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.H)]),
+    log: [],
     hands: [
       [
         new Card(RANK.FOUR, SUIT.H),
