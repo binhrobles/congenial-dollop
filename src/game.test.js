@@ -10,6 +10,7 @@ it('should mark winner after playing final card', () => {
     ...Game,
     setup: () => ({
       hands: [[new Card(RANK.TWO, SUIT.H)], [0, 1, 2], [2, 3, 4], [5, 6, 7]],
+      log: [],
       lastPlay: null,
       playersInGame: ['0', '1', '2', '3'],
       playersInRound: ['0', '1', '2', '3'],
@@ -52,6 +53,7 @@ it('should mark second after playing last card', () => {
     ...Game,
     setup: () => ({
       hands: [[0, 1, 2], [new Card(RANK.TWO, SUIT.H)], [], [2, 3, 4]],
+      log: [],
       lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.D)]),
       playersInGame: ['0', '1', '3'],
       playersInRound: ['1', '3'],
@@ -91,6 +93,7 @@ it('should pass power to the person after the winner, if all pass after a win', 
     ...Game,
     setup: () => ({
       hands: [[], [0, 1, 2], [2, 3, 4], [5, 6, 7]],
+      log: [],
       lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.EIGHT, SUIT.D)], '0'),
       playersInGame: ['1', '2', '3'],
       playersInRound: ['3'],

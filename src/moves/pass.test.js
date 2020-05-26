@@ -12,6 +12,7 @@ it('should remove a player from the round', () => {
         [5, 6, 7],
       ],
       lastPlay: { foo: 1 },
+      log: [],
       playersInGame: ['0', '1', '2', '3'],
       playersInRound: ['0', '1', '2', '3'],
       winOrder: [],
