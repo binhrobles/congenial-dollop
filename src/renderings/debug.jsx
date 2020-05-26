@@ -11,7 +11,7 @@ function Debug(props) {
   const { G, ctx, playerID, isActive, moves } = props;
 
   return (
-    <>
+    <div style={{ backgroundColor: '#35654d' }}>
       <Row
         align="center"
         style={{
@@ -29,7 +29,7 @@ function Debug(props) {
           moves={moves}
         />
       )}
-    </>
+    </div>
   );
 }
 
