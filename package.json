@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^4.2.5",
+    "axios": "^0.19.2",
     "boardgame.io": "^0.39.9",
     "esm": "^3.2.25",
     "node-persist": "^3.0.5",
