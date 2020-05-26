@@ -71,11 +71,13 @@ function PlayerView(props) {
           cardPlaceholder
         )}
       </Row>
-      <Row align="center">{isActive || statusBar}</Row>
-      <Divider style={{ margin: '10px 0' }} />
-      <Row align="center">
-        <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
-      </Row>
+      <div style={{ position: 'fixed', bottom: 0 }}>
+        <Row align="center">{isActive || statusBar}</Row>
+        <Divider style={{ margin: '10px 0' }} />
+        <Row align="center">
+          <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
+        </Row>
+      </div>
     </>
   );
 }

@@ -11,7 +11,7 @@ function Debug(props) {
   const { G, ctx, playerID, isActive, moves } = props;
 
   return (
-    <div style={{ backgroundColor: '#35654d' }}>
+    <div style={{ backgroundColor: '#35654d', minHeight: '100vh' }}>
       <Row
         align="center"
         style={{
