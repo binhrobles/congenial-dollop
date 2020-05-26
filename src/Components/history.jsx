@@ -19,9 +19,9 @@ const History = (props) => {
     <List
       style={{
         textAlign: 'center',
-        minHeight: '50vh',
         maxHeight: '50vh',
         overflow: 'auto',
+        width: '100%',
       }}
       dataSource={log}
       itemLayout="vertical"

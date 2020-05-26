@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Layout } from 'antd';
+import { Row } from 'antd';
 import 'antd/dist/antd.css';
 import Card from '../Card';
 import Play from '../Play';
@@ -11,10 +11,15 @@ function Debug(props) {
   const { G, ctx, playerID, isActive, moves } = props;
 
   return (
-    <Layout>
-      <Layout.Header style={{ minHeight: '50vh' }}>
+    <>
+      <Row
+        align="center"
+        style={{
+          minHeight: '50vh',
+        }}
+      >
         <History log={G.log} />
-      </Layout.Header>
+      </Row>
       {playerID && (
         <PlayerView
           cards={G.hands[playerID]}
@@ -23,7 +28,7 @@ function Debug(props) {
           moves={moves}
         />
       )}
-    </Layout>
+    </>
   );
 }
 
