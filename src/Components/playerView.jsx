@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Space, Popconfirm } from 'antd';
+import { Button, Divider, Space, Popconfirm, Row } from 'antd';
 import Hand from './hand';
 import Card from '../Card';
 import './index.css';
@@ -27,38 +27,45 @@ function PlayerView(props) {
     clear();
   }
 
+  const whosTurn = <div>On Player {currentPlayer}</div>;
+
   return (
-    <Space direction="vertical" size="large" align="center">
-      {/* TODO: Needs to refresh underlying Hand ids when selected changes */}
-      {isActive && (
-        <Space direction="vertical" align="center">
-          <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
-          <Space>
-            {selected.length > 0 ? (
-              <div>
-                <Button type="primary" onClick={playMove}>
-                  Play it!
-                </Button>
-                <Button type="default" onClick={clear}>
-                  Clear
-                </Button>
-              </div>
-            ) : (
-              <Popconfirm
-                title="Really?"
-                okText="Really."
-                cancelText="No"
-                onConfirm={moves.Pass}
-              >
-                <Button type="default">Pass</Button>
-              </Popconfirm>
-            )}
+    <>
+      <Row>
+        {/* TODO: Needs to refresh underlying Hand ids when selected changes */}
+        {isActive && (
+          <Space direction="vertical" align="center">
+            <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
+            <Space>
+              {selected.length > 0 ? (
+                <div>
+                  <Button type="primary" onClick={playMove}>
+                    Play it!
+                  </Button>
+                  <Button type="default" onClick={clear}>
+                    Clear
+                  </Button>
+                </div>
+              ) : (
+                <Popconfirm
+                  title="Really?"
+                  okText="Really."
+                  cancelText="No"
+                  onConfirm={moves.Pass}
+                >
+                  <Button type="default">Pass</Button>
+                </Popconfirm>
+              )}
+            </Space>
           </Space>
-        </Space>
-      )}
-      {isActive || <div>On Player {currentPlayer}</div>}
-      <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
-    </Space>
+        )}
+      </Row>
+      <Row>{isActive || whosTurn}</Row>
+      <Divider />
+      <Row>
+        <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
+      </Row>
+    </>
   );
 }
 
