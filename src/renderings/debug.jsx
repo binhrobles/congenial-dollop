@@ -24,6 +24,7 @@ function Debug(props) {
         <PlayerView
           cards={G.hands[playerID]}
           currentPlayer={ctx.currentPlayer}
+          playersIn={G.playersInRound}
           isActive={isActive}
           moves={moves}
         />
@@ -37,6 +38,7 @@ Debug.propTypes = {
     hands: PropTypes.arrayOf(PropTypes.arrayOf(Card)),
     log: PropTypes.arrayOf(Play),
     lastPlay: PropTypes.instanceOf(Card),
+    playersInRound: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   ctx: PropTypes.shape({
     numPlayers: PropTypes.number,

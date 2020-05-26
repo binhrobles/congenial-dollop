@@ -5,7 +5,7 @@ import Hand from './hand';
 import Card from '../Card';
 
 function PlayerView(props) {
-  const { cards, currentPlayer, isActive, moves } = props;
+  const { cards, currentPlayer, playersIn, isActive, moves } = props;
   const [selected, updateSelected] = React.useState([]);
 
   function selectCard(id) {
@@ -26,14 +26,18 @@ function PlayerView(props) {
     clear();
   }
 
-  const whosTurn = <div>On Player {currentPlayer}</div>;
+  const statusBar = (
+    <div>
+      Players remaining: {playersIn.join(', ')} Waiting on Player{' '}
+      {currentPlayer}
+    </div>
+  );
   const cardPlaceholder = <div style={{ minHeight: 120 }} />;
 
   // TODO: break into smaller components
   return (
     <>
       <Row align="center">
-        {/* TODO: Needs to refresh underlying Hand ids when selected changes */}
         {isActive ? (
           <Space direction="vertical" align="center">
             {selected.length ? (
@@ -67,7 +71,7 @@ function PlayerView(props) {
           cardPlaceholder
         )}
       </Row>
-      <Row align="center">{isActive || whosTurn}</Row>
+      <Row align="center">{isActive || statusBar}</Row>
       <Divider style={{ margin: '10px 0' }} />
       <Row align="center">
         <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
@@ -79,6 +83,7 @@ function PlayerView(props) {
 PlayerView.propTypes = {
   cards: PropTypes.arrayOf(Card).isRequired,
   currentPlayer: PropTypes.string.isRequired,
+  playersIn: PropTypes.arrayOf(PropTypes.string).isRequired,
   moves: PropTypes.shape({
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,

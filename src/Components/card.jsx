@@ -7,7 +7,6 @@ const CardComponent = (props) => {
 
   return (
     <img
-      // className="card"
       style={{
         width: 80,
         height: 120,
