@@ -68,9 +68,11 @@ export default function MakeMove(G, ctx, cardIds) {
   const newPlayers = JSON.parse(JSON.stringify(G.players));
 
   // reverse array before splicing ids, since array will be modified
-  cardIds.reverse().forEach((id) => {
-    newPlayers[ctx.playOrderPos].splice(id, 1);
-  });
+  cardIds
+    .sort((a, b) => b - a) // sorts descending order
+    .forEach((id) => {
+      newPlayers[ctx.playOrderPos].splice(id, 1);
+    });
 
   ctx.events.endTurn();
 
