@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Space } from 'antd';
 import Card from '../Card';
 import CardComponent from './card';
-import './index.css';
 
 const Hand = (props) => {
   const { cards, isActive, onSelect } = props;
@@ -26,7 +25,18 @@ const Hand = (props) => {
     ));
   }
 
-  return <Space className="scrolling-wrapper">{cardComponents}</Space>;
+  return (
+    <Space
+      style={{
+        display: 'flex',
+        flexWrap: 'nowrap',
+        overflowX: 'auto',
+        maxWidth: '100vw',
+      }}
+    >
+      {cardComponents}
+    </Space>
+  );
 };
 
 Hand.propTypes = {

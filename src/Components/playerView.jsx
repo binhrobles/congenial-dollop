@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Button, Divider, Space, Popconfirm, Row } from 'antd';
 import Hand from './hand';
 import Card from '../Card';
-import './index.css';
 
 function PlayerView(props) {
   const { cards, currentPlayer, isActive, moves } = props;
@@ -28,14 +27,20 @@ function PlayerView(props) {
   }
 
   const whosTurn = <div>On Player {currentPlayer}</div>;
+  const cardPlaceholder = <div style={{ minHeight: 120 }} />;
 
+  // TODO: break into smaller components
   return (
     <>
       <Row align="center">
         {/* TODO: Needs to refresh underlying Hand ids when selected changes */}
-        {isActive && (
+        {isActive ? (
           <Space direction="vertical" align="center">
-            <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
+            {selected.length ? (
+              <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
+            ) : (
+              cardPlaceholder
+            )}
             <Space>
               {selected.length > 0 ? (
                 <div>
@@ -58,10 +63,12 @@ function PlayerView(props) {
               )}
             </Space>
           </Space>
+        ) : (
+          cardPlaceholder
         )}
       </Row>
       <Row align="center">{isActive || whosTurn}</Row>
-      <Divider />
+      <Divider style={{ margin: '10px 0' }} />
       <Row align="center">
         <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
       </Row>
