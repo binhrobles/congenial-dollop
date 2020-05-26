@@ -56,7 +56,7 @@ export default function MakeMove(G, ctx, cardIds) {
   const selectionSet = new Set(cardIds);
   if (cardIds.length !== selectionSet.size) return INVALID_MOVE;
 
-  const cards = getCardsFromIds(G.hands[ctx.playOrderPos], cardIds);
+  const cards = getCardsFromIds(G.players[ctx.playOrderPos], cardIds);
 
   const currentPlay = G.lastPlay
     ? standardMove(G.lastPlay, cards)
@@ -65,11 +65,11 @@ export default function MakeMove(G, ctx, cardIds) {
   currentPlay.player = ctx.currentPlayer;
 
   // deep copy object so we don't modify state
-  const newHands = JSON.parse(JSON.stringify(G.hands));
+  const newPlayers = JSON.parse(JSON.stringify(G.players));
 
   // reverse array before splicing ids, since array will be modified
   cardIds.reverse().forEach((id) => {
-    newHands[ctx.playOrderPos].splice(id, 1);
+    newPlayers[ctx.playOrderPos].splice(id, 1);
   });
 
   ctx.events.endTurn();
@@ -80,7 +80,7 @@ export default function MakeMove(G, ctx, cardIds) {
   return {
     ...G,
     log,
-    hands: newHands,
+    players: newPlayers,
     lastPlay: currentPlay,
   };
 }

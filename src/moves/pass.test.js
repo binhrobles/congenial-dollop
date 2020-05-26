@@ -5,12 +5,13 @@ it('should remove a player from the round', () => {
   const scenario = {
     ...Game,
     setup: () => ({
-      hands: [
-        [8, 9, 10],
-        [0, 1, 2],
-        [2, 3, 4],
-        [5, 6, 7],
-      ],
+      players: {
+        '0': [8, 9, 10],
+        '1': [0, 1, 2],
+        '2': [2, 3, 4],
+        '3': [5, 6, 7],
+      },
+      has3S: '0',
       lastPlay: { foo: 1 },
       log: [],
       playersInGame: ['0', '1', '2', '3'],

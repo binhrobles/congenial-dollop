@@ -3,16 +3,29 @@ import MakeMove from './moves/makeMove';
 import Pass from './moves/pass';
 
 export function setup(ctx) {
+  // deal cards to games players
+  const players = { ...ctx.playOrder };
+  const hands = DealCards(
+    ctx.numPlayers,
+    ctx.random.Shuffle(GenerateStandardDeck())
+  );
+  Object.keys(players).forEach((key, index) => {
+    players[key] = hands[index];
+  });
+
+  // find the player with the 3 of Spades as their low card
+  const has3S = Object.keys(players).filter(
+    (x) => players[x][0].value === 0
+  )[0];
+
   return {
     lastPlay: null,
     log: [],
     playersInRound: [...ctx.playOrder],
     playersInGame: [...ctx.playOrder],
     winOrder: [],
-    hands: DealCards(
-      ctx.numPlayers,
-      ctx.random.Shuffle(GenerateStandardDeck())
-    ),
+    players,
+    has3S,
   };
 }
 
@@ -37,7 +50,7 @@ export function onBegin(G, ctx) {
 // eslint-disable-next-line consistent-return
 export function onTurnEnd(G, ctx) {
   // if no more cards, this player is out
-  if (G.hands[ctx.playOrderPos].length === 0) {
+  if (G.players[ctx.playOrderPos].length === 0) {
     const winOrder = [...G.winOrder];
     winOrder.push(ctx.playOrderPos);
 
@@ -104,7 +117,7 @@ const Game = {
     onBegin,
     onEnd: onTurnEnd,
     order: {
-      first: () => 0, // TODO: should be the person with 3 of spades
+      first: (G) => parseInt(G.has3S, 10),
       next,
     },
   },

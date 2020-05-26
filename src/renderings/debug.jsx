@@ -22,7 +22,7 @@ function Debug(props) {
       </Row>
       {playerID && (
         <PlayerView
-          cards={G.hands[playerID]}
+          cards={G.players[playerID]}
           currentPlayer={ctx.currentPlayer}
           playersIn={G.playersInRound}
           isActive={isActive}
@@ -35,7 +35,7 @@ function Debug(props) {
 
 Debug.propTypes = {
   G: PropTypes.shape({
-    hands: PropTypes.arrayOf(PropTypes.arrayOf(Card)),
+    players: PropTypes.arrayOf(PropTypes.arrayOf(Card)),
     log: PropTypes.arrayOf(Play),
     lastPlay: PropTypes.instanceOf(Card),
     playersInRound: PropTypes.arrayOf(PropTypes.string),

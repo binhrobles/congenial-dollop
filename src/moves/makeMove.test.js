@@ -9,7 +9,7 @@ it('should allow a stronger single to beat a weaker single', () => {
   const G = {
     lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.THREE, SUIT.H)]),
     log: [],
-    hands: [[new Card(RANK.TWO, SUIT.H)]],
+    players: { '0': [new Card(RANK.TWO, SUIT.H)] },
   };
 
   const ctx = {
@@ -22,7 +22,7 @@ it('should allow a stronger single to beat a weaker single', () => {
   const newG = MakeMove(G, ctx, [0]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(newG.hands[0].length).toBe(0);
+  expect(newG.players[0].length).toBe(0);
   expect(newG.lastPlay).not.toBe(G.lastPlay);
 });
 
@@ -30,7 +30,7 @@ it('should not allow a weaker single to beat a stronger single', () => {
   const G = {
     lastPlay: new Play(COMBO.PAIR, [new Card(RANK.TWO, SUIT.H)]),
     log: [],
-    hands: [[new Card(RANK.THREE, SUIT.S)]],
+    players: { '0': [new Card(RANK.THREE, SUIT.S)] },
   };
 
   const ctx = {
@@ -51,13 +51,13 @@ it('should allow a stronger double to beat a weaker double', () => {
       new Card(RANK.THREE, SUIT.S),
     ]),
     log: [],
-    hands: [
-      [
+    players: {
+      '0': [
         new Card(RANK.EIGHT, SUIT.H),
         new Card(RANK.ACE, SUIT.C),
         new Card(RANK.EIGHT, SUIT.D),
       ],
-    ],
+    },
   };
 
   const ctx = {
@@ -70,7 +70,7 @@ it('should allow a stronger double to beat a weaker double', () => {
   const newG = MakeMove(G, ctx, [0, 2]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(newG.hands[0].length).toBe(1);
+  expect(newG.players[0].length).toBe(1);
   expect(newG.lastPlay).not.toBe(G.lastPlay);
 });
 
@@ -82,13 +82,13 @@ it('should allow a stronger trip to beat a weaker trip', () => {
       new Card(RANK.THREE, SUIT.C),
     ]),
     log: [],
-    hands: [
-      [
+    players: {
+      '0': [
         new Card(RANK.EIGHT, SUIT.H),
         new Card(RANK.EIGHT, SUIT.D),
         new Card(RANK.EIGHT, SUIT.C),
       ],
-    ],
+    },
   };
 
   const ctx = {
@@ -101,7 +101,7 @@ it('should allow a stronger trip to beat a weaker trip', () => {
   const newG = MakeMove(G, ctx, [0, 1, 2]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(newG.hands[0].length).toBe(0);
+  expect(newG.players[0].length).toBe(0);
   expect(newG.lastPlay).not.toBe(G.lastPlay);
 });
 
@@ -114,14 +114,14 @@ it('should allow a stronger quad to beat a weaker quad', () => {
       new Card(RANK.THREE, SUIT.C),
     ]),
     log: [],
-    hands: [
-      [
+    players: {
+      '0': [
         new Card(RANK.EIGHT, SUIT.H),
         new Card(RANK.EIGHT, SUIT.D),
         new Card(RANK.EIGHT, SUIT.C),
         new Card(RANK.EIGHT, SUIT.S),
       ],
-    ],
+    },
   };
 
   const ctx = {
@@ -134,7 +134,7 @@ it('should allow a stronger quad to beat a weaker quad', () => {
   const newG = MakeMove(G, ctx, [0, 1, 2, 3]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(newG.hands[0].length).toBe(0);
+  expect(newG.players[0].length).toBe(0);
   expect(newG.lastPlay).not.toBe(G.lastPlay);
 });
 
@@ -146,14 +146,14 @@ it('should not allow a weaker quad to beat a stronger quad', () => {
       new Card(RANK.FIVE, SUIT.C),
       new Card(RANK.FIVE, SUIT.S),
     ]),
-    hands: [
-      [
+    players: {
+      '0': [
         new Card(RANK.FOUR, SUIT.H),
         new Card(RANK.FOUR, SUIT.D),
         new Card(RANK.FOUR, SUIT.S),
         new Card(RANK.FOUR, SUIT.C),
       ],
-    ],
+    },
   };
 
   const ctx = {
@@ -171,14 +171,14 @@ it('should allow a quad to beat a two', () => {
   const G = {
     lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.S)]),
     log: [],
-    hands: [
-      [
+    players: {
+      '0': [
         new Card(RANK.FOUR, SUIT.H),
         new Card(RANK.FOUR, SUIT.D),
         new Card(RANK.FOUR, SUIT.S),
         new Card(RANK.FOUR, SUIT.C),
       ],
-    ],
+    },
   };
 
   const ctx = {
@@ -191,7 +191,7 @@ it('should allow a quad to beat a two', () => {
   const newG = MakeMove(G, ctx, [0, 1, 2, 3]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(newG.hands[0].length).toBe(0);
+  expect(newG.players[0].length).toBe(0);
   expect(newG.lastPlay).not.toBe(G.lastPlay);
   expect(newG.lastPlay.combo).toBe(COMBO.QUAD);
 });
@@ -200,7 +200,7 @@ it('should allow a bomb to beat a two', () => {
   const G = {
     lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.H)]),
     log: [],
-    hands: [
+    players: [
       [
         new Card(RANK.FOUR, SUIT.H),
         new Card(RANK.FOUR, SUIT.D),
@@ -222,7 +222,7 @@ it('should allow a bomb to beat a two', () => {
   const newG = MakeMove(G, ctx, [0, 1, 2, 3, 4, 5]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
-  expect(newG.hands[0].length).toBe(0);
+  expect(newG.players[0].length).toBe(0);
   expect(newG.lastPlay).not.toBe(G.lastPlay);
   expect(newG.lastPlay.combo).toBe(COMBO.BOMB);
 });

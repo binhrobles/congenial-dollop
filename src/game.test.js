@@ -9,8 +9,14 @@ it('should mark winner after playing final card', () => {
   const scenario = {
     ...Game,
     setup: () => ({
-      hands: [[new Card(RANK.TWO, SUIT.H)], [0, 1, 2], [2, 3, 4], [5, 6, 7]],
+      players: {
+        '0': [new Card(RANK.TWO, SUIT.H)],
+        '1': [0, 1, 2],
+        '2': [2, 3, 4],
+        '3': [5, 6, 7],
+      },
       log: [],
+      has3S: '0',
       lastPlay: null,
       playersInGame: ['0', '1', '2', '3'],
       playersInRound: ['0', '1', '2', '3'],
@@ -52,20 +58,19 @@ it('should mark second after playing last card', () => {
   const scenario = {
     ...Game,
     setup: () => ({
-      hands: [[0, 1, 2], [new Card(RANK.TWO, SUIT.H)], [], [2, 3, 4]],
+      players: {
+        '0': [0, 1, 2],
+        '1': [new Card(RANK.TWO, SUIT.H)],
+        '2': [],
+        '3': [2, 3, 4],
+      },
       log: [],
+      has3S: '1',
       lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.D)]),
       playersInGame: ['0', '1', '3'],
       playersInRound: ['1', '3'],
       winOrder: [2],
     }),
-    turn: {
-      ...Game.turn,
-      order: {
-        ...Game.turn.order,
-        first: () => 1,
-      },
-    },
   };
 
   const client = Client({
@@ -92,20 +97,14 @@ it('should pass power to the person after the winner, if all pass after a win', 
   const scenario = {
     ...Game,
     setup: () => ({
-      hands: [[], [0, 1, 2], [2, 3, 4], [5, 6, 7]],
+      players: { '0': [], '1': [0, 1, 2], '2': [2, 3, 4], '3': [5, 6, 7] },
       log: [],
+      has3S: '3',
       lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.EIGHT, SUIT.D)], '0'),
       playersInGame: ['1', '2', '3'],
       playersInRound: ['3'],
       winOrder: [0],
     }),
-    turn: {
-      ...Game.turn,
-      order: {
-        ...Game.turn.order,
-        first: () => 3,
-      },
-    },
   };
 
   const client = Client({
