@@ -31,7 +31,7 @@ function PlayerView(props) {
 
   return (
     <>
-      <Row>
+      <Row align="center">
         {/* TODO: Needs to refresh underlying Hand ids when selected changes */}
         {isActive && (
           <Space direction="vertical" align="center">
@@ -60,9 +60,9 @@ function PlayerView(props) {
           </Space>
         )}
       </Row>
-      <Row>{isActive || whosTurn}</Row>
+      <Row align="center">{isActive || whosTurn}</Row>
       <Divider />
-      <Row>
+      <Row align="center">
         <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
       </Row>
     </>
