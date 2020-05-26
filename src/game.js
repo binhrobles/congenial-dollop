@@ -1,6 +1,6 @@
 import { GenerateStandardDeck, DealCards } from './Deck';
-import MakeMove from './moves/makeMove';
-import Pass from './moves/pass';
+import MakeMove from './Move/makeMove';
+import Pass from './Move/pass';
 
 export function setup(ctx) {
   // deal cards to games players

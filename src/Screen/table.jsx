@@ -7,7 +7,7 @@ import Play from '../Play';
 import PlayerView from '../Components/playerView';
 import History from '../Components/history';
 
-function Debug(props) {
+function Table(props) {
   const { G, ctx, playerID, isActive, moves } = props;
 
   return (
@@ -33,7 +33,7 @@ function Debug(props) {
   );
 }
 
-Debug.propTypes = {
+Table.propTypes = {
   G: PropTypes.shape({
     players: PropTypes.arrayOf(PropTypes.arrayOf(Card)),
     log: PropTypes.arrayOf(Play),
@@ -52,4 +52,4 @@ Debug.propTypes = {
   isActive: PropTypes.bool.isRequired,
 };
 
-export default Debug;
+export default Table;
