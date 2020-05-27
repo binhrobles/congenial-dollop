@@ -62,7 +62,10 @@ const LobbyClient = {
         playerName,
         data,
       });
-      return join.data.playerCredentials;
+      return {
+        playerID: firstOpenSeat,
+        playerToken: join.data.playerCredentials,
+      };
     } catch (e) {
       handleError(e);
       return null;

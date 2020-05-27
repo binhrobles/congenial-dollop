@@ -7,7 +7,7 @@ import useInterval from '../useInterval';
 const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 
 function FoyerBuddies(props) {
-  const { roomID } = props;
+  const { roomID, notifyReady } = props;
   const [buddies, updateBuddies] = React.useState([]);
 
   useInterval(() => {
@@ -17,7 +17,13 @@ function FoyerBuddies(props) {
       // component is no longer mounted, indicated
       // by the clean up func having been called
       const b = await LobbyClient.getBuddies({ roomID });
-      if (isMounted) updateBuddies(b);
+      if (isMounted) {
+        updateBuddies(b);
+        const openSeats = b.filter((p) => !('name' in p));
+        if (openSeats.length === 0) {
+          notifyReady(true);
+        }
+      }
     })();
     return () => {
       isMounted = false;
@@ -49,6 +55,7 @@ function FoyerBuddies(props) {
 
 FoyerBuddies.propTypes = {
   roomID: PropTypes.string.isRequired,
+  notifyReady: PropTypes.func.isRequired,
 };
 
 export default FoyerBuddies;

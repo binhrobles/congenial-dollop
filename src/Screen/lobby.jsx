@@ -12,16 +12,20 @@ function Lobby(props) {
   const [isCreating, updateIsCreating] = React.useState(false);
   const [isJoining, updateIsJoining] = React.useState(false);
   const [roomID, updateRoomID] = React.useState(null);
-  const [playerToken, updatePlayerToken] = React.useState(null);
+  const [player, updatePlayer] = React.useState({ playerName });
 
-  if (roomID && playerToken) {
-    return <Foyer roomID={roomID} playerToken={playerToken} />;
+  if (roomID) {
+    return <Foyer roomID={roomID} player={player} />;
   }
 
   const joinRoom = async (id) => {
     updateIsJoining(true);
     // TODO: handle a player rejoining a room, say after a page refresh
-    updatePlayerToken(await LobbyClient.joinRoom({ roomID: id, playerName }));
+    const playerDetails = await LobbyClient.joinRoom({
+      roomID: id,
+      playerName,
+    });
+    updatePlayer((p) => ({ ...p, ...playerDetails }));
     updateRoomID(id);
     updateIsJoining(false);
   };

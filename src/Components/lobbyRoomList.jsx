@@ -36,7 +36,6 @@ function LobbyRoomList(props) {
       itemLayout="horizontal"
       bordered
       loading={isLoading}
-      rowKey={(room) => room.gameID}
       dataSource={rooms}
       renderItem={(room) => <LobbyRoomInstance room={room} onJoin={onJoin} />}
     />
