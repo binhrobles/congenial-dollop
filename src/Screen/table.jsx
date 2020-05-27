@@ -20,7 +20,7 @@ function Table(props) {
       >
         <History log={G.log} />
       </Row>
-      {playerID && (
+      {playerID !== null && (
         <PlayerView
           cards={G.players[playerID]}
           currentPlayer={ctx.currentPlayer}
