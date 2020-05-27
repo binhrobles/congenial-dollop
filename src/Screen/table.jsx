@@ -35,7 +35,7 @@ function Table(props) {
 
 Table.propTypes = {
   G: PropTypes.shape({
-    players: PropTypes.arrayOf(PropTypes.arrayOf(Card)),
+    players: PropTypes.objectOf(PropTypes.arrayOf(Card)),
     log: PropTypes.arrayOf(Play),
     lastPlay: PropTypes.instanceOf(Card),
     playersInRound: PropTypes.arrayOf(PropTypes.string),

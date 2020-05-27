@@ -14,7 +14,11 @@ const Hand = (props) => {
   if (isActive) {
     cardComponents = cardComponents.map((x, idx) => (
       <button
-        className="card"
+        style={{
+          borderRadius: 8,
+          borderWidth: 2,
+          padding: 0,
+        }}
         key={x.key}
         type="button"
         onClick={() => onSelect(idx)}
