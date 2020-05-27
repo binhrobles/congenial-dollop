@@ -11,12 +11,13 @@ function Lobby(props) {
   const [roomID, updateRoomID] = React.useState(null);
 
   if (roomID) {
-    // show lobby
+    // show waiting room
+    console.log(roomID);
   }
 
-  const createRoom = () => {
+  const createRoom = async () => {
     updateIsCreating(true);
-    // TODO: create our room
+    updateRoomID(await LobbyClient.createRoom({ numPlayers: 4 }));
     updateIsCreating(false);
   };
 
@@ -33,15 +34,19 @@ function Lobby(props) {
           Create Room
         </Button>
       </Row>
-      <Col offset={2} span={20}>
+      <Col offset={1} span={22}>
         <List
           style={{
             overflow: 'auto',
-            width: '100%',
+            maxHeight: '65vh',
           }}
           itemLayout="horizontal"
+          bordered
+          rowKey={(room) => room.gameID}
           dataSource={rooms}
-          renderItem={(room) => <LobbyRoomInstance room={room} />}
+          renderItem={(room) => (
+            <LobbyRoomInstance room={room} onJoin={updateRoomID} />
+          )}
         />
       </Col>
     </>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { List, Button } from 'antd';
 
 function LobbyRoomInstance(props) {
-  const { room } = props;
+  const { room, onJoin } = props;
 
   const description = (players) => {
     const playersIn = players.filter((x) => 'name' in x);
@@ -15,12 +15,14 @@ function LobbyRoomInstance(props) {
   };
 
   return (
-    <List.Item key={room.gameID}>
+    <List.Item>
       <List.Item.Meta
         title={`Room ID: ${room.gameID}`}
         description={description(room.players)}
       />
-      <Button type="primary">Join</Button>
+      <Button type="primary" onClick={() => onJoin(room.gameID)}>
+        Join
+      </Button>
     </List.Item>
   );
 }
@@ -35,6 +37,7 @@ LobbyRoomInstance.propTypes = {
     ),
     setupData: PropTypes.object,
   }).isRequired,
+  onJoin: PropTypes.func.isRequired,
 };
 
 export default LobbyRoomInstance;
