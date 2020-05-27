@@ -6,9 +6,16 @@ const instance = axios.create({
 });
 
 const LobbyClient = {
-  getGames: async () => {
-    const response = await instance.get('/games');
-    return response;
+  getRooms: async () => {
+    try {
+      const response = await instance.get('/games/thirteen');
+      return response.data.rooms;
+    } catch (e) {
+      const { response } = e;
+      const { request, ...errorObj } = response;
+      console.log(errorObj);
+      return [];
+    }
   },
 };
 
