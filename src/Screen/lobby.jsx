@@ -22,7 +22,7 @@ function Lobby(props) {
     updateIsJoining(true);
     // TODO: handle a player rejoining a room, say after a page refresh
     updatePlayerToken(await LobbyClient.joinRoom({ roomID: id, playerName }));
-    updateRoomID(roomID);
+    updateRoomID(id);
     updateIsJoining(false);
   };
 

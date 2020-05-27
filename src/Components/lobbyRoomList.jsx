@@ -10,9 +10,17 @@ function LobbyRoomList(props) {
   const [rooms, updateRooms] = React.useState([]);
 
   useInterval(() => {
+    let isMounted = true;
     (async () => {
-      updateRooms(await LobbyClient.getRooms());
+      // don't update the component's state if the
+      // component is no longer mounted, indicated
+      // by the clean up func having been called
+      const r = await LobbyClient.getRooms();
+      if (isMounted) updateRooms(r);
     })();
+    return () => {
+      isMounted = false;
+    };
   }, 2000);
 
   return (
