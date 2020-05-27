@@ -1,29 +1,29 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { List, Space } from 'antd';
 import Play from '../Play';
 import Hand from './hand';
 
+// render history just so
+const label = (player) => `Player ${player}`;
+
+const renderItem = (play) => (
+  <List.Item>
+    <Space>
+      {label(play.player)}
+      {play.cards.length ? <Hand cards={play.cards} /> : <div>Passed</div>}
+    </Space>
+  </List.Item>
+);
+
 const History = (props) => {
   const { log } = props;
 
-  // auto scroll to list footer, whenever there's an update
-  const bottomRef = useRef(null);
-  useEffect(() => {
+  // auto scroll to list footer, whenever there's a new log item
+  const bottomRef = React.useRef(null);
+  React.useEffect(() => {
     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
-  });
-
-  // render history just so
-  const label = (player) => `Player ${player}`;
-
-  const renderItem = (play) => (
-    <List.Item key={play.value}>
-      <Space>
-        {label(play.player)}
-        {play.cards.length ? <Hand cards={play.cards} /> : <div>Passed</div>}
-      </Space>
-    </List.Item>
-  );
+  }, [log]);
 
   return (
     <List
@@ -34,7 +34,7 @@ const History = (props) => {
         width: '100%',
       }}
       dataSource={log}
-      itemLayout="vertical"
+      rowKey={(play) => play.value}
       footer={<div ref={bottomRef} />}
       renderItem={renderItem}
     />

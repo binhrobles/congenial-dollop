@@ -1,31 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, List, Row, Col } from 'antd';
+import { Button, Spin, Row, Col } from 'antd';
 import LobbyClient from '../Http/lobby';
-import LobbyRoomInstance from '../Components/lobbyRoomInstance';
+import LobbyRoomList from '../Components/lobbyRoomList';
+import Foyer from './foyer';
 
+// TODO: probably want to use reducer here
+// TODO: caching
 function Lobby(props) {
   const { playerName } = props;
   const [isCreating, updateIsCreating] = React.useState(false);
-  const [rooms, updateRooms] = React.useState([]);
+  const [isJoining, updateIsJoining] = React.useState(false);
   const [roomID, updateRoomID] = React.useState(null);
+  const [playerToken, updatePlayerToken] = React.useState(null);
 
-  if (roomID) {
-    // show waiting room
-    console.log(roomID);
+  if (roomID && playerToken) {
+    return <Foyer roomID={roomID} playerToken={playerToken} />;
   }
+
+  const joinRoom = async (id) => {
+    updateIsJoining(true);
+    // TODO: handle a player rejoining a room, say after a page refresh
+    updatePlayerToken(await LobbyClient.joinRoom({ roomID: id, playerName }));
+    updateRoomID(roomID);
+    updateIsJoining(false);
+  };
 
   const createRoom = async () => {
     updateIsCreating(true);
-    updateRoomID(await LobbyClient.createRoom({ numPlayers: 4 }));
+    joinRoom(await LobbyClient.createRoom({ numPlayers: 4 }));
     updateIsCreating(false);
   };
 
-  React.useEffect(() => {
-    (async () => {
-      updateRooms(await LobbyClient.getRooms());
-    })();
-  });
+  if (isJoining) {
+    return (
+      <Row align="middle" justify="center">
+        <Spin />
+      </Row>
+    );
+  }
 
   return (
     <>
@@ -35,19 +48,7 @@ function Lobby(props) {
         </Button>
       </Row>
       <Col offset={1} span={22}>
-        <List
-          style={{
-            overflow: 'auto',
-            maxHeight: '65vh',
-          }}
-          itemLayout="horizontal"
-          bordered
-          rowKey={(room) => room.gameID}
-          dataSource={rooms}
-          renderItem={(room) => (
-            <LobbyRoomInstance room={room} onJoin={updateRoomID} />
-          )}
-        />
+        <LobbyRoomList onJoin={joinRoom} />
       </Col>
     </>
   );

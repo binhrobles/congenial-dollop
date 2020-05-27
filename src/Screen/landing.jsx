@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Space, Input } from 'antd';
 import Lobby from './lobby';
 
+// TODO: cache playerName
 function Landing() {
   const [playerName, updatePlayerName] = React.useState(null);
   const [hasEntered, updateHasEntered] = React.useState(false);
