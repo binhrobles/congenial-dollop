@@ -27,6 +27,16 @@ const LobbyClient = {
     }
   },
 
+  getBuddies: async ({ roomID }) => {
+    try {
+      const response = await instance.get(`/games/thirteen/${roomID}`);
+      return response.data.players;
+    } catch (e) {
+      handleError(e);
+      return [];
+    }
+  },
+
   getRooms: async () => {
     try {
       const response = await instance.get('/games/thirteen');

@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Row } from 'antd';
+import FoyerBuddies from '../Components/foyerBuddies';
 
 function Foyer(props) {
+  const { roomID, playerToken } = props;
   return (
-    <Row align="bottom" justify="center" style={{ padding: 10 }}>
-      <Button type="primary">Play</Button>
-    </Row>
+    <>
+      <Row align="top" justify="center" style={{ padding: 30 }}>
+        <FoyerBuddies roomID={roomID} />
+      </Row>
+      <Row align="bottom" justify="center" style={{ padding: 10 }}>
+        <Button type="primary">Play</Button>
+      </Row>
+    </>
   );
 }
 
