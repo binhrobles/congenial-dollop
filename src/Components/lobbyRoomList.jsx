@@ -8,6 +8,7 @@ import useInterval from '../useInterval';
 function LobbyRoomList(props) {
   const { onJoin } = props;
   const [rooms, updateRooms] = React.useState([]);
+  const [isLoading, updateIsLoading] = React.useState(true);
 
   useInterval(() => {
     let isMounted = true;
@@ -16,7 +17,10 @@ function LobbyRoomList(props) {
       // component is no longer mounted, indicated
       // by the clean up func having been called
       const r = await LobbyClient.getRooms();
-      if (isMounted) updateRooms(r);
+      if (isMounted) {
+        updateRooms(r);
+        updateIsLoading(false);
+      }
     })();
     return () => {
       isMounted = false;
@@ -31,6 +35,7 @@ function LobbyRoomList(props) {
       }}
       itemLayout="horizontal"
       bordered
+      loading={isLoading}
       rowKey={(room) => room.gameID}
       dataSource={rooms}
       renderItem={(room) => <LobbyRoomInstance room={room} onJoin={onJoin} />}
