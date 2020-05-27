@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Row } from 'antd';
+import { Button, Row, Spin } from 'antd';
 import { SocketIO } from 'boardgame.io/multiplayer';
 import { Client } from 'boardgame.io/react';
 import FoyerBuddies from '../Components/foyerBuddies';
@@ -18,6 +18,7 @@ function Foyer(props) {
     const ThirteenClient = Client({
       game: Game,
       board: Table,
+      loading: Spin,
       multiplayer: SocketIO({ server: keys.serverUri }),
     });
 

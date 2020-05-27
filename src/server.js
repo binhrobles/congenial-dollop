@@ -1,7 +1,14 @@
-const Server = require('boardgame.io/server').Server;
+const { Server, FlatFile } = require('boardgame.io/server');
 const Game = require('./game').default;
 
-const server = Server({ games: [Game] });
 const port = process.env.PORT || 8000;
+let serverInput = { games: [Game] };
+if (process.env.NODE_ENV === 'development') {
+  serverInput = {
+    ...serverInput,
+    db: new FlatFile({ dir: 'db/instance', logging: true }),
+  };
+}
+const server = Server(serverInput);
 
 server.run(port);

@@ -9,6 +9,7 @@ const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 function FoyerBuddies(props) {
   const { roomID, notifyReady } = props;
   const [buddies, updateBuddies] = React.useState([]);
+  const [isLoading, updateIsLoading] = React.useState(true);
 
   useInterval(() => {
     let isMounted = true;
@@ -19,6 +20,8 @@ function FoyerBuddies(props) {
       const b = await LobbyClient.getBuddies({ roomID });
       if (isMounted) {
         updateBuddies(b);
+        updateIsLoading(false);
+
         const openSeats = b.filter((p) => !('name' in p));
         if (openSeats.length === 0) {
           notifyReady(true);
@@ -33,6 +36,7 @@ function FoyerBuddies(props) {
   return (
     <List
       grid={{ gutter: 16, column: 4 }}
+      loading={isLoading}
       dataSource={buddies}
       renderItem={(bud) => {
         if (bud.name) {
