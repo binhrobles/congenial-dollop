@@ -47,14 +47,14 @@ function PlayerView(props) {
             )}
             <Space>
               {selected.length > 0 ? (
-                <div>
+                <Space>
                   <Button type="primary" onClick={playMove}>
                     Play it!
                   </Button>
                   <Button type="default" onClick={clear}>
                     Clear
                   </Button>
-                </div>
+                </Space>
               ) : (
                 <Popconfirm
                   title="Really?"
