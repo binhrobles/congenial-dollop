@@ -46,6 +46,7 @@ function Lobby(props) {
     updateIsJoining(false);
   };
 
+  // show loading spinner while trying to join a game
   if (isJoining) {
     return (
       <Row align="middle" justify="center">
@@ -60,11 +61,16 @@ function Lobby(props) {
     updateIsCreating(false);
   };
 
+  const exitFoyer = () => {
+    updateRoomID(null);
+  };
+
   if (roomID) {
     return (
       <Foyer
         roomID={roomID}
         player={JSON.parse(sessionStorage.getItem(roomID))}
+        exitFoyer={exitFoyer}
       />
     );
   }

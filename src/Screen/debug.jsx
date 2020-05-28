@@ -4,14 +4,6 @@ import { Client } from 'boardgame.io/react';
 import Game from '../game';
 import Table from './table';
 
-const DebugClient = Client({
-  game: Game,
-  board: Table,
-  numPlayers: 4,
-  multiplayer: Local(),
-  debug: true,
-});
-
 function Debug() {
   const [playerID, updatePlayerID] = React.useState(null);
 
@@ -35,7 +27,19 @@ function Debug() {
     );
   }
 
-  return <DebugClient playerID={playerID} />;
+  const reset = () => {
+    updatePlayerID(null);
+  };
+
+  const DebugClient = Client({
+    game: Game,
+    board: Table,
+    numPlayers: 4,
+    multiplayer: Local(),
+    debug: true,
+  });
+
+  return <DebugClient playerID={playerID} exitGame={reset} />;
 }
 
 export default Debug;

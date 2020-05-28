@@ -9,10 +9,15 @@ import Table from './table';
 import keys from '../keys';
 
 function Foyer(props) {
-  const { roomID, player } = props;
+  const { roomID, player, exitFoyer } = props;
   const { playerID, playerToken } = player;
   const [areReady, updateAreReady] = React.useState(false);
   const [startGame, updateStartGame] = React.useState(false);
+
+  const exitGame = () => {
+    updateStartGame(false);
+    exitFoyer();
+  };
 
   if (startGame) {
     const ThirteenClient = Client({
@@ -27,12 +32,14 @@ function Foyer(props) {
         gameID={roomID}
         playerID={playerID.toString()}
         credentials={playerToken}
+        exitGame={exitGame}
       />
     );
   }
 
   return (
     <>
+      <h2 style={{ padding: 20, textAlign: 'center' }}>Room: {roomID}</h2>
       <Row align="top" justify="center" style={{ padding: 30 }}>
         <FoyerBuddies roomID={roomID} notifyReady={updateAreReady} />
       </Row>
@@ -55,6 +62,7 @@ Foyer.propTypes = {
     playerToken: PropTypes.string.isRequired,
     playerID: PropTypes.string.isRequired,
   }).isRequired,
+  exitFoyer: PropTypes.func.isRequired,
 };
 
 export default Foyer;

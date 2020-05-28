@@ -7,7 +7,7 @@ import PlayerView from '../Components/playerView';
 import History from '../Components/history';
 
 function Table(props) {
-  const { G, ctx, playerID, isActive, moves } = props;
+  const { G, ctx, playerID, isActive, moves, exitGame } = props;
 
   if (ctx.gameover) {
     if (ctx.gameover.winner === playerID) {
@@ -15,7 +15,11 @@ function Table(props) {
         <Result
           status="success"
           title="Wow you did it"
-          extra={<Button type="primary">Back to Lobby</Button>}
+          extra={
+            <Button type="primary" onClick={exitGame}>
+              Back to Lobby
+            </Button>
+          }
         />
       );
     }
@@ -24,7 +28,11 @@ function Table(props) {
       <Result
         status="403"
         title="You're bad!"
-        extra={<Button type="primary">Back to Lobby</Button>}
+        extra={
+          <Button type="primary" onClick={exitGame}>
+            Back to Lobby
+          </Button>
+        }
       />
     );
   }
@@ -70,6 +78,7 @@ Table.propTypes = {
   }).isRequired,
   playerID: PropTypes.string,
   isActive: PropTypes.bool.isRequired,
+  exitGame: PropTypes.func.isRequired,
 };
 
 Table.defaultProps = {
