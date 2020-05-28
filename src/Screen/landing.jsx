@@ -9,13 +9,18 @@ function Landing() {
   );
   const [hasEntered, updateHasEntered] = React.useState(playerName !== '');
 
-  if (hasEntered) {
-    return <Lobby playerName={playerName} />;
-  }
-
   const handleSubmit = () => {
     updateHasEntered(true);
   };
+
+  const logOut = () => {
+    updatePlayerName('');
+    updateHasEntered(false);
+  };
+
+  if (hasEntered) {
+    return <Lobby playerName={playerName} logOut={logOut} />;
+  }
 
   return (
     <form onSubmit={handleSubmit} style={{ textAlign: 'center', padding: 10 }}>

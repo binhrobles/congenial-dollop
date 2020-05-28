@@ -14,9 +14,8 @@ export function setup(ctx) {
   });
 
   // find the player with the 3 of Spades as their low card
-  const has3S = Object.keys(players).filter(
-    (x) => players[x][0].value === 0
-  )[0];
+  const has3S =
+    Object.keys(players).filter((x) => players[x][0].value === 0)[0] || '0';
 
   return {
     lastPlay: null,

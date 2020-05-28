@@ -10,12 +10,12 @@ function Table(props) {
   const { G, ctx, playerID, isActive, moves } = props;
 
   if (ctx.gameover) {
-    if (ctx.gameover.winner === ctx.currentPlayer) {
+    if (ctx.gameover.winner === playerID) {
       return (
         <Result
           status="success"
           title="Wow you did it"
-          extra={<Button type="primary">Play Again</Button>}
+          extra={<Button type="primary">Back to Lobby</Button>}
         />
       );
     }
@@ -24,7 +24,7 @@ function Table(props) {
       <Result
         status="403"
         title="You're bad!"
-        extra={<Button type="primary">Play Again</Button>}
+        extra={<Button type="primary">Back to Lobby</Button>}
       />
     );
   }

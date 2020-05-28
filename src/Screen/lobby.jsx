@@ -4,21 +4,21 @@ import { Button, Spin, Row, Col, message } from 'antd';
 import LobbyClient from '../Http/lobby';
 import LobbyRoomList from '../Components/lobbyRoomList';
 import Foyer from './foyer';
+import useStateWithSessionStorage from '../hooks/useStateWithSessionStorage';
 
 // TODO: probably want to use reducer here
 function Lobby(props) {
-  const { playerName } = props;
+  const { playerName, logOut } = props;
+  const [roomID, updateRoomID] = useStateWithSessionStorage('roomID');
   const [isCreating, updateIsCreating] = React.useState(false);
   const [isJoining, updateIsJoining] = React.useState(false);
-  const [roomID, updateRoomID] = React.useState(null);
-  const [player, updatePlayer] = React.useState(null);
 
-  if (roomID) {
-    return <Foyer roomID={roomID} player={player} />;
+  if (!playerName) {
+    logOut();
   }
 
   // TODO: break into reducer that can be reused b/w here and results page?
-  // ties together `updateLoading`, `updatePlayer`, and `updateRoomID`
+  // ties together `updateLoading` and `updateRoomID`
   // useEffect doing most of this, on `roomID` change
   //    -> will need to null check on first run
   const joinRoom = async (id) => {
@@ -38,7 +38,6 @@ function Lobby(props) {
     }
 
     if (playerDetails) {
-      updatePlayer(playerDetails);
       updateRoomID(id);
     } else {
       message.error('Unable to join room');
@@ -47,17 +46,26 @@ function Lobby(props) {
     updateIsJoining(false);
   };
 
+  if (isJoining) {
+    return (
+      <Row align="middle" justify="center">
+        <Spin />
+      </Row>
+    );
+  }
+
   const createRoom = async () => {
     updateIsCreating(true);
     joinRoom(await LobbyClient.createRoom({ numPlayers: 4 }));
     updateIsCreating(false);
   };
 
-  if (isJoining) {
+  if (roomID) {
     return (
-      <Row align="middle" justify="center">
-        <Spin />
-      </Row>
+      <Foyer
+        roomID={roomID}
+        player={JSON.parse(sessionStorage.getItem(roomID))}
+      />
     );
   }
 
@@ -77,6 +85,7 @@ function Lobby(props) {
 
 Lobby.propTypes = {
   playerName: PropTypes.string.isRequired,
+  logOut: PropTypes.func.isRequired,
 };
 
 export default Lobby;
