@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Row, Spin } from 'antd';
+import { Button, Row, Space, Spin } from 'antd';
 import { SocketIO } from 'boardgame.io/multiplayer';
 import { Client } from 'boardgame.io/react';
 import FoyerBuddies from '../Components/foyerBuddies';
@@ -44,13 +44,16 @@ function Foyer(props) {
         <FoyerBuddies roomID={roomID} notifyReady={updateAreReady} />
       </Row>
       <Row align="bottom" justify="center" style={{ padding: 10 }}>
-        <Button
-          type="primary"
-          disabled={!areReady}
-          onClick={() => updateStartGame(true)}
-        >
-          Play!
-        </Button>
+        <Space>
+          <Button
+            type="primary"
+            disabled={!areReady}
+            onClick={() => updateStartGame(true)}
+          >
+            Play!
+          </Button>
+          <Button onClick={exitFoyer}>Back to Lobby</Button>
+        </Space>
       </Row>
     </>
   );
