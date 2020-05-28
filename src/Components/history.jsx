@@ -8,7 +8,7 @@ import Hand from './hand';
 const label = (player) => `Player ${player}`;
 
 const renderItem = (play) => (
-  <List.Item>
+  <List.Item style={{ justifyContent: 'center' }}>
     <Space>
       {label(play.player)}
       {play.cards.length ? <Hand cards={play.cards} /> : <div>Passed</div>}

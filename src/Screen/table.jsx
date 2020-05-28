@@ -48,8 +48,12 @@ Table.propTypes = {
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
-  playerID: PropTypes.string.isRequired,
+  playerID: PropTypes.string,
   isActive: PropTypes.bool.isRequired,
+};
+
+Table.defaultProps = {
+  playerID: null,
 };
 
 export default Table;

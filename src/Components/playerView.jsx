@@ -37,8 +37,8 @@ function PlayerView(props) {
   // TODO: break into smaller components
   return (
     <>
-      <Row align="center">
-        {isActive ? (
+      {isActive ? (
+        <Row align="center">
           <Space direction="vertical" align="center">
             {selected.length ? (
               <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
@@ -67,10 +67,10 @@ function PlayerView(props) {
               )}
             </Space>
           </Space>
-        ) : (
-          cardPlaceholder
-        )}
-      </Row>
+        </Row>
+      ) : (
+        cardPlaceholder
+      )}
       <Row align="center">{isActive || statusBar}</Row>
       <Divider style={{ margin: '10px 0' }} />
       <Row align="center">
