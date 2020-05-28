@@ -37,7 +37,7 @@ it('should mark winner after playing final card', () => {
     // and p0 should be removed from game
     expect(G.playersInGame).not.toContain('0');
     expect(G.playersInRound).not.toContain('0');
-    expect(G.winOrder).toContain(0);
+    expect(G.winOrder).toContain('0');
 
     // if everyone passes, power goes to p1
     client.moves.Pass(); // p1 passes
@@ -69,7 +69,7 @@ it('should mark second after playing last card', () => {
       lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.D)]),
       playersInGame: ['0', '1', '3'],
       playersInRound: ['1', '3'],
-      winOrder: [2],
+      winOrder: ['2'],
     }),
   };
 
@@ -85,7 +85,7 @@ it('should mark second after playing last card', () => {
   // and p1 should be removed from game
   expect(G.playersInGame).not.toContain('1');
   expect(G.playersInRound).not.toContain('1');
-  expect(G.winOrder).toContain(1);
+  expect(G.winOrder).toContain('1');
 
   // but p3 should be next and be able to beat the lastPlay
   expect(ctx.playOrderPos).toBe(3);

@@ -52,7 +52,7 @@ export function onTurnEnd(G, ctx) {
   // if no more cards, this player is out
   if (G.players[ctx.playOrderPos].length === 0) {
     const winOrder = [...G.winOrder];
-    winOrder.push(ctx.playOrderPos);
+    winOrder.push(ctx.currentPlayer);
 
     const playersInGame = [...G.playersInGame].filter(
       (x) => x !== ctx.currentPlayer
@@ -80,7 +80,6 @@ export function endIf(G) {
 
 export function onGameEnd(G, ctx) {
   // update scores for every player
-  // Need to save and retrieve the game ID from the Lobby call
 }
 
 // Handles turn progression, but only cycles through `G.playersInRound`
@@ -122,8 +121,8 @@ const Game = {
     },
   },
   endIf,
-  // phases: reorder -> play
-  minPlayers: 1,
+  // phases: trade -> play
+  minPlayers: 4,
   maxPlayers: 4,
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Row } from 'antd';
+import { Button, Result, Row } from 'antd';
 import Card from '../Card';
 import Play from '../Play';
 import PlayerView from '../Components/playerView';
@@ -8,6 +8,26 @@ import History from '../Components/history';
 
 function Table(props) {
   const { G, ctx, playerID, isActive, moves } = props;
+
+  if (ctx.gameover) {
+    if (ctx.gameover.winner === ctx.currentPlayer) {
+      return (
+        <Result
+          status="success"
+          title="Wow you did it"
+          extra={<Button type="primary">Play Again</Button>}
+        />
+      );
+    }
+
+    return (
+      <Result
+        status="403"
+        title="You're bad!"
+        extra={<Button type="primary">Play Again</Button>}
+      />
+    );
+  }
 
   return (
     <div style={{ backgroundColor: '#35654d', minHeight: '100vh' }}>
@@ -40,8 +60,9 @@ Table.propTypes = {
     playersInRound: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   ctx: PropTypes.shape({
-    numPlayers: PropTypes.number,
     currentPlayer: PropTypes.string,
+    numPlayers: PropTypes.number,
+    gameover: PropTypes.objectOf(PropTypes.string),
   }).isRequired,
   moves: PropTypes.shape({
     Pass: PropTypes.func,

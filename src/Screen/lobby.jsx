@@ -17,6 +17,10 @@ function Lobby(props) {
     return <Foyer roomID={roomID} player={player} />;
   }
 
+  // TODO: break into reducer that can be reused b/w here and results page?
+  // ties together `updateLoading`, `updatePlayer`, and `updateRoomID`
+  // useEffect doing most of this, on `roomID` change
+  //    -> will need to null check on first run
   const joinRoom = async (id) => {
     updateIsJoining(true);
     // check session storage for pre-existing association
