@@ -19,7 +19,7 @@ function App() {
         <Landing />
       </Layout.Content>
       <Layout.Footer style={{ textAlign: 'center' }}>
-        Tassajara Studios ©2020
+        Tassajara Studios ©2015
       </Layout.Footer>
     </Layout>
   );
