@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row } from 'antd';
-import 'antd/dist/antd.css';
 import Card from '../Card';
 import Play from '../Play';
 import PlayerView from '../Components/playerView';

@@ -1,10 +1,12 @@
 import React from 'react';
 import { Button, Space, Input } from 'antd';
 import Lobby from './lobby';
-import useStateWithLocalStorage from '../hooks/useStateWithLocalStorage';
+import useStateWithSessionStorage from '../hooks/useStateWithSessionStorage';
 
 function Landing() {
-  const [playerName, updatePlayerName] = useStateWithLocalStorage('playerName');
+  const [playerName, updatePlayerName] = useStateWithSessionStorage(
+    'playerName'
+  );
   const [hasEntered, updateHasEntered] = React.useState(playerName !== '');
 
   if (hasEntered) {

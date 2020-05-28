@@ -1,16 +1,16 @@
 // https://github.com/the-road-to-learn-react/react-local-storage
 import React from 'react';
 
-const useStateWithLocalStorage = (localStorageKey) => {
+const useStateWithSessionStorage = (sessionStorageKey) => {
   const [value, setValue] = React.useState(
-    localStorage.getItem(localStorageKey) || ''
+    sessionStorage.getItem(sessionStorageKey) || ''
   );
 
   React.useEffect(() => {
-    localStorage.setItem(localStorageKey, value);
+    sessionStorage.setItem(sessionStorageKey, value);
   }, [value]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return [value, setValue];
 };
 
-export default useStateWithLocalStorage;
+export default useStateWithSessionStorage;
