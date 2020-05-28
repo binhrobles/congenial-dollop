@@ -5,7 +5,14 @@ import Hand from './hand';
 import Card from '../Card';
 
 function PlayerView(props) {
-  const { cards, currentPlayer, playersIn, isActive, moves } = props;
+  const {
+    cards,
+    currentPlayer,
+    playersIn,
+    isActive,
+    moves,
+    playerNames,
+  } = props;
   const [selected, updateSelected] = React.useState([]);
 
   function selectCard(id) {
@@ -27,10 +34,12 @@ function PlayerView(props) {
   }
 
   const statusBar = (
-    <div>
-      Players remaining: {playersIn.join(', ')} Waiting on Player{' '}
-      {currentPlayer}
-    </div>
+    <Space>
+      <div>
+        In: {playersIn.map((id) => playerNames[parseInt(id, 10)]).join(', ')}
+      </div>
+      <div>Waiting on {playerNames[parseInt(currentPlayer, 10)]}</div>
+    </Space>
   );
   const cardPlaceholder = <div style={{ minHeight: 120 }} />;
 
@@ -89,6 +98,11 @@ PlayerView.propTypes = {
     MakeMove: PropTypes.func,
   }).isRequired,
   isActive: PropTypes.bool.isRequired,
+  playerNames: PropTypes.arrayOf(PropTypes.string),
+};
+
+PlayerView.defaultProps = {
+  playerNames: ['Adri', 'Binh', 'Chris', 'Drake'],
 };
 
 export default PlayerView;

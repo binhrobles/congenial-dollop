@@ -7,7 +7,7 @@ import PlayerView from '../Components/playerView';
 import History from '../Components/history';
 
 function Table(props) {
-  const { G, ctx, playerID, isActive, moves, exitGame } = props;
+  const { G, ctx, playerID, isActive, moves, gameMetadata, exitGame } = props;
 
   if (ctx.gameover) {
     if (ctx.gameover.winner === playerID) {
@@ -37,6 +37,8 @@ function Table(props) {
     );
   }
 
+  const playerNames = gameMetadata.map((player) => player.name);
+
   return (
     <div style={{ backgroundColor: '#35654d', minHeight: '100vh' }}>
       <Row
@@ -45,7 +47,7 @@ function Table(props) {
           minHeight: '50vh',
         }}
       >
-        <History log={G.log} />
+        <History log={G.log} playerNames={playerNames} />
       </Row>
       {playerID !== null && (
         <PlayerView
@@ -54,6 +56,7 @@ function Table(props) {
           playersIn={G.playersInRound}
           isActive={isActive}
           moves={moves}
+          playerNames={playerNames}
         />
       )}
     </div>
@@ -76,9 +79,10 @@ Table.propTypes = {
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
-  playerID: PropTypes.string,
+  gameMetadata: PropTypes.any.isRequired,
   isActive: PropTypes.bool.isRequired,
   exitGame: PropTypes.func.isRequired,
+  playerID: PropTypes.string,
 };
 
 Table.defaultProps = {

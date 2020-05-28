@@ -5,30 +5,27 @@ import Play from '../Play';
 import Card from '../Card';
 import Hand from './hand';
 
-// render history just so
-const label = (player) => `Player ${player}`;
-
-const renderItem = (play) => (
-  <List.Item style={{ justifyContent: 'center' }}>
-    <Space>
-      {label(play.player)}
-      {play.cards.length ? (
-        <Hand cards={play.cards.sort(Card.Compare)} />
-      ) : (
-        <div>Passed</div>
-      )}
-    </Space>
-  </List.Item>
-);
-
 const History = (props) => {
-  const { log } = props;
+  const { log, playerNames } = props;
 
   // auto scroll to list footer, whenever there's a new log item
   const bottomRef = React.useRef(null);
   React.useEffect(() => {
     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [log]);
+
+  const renderItem = (play) => (
+    <List.Item style={{ justifyContent: 'center' }}>
+      <Space>
+        {playerNames[parseInt(play.player, 10)]}
+        {play.cards.length ? (
+          <Hand cards={play.cards.sort(Card.Compare)} />
+        ) : (
+          <div>Passed</div>
+        )}
+      </Space>
+    </List.Item>
+  );
 
   return (
     <List
@@ -47,6 +44,11 @@ const History = (props) => {
 
 History.propTypes = {
   log: PropTypes.arrayOf(Play).isRequired,
+  playerNames: PropTypes.arrayOf(PropTypes.string),
+};
+
+History.defaultProps = {
+  playerNames: ['Adri', 'Binh', 'Chris', 'Drake'],
 };
 
 export default History;
