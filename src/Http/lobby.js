@@ -10,7 +10,7 @@ const instance = axios.create({
 function handleError(e) {
   const { response } = e;
   const { request, ...errorObj } = response;
-  console.log(errorObj);
+  console.error(errorObj);
 }
 
 const LobbyClient = {

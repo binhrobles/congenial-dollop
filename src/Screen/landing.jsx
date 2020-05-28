@@ -1,11 +1,23 @@
 import React from 'react';
 import { Button, Space, Input } from 'antd';
 import Lobby from './lobby';
-import useStateWithLocalStorage from '../hooks/useStateWithLocalStorage';
+import AvatarClient from '../Http/avatar';
 
 function Landing() {
-  const [playerName, updatePlayerName] = useStateWithLocalStorage('playerName');
+  const [playerName, updatePlayerName] = React.useState(
+    localStorage.getItem('playerName') || ''
+  );
   const [hasEntered, updateHasEntered] = React.useState(playerName !== null);
+
+  React.useEffect(() => {
+    (async () => {
+      localStorage.setItem('playerName', playerName);
+      localStorage.setItem(
+        'playerAvatar',
+        await AvatarClient.getAvatarForPlayer(playerName)
+      );
+    })();
+  }, [playerName]);
 
   if (hasEntered) {
     return <Lobby playerName={playerName} />;

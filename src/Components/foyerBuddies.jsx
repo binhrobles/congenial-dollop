@@ -43,6 +43,7 @@ function FoyerBuddies(props) {
           return (
             <Avatar
               size={64}
+              src={`https://api.adorable.io/avatars/65/${bud.name}.png`}
               style={{
                 backgroundColor: ColorList[bud.id],
                 verticalAlign: 'middle',
