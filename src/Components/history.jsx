@@ -34,7 +34,6 @@ const History = (props) => {
         width: '100%',
       }}
       dataSource={log}
-      rowKey={(play) => play.value}
       footer={<div ref={bottomRef} />}
       renderItem={renderItem}
     />

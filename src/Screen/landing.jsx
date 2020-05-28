@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button, Space, Input } from 'antd';
 import Lobby from './lobby';
+import useStateWithLocalStorage from '../hooks/useStateWithLocalStorage';
 
-// TODO: cache playerName
 function Landing() {
-  const [playerName, updatePlayerName] = React.useState(null);
-  const [hasEntered, updateHasEntered] = React.useState(false);
+  const [playerName, updatePlayerName] = useStateWithLocalStorage('playerName');
+  const [hasEntered, updateHasEntered] = React.useState(playerName !== null);
 
   if (hasEntered) {
     return <Lobby playerName={playerName} />;

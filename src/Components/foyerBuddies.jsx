@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Avatar, List } from 'antd';
 import LobbyClient from '../Http/lobby';
-import useInterval from '../useInterval';
+import useInterval from '../hooks/useInterval';
 
 const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 

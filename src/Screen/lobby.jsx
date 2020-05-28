@@ -6,13 +6,12 @@ import LobbyRoomList from '../Components/lobbyRoomList';
 import Foyer from './foyer';
 
 // TODO: probably want to use reducer here
-// TODO: caching
 function Lobby(props) {
   const { playerName } = props;
   const [isCreating, updateIsCreating] = React.useState(false);
   const [isJoining, updateIsJoining] = React.useState(false);
   const [roomID, updateRoomID] = React.useState(null);
-  const [player, updatePlayer] = React.useState({ playerName });
+  const [player, updatePlayer] = React.useState(null);
 
   if (roomID) {
     return <Foyer roomID={roomID} player={player} />;
@@ -20,13 +19,22 @@ function Lobby(props) {
 
   const joinRoom = async (id) => {
     updateIsJoining(true);
-    // TODO: handle a player rejoining a room, say after a page refresh
-    const playerDetails = await LobbyClient.joinRoom({
-      roomID: id,
-      playerName,
-    });
-    updatePlayer((p) => ({ ...p, ...playerDetails }));
+    // check session storage for pre-existing association
+    let playerDetails = JSON.parse(sessionStorage.getItem(id));
+
+    if (!playerDetails) {
+      playerDetails = await LobbyClient.joinRoom({
+        roomID: id,
+        playerName,
+      });
+
+      // store room-player association in browser session
+      sessionStorage.setItem(id, JSON.stringify(playerDetails));
+    }
+
+    updatePlayer(playerDetails);
     updateRoomID(id);
+
     updateIsJoining(false);
   };
 
