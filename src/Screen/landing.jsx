@@ -5,7 +5,7 @@ import useStateWithLocalStorage from '../hooks/useStateWithLocalStorage';
 
 function Landing() {
   const [playerName, updatePlayerName] = useStateWithLocalStorage('playerName');
-  const [hasEntered, updateHasEntered] = React.useState(playerName !== null);
+  const [hasEntered, updateHasEntered] = React.useState(playerName !== '');
 
   if (hasEntered) {
     return <Lobby playerName={playerName} />;

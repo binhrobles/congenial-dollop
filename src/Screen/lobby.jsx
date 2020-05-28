@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Spin, Row, Col } from 'antd';
+import { Button, Spin, Row, Col, message } from 'antd';
 import LobbyClient from '../Http/lobby';
 import LobbyRoomList from '../Components/lobbyRoomList';
 import Foyer from './foyer';
@@ -23,6 +23,7 @@ function Lobby(props) {
     let playerDetails = JSON.parse(sessionStorage.getItem(id));
 
     if (!playerDetails) {
+      // if no association existed, attempt to join the rrom
       playerDetails = await LobbyClient.joinRoom({
         roomID: id,
         playerName,
@@ -32,8 +33,12 @@ function Lobby(props) {
       sessionStorage.setItem(id, JSON.stringify(playerDetails));
     }
 
-    updatePlayer(playerDetails);
-    updateRoomID(id);
+    if (playerDetails) {
+      updatePlayer(playerDetails);
+      updateRoomID(id);
+    } else {
+      message.error('Unable to join room');
+    }
 
     updateIsJoining(false);
   };
