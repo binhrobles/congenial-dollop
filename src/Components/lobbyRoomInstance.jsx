@@ -20,11 +20,7 @@ function LobbyRoomInstance(props) {
         title={`Room ID: ${room.gameID}`}
         description={description()}
       />
-      <Button
-        type="primary"
-        disabled={playersIn.length === 4}
-        onClick={() => onJoin(room.gameID)}
-      >
+      <Button type="primary" onClick={() => onJoin(room.gameID)}>
         Join
       </Button>
     </List.Item>
