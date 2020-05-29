@@ -1,31 +1,32 @@
 import React from 'react';
 import { Button, Space, Input } from 'antd';
 import Lobby from './lobby';
-import AvatarClient from '../Http/avatar';
+import LobbyClient from '../Http/lobby';
+import useStateWithSessionStorage from '../hooks/useStateWithSessionStorage';
 
 function Landing() {
-  const [playerName, updatePlayerName] = React.useState(
-    localStorage.getItem('playerName') || ''
+  const [playerName, updatePlayerName] = useStateWithSessionStorage(
+    'playerName'
   );
-  const [hasEntered, updateHasEntered] = React.useState(playerName !== null);
+  const [hasEntered, updateHasEntered] = React.useState(playerName !== '');
 
   React.useEffect(() => {
-    (async () => {
-      localStorage.setItem('playerName', playerName);
-      localStorage.setItem(
-        'playerAvatar',
-        await AvatarClient.getAvatarForPlayer(playerName)
-      );
-    })();
-  }, [playerName]);
-
-  if (hasEntered) {
-    return <Lobby playerName={playerName} />;
-  }
+    // wake up Heroku app
+    LobbyClient.ping();
+  }, []);
 
   const handleSubmit = () => {
     updateHasEntered(true);
   };
+
+  const logOut = () => {
+    updatePlayerName('');
+    updateHasEntered(false);
+  };
+
+  if (hasEntered) {
+    return <Lobby playerName={playerName} logOut={logOut} />;
+  }
 
   return (
     <form onSubmit={handleSubmit} style={{ textAlign: 'center', padding: 10 }}>

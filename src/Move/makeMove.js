@@ -14,24 +14,32 @@ export function getCardsFromIds(hand, ids) {
   return cards;
 }
 
-export function standardMove(lastPlay, cards) {
-  if (!Play.MatchesCombo(lastPlay, cards)) {
+export function tryChop(lastPlayLength, attemptedCards) {
+  const attemptedCombo = Play.DetermineCombo(attemptedCards);
+
+  if (
+    (lastPlayLength === 1 && attemptedCombo === COMBO.QUAD) || // if single and beating with a quad
+    ((lastPlayLength + 2) * 2 === attemptedCards.length && // or if beating with a bomb of adequate length
+      attemptedCombo === COMBO.BOMB)
+  ) {
+    return new Play(attemptedCombo, attemptedCards);
+  }
+
+  return INVALID_MOVE;
+}
+
+export function tryStandardMove(lastPlay, attemptedCards) {
+  if (!Play.MatchesCombo(lastPlay, attemptedCards)) {
     // generally, if this play isn't of the same combo type, we can disqualify,
-    // but in the case of SINGLE twos being chopped, we can switch to BOMBs or QUADs
-    if (
-      lastPlay.combo === COMBO.SINGLE &&
-      lastPlay.cards[0].rank === RANK.TWO
-    ) {
-      const attemptedCombo = Play.DetermineCombo(cards);
-      if (attemptedCombo === COMBO.QUAD || attemptedCombo === COMBO.BOMB) {
-        return new Play(attemptedCombo, cards);
-      }
+    // but in the case of twos being chopped, we can switch to BOMBs or QUADs
+    if (lastPlay.cards[0].rank === RANK.TWO) {
+      return tryChop(lastPlay.cards.length, attemptedCards);
     }
 
     return INVALID_MOVE;
   }
 
-  const attemptedPlay = new Play(lastPlay.combo, cards);
+  const attemptedPlay = new Play(lastPlay.combo, attemptedCards);
 
   if (lastPlay.value > attemptedPlay.value) {
     return INVALID_MOVE;
@@ -40,7 +48,7 @@ export function standardMove(lastPlay, cards) {
   return attemptedPlay;
 }
 
-export function openingMove(cards) {
+export function tryOpeningMove(cards) {
   const combo = Play.DetermineCombo(cards);
 
   if (combo === COMBO.INVALID || combo === COMBO.BOMB) {
@@ -59,8 +67,8 @@ export default function MakeMove(G, ctx, cardIds) {
   const cards = getCardsFromIds(G.players[ctx.playOrderPos], cardIds);
 
   const currentPlay = G.lastPlay
-    ? standardMove(G.lastPlay, cards)
-    : openingMove(cards);
+    ? tryStandardMove(G.lastPlay, cards)
+    : tryOpeningMove(cards);
   if (currentPlay === INVALID_MOVE) return INVALID_MOVE;
   currentPlay.player = ctx.currentPlayer;
 
@@ -74,10 +82,14 @@ export default function MakeMove(G, ctx, cardIds) {
       newPlayers[ctx.playOrderPos].splice(id, 1);
     });
 
+  // add remaining cards to log
+  currentPlay.cardsRemaining = newPlayers[ctx.playOrderPos].length;
+
   ctx.events.endTurn();
 
   // store move into game log
-  const log = [...G.log].concat(currentPlay);
+  // TODO: the log object should be a standard object
+  const log = G.log.concat({ event: 'move', play: currentPlay });
 
   return {
     ...G,

@@ -14,9 +14,8 @@ export function setup(ctx) {
   });
 
   // find the player with the 3 of Spades as their low card
-  const has3S = Object.keys(players).filter(
-    (x) => players[x][0].value === 0
-  )[0];
+  const has3S =
+    Object.keys(players).filter((x) => players[x][0].value === 0)[0] || '0';
 
   return {
     lastPlay: null,
@@ -39,8 +38,13 @@ export function onBegin(G, ctx) {
       G.lastPlay.player === ctx.currentPlayer) ||
     G.playersInRound.length === 0
   ) {
+    const log = G.log.concat({
+      event: 'power',
+      player: ctx.currentPlayer,
+    });
     return {
       ...G,
+      log,
       lastPlay: null,
       playersInRound: [...G.playersInGame],
     };
@@ -52,7 +56,7 @@ export function onTurnEnd(G, ctx) {
   // if no more cards, this player is out
   if (G.players[ctx.playOrderPos].length === 0) {
     const winOrder = [...G.winOrder];
-    winOrder.push(ctx.playOrderPos);
+    winOrder.push(ctx.currentPlayer);
 
     const playersInGame = [...G.playersInGame].filter(
       (x) => x !== ctx.currentPlayer
@@ -62,8 +66,14 @@ export function onTurnEnd(G, ctx) {
       (x) => x !== ctx.currentPlayer
     );
 
+    const log = G.log.concat({
+      event: 'win',
+      player: ctx.currentPlayer,
+    });
+
     return {
       ...G,
+      log,
       playersInGame,
       playersInRound,
       winOrder,
@@ -80,7 +90,6 @@ export function endIf(G) {
 
 export function onGameEnd(G, ctx) {
   // update scores for every player
-  // Need to save and retrieve the game ID from the Lobby call
 }
 
 // Handles turn progression, but only cycles through `G.playersInRound`
@@ -122,8 +131,8 @@ const Game = {
     },
   },
   endIf,
-  // phases: reorder -> play
-  minPlayers: 1,
+  // phases: trade -> play
+  minPlayers: 4,
   maxPlayers: 4,
 };
 

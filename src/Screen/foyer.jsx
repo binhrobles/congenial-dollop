@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Row, Spin } from 'antd';
+import { Button, Row, Space, Spin } from 'antd';
 import { SocketIO } from 'boardgame.io/multiplayer';
 import { Client } from 'boardgame.io/react';
 import FoyerBuddies from '../Components/foyerBuddies';
@@ -9,10 +9,15 @@ import Table from './table';
 import keys from '../keys';
 
 function Foyer(props) {
-  const { roomID, player } = props;
+  const { roomID, player, exitFoyer } = props;
   const { playerID, playerToken } = player;
   const [areReady, updateAreReady] = React.useState(false);
   const [startGame, updateStartGame] = React.useState(false);
+
+  const exitGame = () => {
+    updateStartGame(false);
+    exitFoyer();
+  };
 
   if (startGame) {
     const ThirteenClient = Client({
@@ -27,23 +32,28 @@ function Foyer(props) {
         gameID={roomID}
         playerID={playerID.toString()}
         credentials={playerToken}
+        exitGame={exitGame}
       />
     );
   }
 
   return (
     <>
+      <h2 style={{ padding: 20, textAlign: 'center' }}>Room: {roomID}</h2>
       <Row align="top" justify="center" style={{ padding: 30 }}>
         <FoyerBuddies roomID={roomID} notifyReady={updateAreReady} />
       </Row>
       <Row align="bottom" justify="center" style={{ padding: 10 }}>
-        <Button
-          type="primary"
-          disabled={!areReady}
-          onClick={() => updateStartGame(true)}
-        >
-          Play!
-        </Button>
+        <Space>
+          <Button
+            type="primary"
+            disabled={!areReady}
+            onClick={() => updateStartGame(true)}
+          >
+            Play!
+          </Button>
+          <Button onClick={exitFoyer}>Back to Lobby</Button>
+        </Space>
       </Row>
     </>
   );
@@ -55,6 +65,7 @@ Foyer.propTypes = {
     playerToken: PropTypes.string.isRequired,
     playerID: PropTypes.string.isRequired,
   }).isRequired,
+  exitFoyer: PropTypes.func.isRequired,
 };
 
 export default Foyer;

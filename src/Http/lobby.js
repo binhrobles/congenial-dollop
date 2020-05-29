@@ -71,6 +71,15 @@ const LobbyClient = {
       return null;
     }
   },
+
+  ping: async () => {
+    try {
+      await instance.get();
+    } catch (e) {
+      // toss error because there's no root route
+      console.log('pinged server');
+    }
+  },
 };
 
 export default LobbyClient;

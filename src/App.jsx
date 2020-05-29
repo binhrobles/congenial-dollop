@@ -18,9 +18,6 @@ function App() {
       <Layout.Content>
         <Landing />
       </Layout.Content>
-      <Layout.Footer style={{ textAlign: 'center' }}>
-        Tassajara Studios ©2015
-      </Layout.Footer>
     </Layout>
   );
 }

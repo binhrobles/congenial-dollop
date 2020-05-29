@@ -1,5 +1,5 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import MakeMove from './makeMove';
+import MakeMove, { tryStandardMove } from './makeMove';
 import Card from '../Card';
 import { RANK, SUIT } from '../Card/constants';
 import Play from '../Play';
@@ -225,4 +225,45 @@ it('should allow a bomb to beat a two', () => {
   expect(newG.players[0].length).toBe(0);
   expect(newG.lastPlay).not.toBe(G.lastPlay);
   expect(newG.lastPlay.combo).toBe(COMBO.BOMB);
+});
+
+it('should allow a 8 bomb to beat a pair of twos', () => {
+  const lastPlay = new Play(COMBO.PAIR, [
+    new Card(RANK.TWO, SUIT.H),
+    new Card(RANK.TWO, SUIT.D),
+  ]);
+  const attemptedCards = [
+    new Card(RANK.FOUR, SUIT.H),
+    new Card(RANK.FOUR, SUIT.D),
+    new Card(RANK.FIVE, SUIT.S),
+    new Card(RANK.FIVE, SUIT.C),
+    new Card(RANK.SIX, SUIT.H),
+    new Card(RANK.SIX, SUIT.C),
+    new Card(RANK.SEVEN, SUIT.H),
+    new Card(RANK.SEVEN, SUIT.D),
+  ];
+
+  const attemptedPlay = tryStandardMove(lastPlay, attemptedCards);
+
+  expect(attemptedPlay).not.toEqual(INVALID_MOVE);
+  expect(attemptedPlay.combo).toBe(COMBO.BOMB);
+});
+
+it('should not allow a 6 bomb to beat a pair of twos', () => {
+  const lastPlay = new Play(COMBO.PAIR, [
+    new Card(RANK.TWO, SUIT.H),
+    new Card(RANK.TWO, SUIT.D),
+  ]);
+  const attemptedCards = [
+    new Card(RANK.FIVE, SUIT.S),
+    new Card(RANK.FIVE, SUIT.C),
+    new Card(RANK.SIX, SUIT.H),
+    new Card(RANK.SIX, SUIT.C),
+    new Card(RANK.SEVEN, SUIT.H),
+    new Card(RANK.SEVEN, SUIT.D),
+  ];
+
+  const attemptedPlay = tryStandardMove(lastPlay, attemptedCards);
+
+  expect(attemptedPlay).toEqual(INVALID_MOVE);
 });

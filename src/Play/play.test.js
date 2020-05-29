@@ -1,6 +1,6 @@
 import Card from '../Card';
 import { RANK, SUIT } from '../Card/constants';
-import Play, { isRun } from './index';
+import Play, { isRun, isBomb } from './index';
 import { COMBO } from './constants';
 
 const H2 = new Card(RANK.TWO, SUIT.H);
@@ -69,4 +69,41 @@ it('should verify valid runs', () => {
   expect(isRun(R345)).toBeTruthy();
   expect(isRun(RJQKA)).toBeTruthy();
   expect(isRun(R346)).toBeFalsy();
+});
+
+it('should verify bombs', () => {
+  const B345 = [
+    new Card(RANK.FIVE, SUIT.S),
+    new Card(RANK.FIVE, SUIT.H),
+    new Card(RANK.FOUR, SUIT.H),
+    new Card(RANK.FOUR, SUIT.D),
+    new Card(RANK.THREE, SUIT.C),
+    new Card(RANK.THREE, SUIT.H),
+  ];
+  const B3456 = [
+    new Card(RANK.FIVE, SUIT.S),
+    new Card(RANK.FIVE, SUIT.H),
+    new Card(RANK.FOUR, SUIT.H),
+    new Card(RANK.FOUR, SUIT.D),
+    new Card(RANK.THREE, SUIT.C),
+    new Card(RANK.THREE, SUIT.H),
+    new Card(RANK.SIX, SUIT.C),
+    new Card(RANK.SIX, SUIT.D),
+  ];
+  const B10JQKA = [
+    new Card(RANK.TEN, SUIT.S),
+    new Card(RANK.TEN, SUIT.H),
+    new Card(RANK.JACK, SUIT.H),
+    new Card(RANK.JACK, SUIT.D),
+    new Card(RANK.QUEEN, SUIT.C),
+    new Card(RANK.QUEEN, SUIT.H),
+    new Card(RANK.KING, SUIT.C),
+    new Card(RANK.KING, SUIT.D),
+    new Card(RANK.ACE, SUIT.C),
+    new Card(RANK.ACE, SUIT.H),
+  ];
+
+  expect(isBomb(B345)).toBeTruthy();
+  expect(isBomb(B3456)).toBeTruthy();
+  expect(isBomb(B10JQKA)).toBeTruthy();
 });
