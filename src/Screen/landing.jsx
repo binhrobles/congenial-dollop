@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Space, Input } from 'antd';
+import Avatar from '../Components/avatar';
 import Lobby from './lobby';
 import LobbyClient from '../Http/lobby';
 import useStateWithSessionStorage from '../hooks/useStateWithSessionStorage';
@@ -30,9 +31,8 @@ function Landing() {
 
   return (
     <>
-      <img
-        src={`https://api.adorable.io/avatars/100/${playerName}.png`}
-        alt={playerName}
+      <Avatar
+        playerName={playerName}
         style={{
           borderRadius: '30%',
           padding: 10,
