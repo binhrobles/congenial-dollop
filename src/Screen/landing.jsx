@@ -29,19 +29,36 @@ function Landing() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ textAlign: 'center', padding: 10 }}>
-      <Space>
-        <Input
-          size="large"
-          placeholder="Who are you?"
-          value={playerName}
-          onChange={(event) => updatePlayerName(event.target.value)}
-        />
-        <Button type="primary" htmlType="submit">
-          Enter
-        </Button>
-      </Space>
-    </form>
+    <>
+      <img
+        src={`https://api.adorable.io/avatars/100/${playerName}.png`}
+        alt={playerName}
+        style={{
+          borderRadius: '30%',
+          padding: 10,
+          width: '20vw',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          display: 'block',
+        }}
+      />
+      <form
+        onSubmit={handleSubmit}
+        style={{ textAlign: 'center', padding: 10 }}
+      >
+        <Space>
+          <Input
+            size="large"
+            placeholder="Who are you?"
+            value={playerName}
+            onChange={(event) => updatePlayerName(event.target.value)}
+          />
+          <Button type="primary" htmlType="submit">
+            Enter
+          </Button>
+        </Space>
+      </form>
+    </>
   );
 }
 
