@@ -43,13 +43,22 @@ export function isRun(cards) {
 export function isBomb(cards) {
   const sorted = cards.sort(Card.Compare);
   if (sorted.length < 6) return false;
+  let bombing = true;
 
-  return (
-    isPair(sorted.slice(0, 2)) &&
-    isPair(sorted.slice(2, 4)) &&
-    isPair(sorted.slice(4, 6)) &&
-    isRun([sorted[0], sorted[2], sorted[4]])
-  );
+  // ensure pairs
+  for (let i = 0; i < sorted.length - 1; i += 2) {
+    if (!isPair(sorted.slice(i, i + 2))) {
+      bombing = false;
+      break;
+    }
+  }
+
+  // ensure consecutive pairs
+  if (bombing) {
+    bombing = isRun(sorted.filter((_, idx) => idx % 2));
+  }
+
+  return bombing;
 }
 
 export default class Play {
@@ -84,7 +93,7 @@ export default class Play {
       case COMBO.RUN:
         return attempt.length === play.cards.length && isRun(attempt);
       case COMBO.BOMB:
-        return isBomb(attempt);
+        return attempt.length === play.cards.length && isBomb(attempt);
       default:
         throw new Error(COMBO.INVALID);
     }
