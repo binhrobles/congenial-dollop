@@ -38,7 +38,7 @@ export function onBegin(G, ctx) {
       G.lastPlay.player === ctx.currentPlayer) ||
     G.playersInRound.length === 0
   ) {
-    const log = G.log({
+    const log = G.log.concat({
       event: 'power',
       player: ctx.currentPlayer,
     });
