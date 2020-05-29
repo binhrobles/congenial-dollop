@@ -79,7 +79,7 @@ Table.propTypes = {
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
-  gameMetadata: PropTypes.any.isRequired,
+  gameMetadata: PropTypes.any,
   isActive: PropTypes.bool.isRequired,
   exitGame: PropTypes.func.isRequired,
   playerID: PropTypes.string,
@@ -87,6 +87,12 @@ Table.propTypes = {
 
 Table.defaultProps = {
   playerID: null,
+  gameMetadata: [
+    { name: 'Adri' },
+    { name: 'Binh' },
+    { name: 'Chris' },
+    { name: 'Drake' },
+  ],
 };
 
 export default Table;

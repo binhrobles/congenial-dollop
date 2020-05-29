@@ -38,8 +38,13 @@ export function onBegin(G, ctx) {
       G.lastPlay.player === ctx.currentPlayer) ||
     G.playersInRound.length === 0
   ) {
+    const log = G.log({
+      event: 'power',
+      player: ctx.currentPlayer,
+    });
     return {
       ...G,
+      log,
       lastPlay: null,
       playersInRound: [...G.playersInGame],
     };
@@ -61,8 +66,14 @@ export function onTurnEnd(G, ctx) {
       (x) => x !== ctx.currentPlayer
     );
 
+    const log = G.log.concat({
+      event: 'win',
+      player: ctx.currentPlayer,
+    });
+
     return {
       ...G,
+      log,
       playersInGame,
       playersInRound,
       winOrder,

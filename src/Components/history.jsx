@@ -14,15 +14,36 @@ const History = (props) => {
     bottomRef.current.scrollIntoView({ behavior: 'smooth' });
   }, [log]);
 
+  const renderLogItem = (entry) => {
+    switch (entry.event) {
+      case 'move':
+        return (
+          <>
+            <Hand cards={entry.play.cards.sort(Card.Compare)} />
+            Remaining: {entry.play.cardsRemaining}
+          </>
+        );
+      case 'pass':
+        return (
+          <>
+            <div>Passed</div>
+            Remaining: {entry.cardsRemaining}
+          </>
+        );
+      case 'power':
+        return <>has power</>;
+      case 'win':
+        return <>is out! 🎆</>;
+      default:
+        return <></>;
+    }
+  };
+
   const renderItem = (play) => (
     <List.Item style={{ justifyContent: 'center' }}>
       <Space>
         {playerNames[parseInt(play.player, 10)]}
-        {play.cards.length ? (
-          <Hand cards={play.cards.sort(Card.Compare)} />
-        ) : (
-          <div>Passed</div>
-        )}
+        {renderLogItem(play)}
       </Space>
     </List.Item>
   );

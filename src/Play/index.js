@@ -57,6 +57,7 @@ export default class Play {
     this.cards = cards.sort(Card.Compare).reverse(); // cards[0] now holds highest value card
     this.combo = combo;
     this.player = player;
+    // TODO: this.remaining
     this.value = this.cards[0].value;
   }
 

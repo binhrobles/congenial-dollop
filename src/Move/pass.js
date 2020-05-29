@@ -10,10 +10,15 @@ export default function Pass(G, ctx) {
     (x) => x !== ctx.currentPlayer
   );
 
-  ctx.events.endTurn(); // allow the default `next` function to determine next player
-
   // store move into game log
-  const log = G.log.concat({ player: ctx.currentPlayer, cards: [] });
+  const log = G.log.concat({
+    event: 'pass',
+    player: ctx.currentPlayer,
+    cards: [],
+    cardsRemaining: G.players[ctx.currentPlayer].length,
+  });
+
+  ctx.events.endTurn(); // allow the default `next` function to determine next player
 
   return {
     ...G,

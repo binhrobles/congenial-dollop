@@ -74,10 +74,14 @@ export default function MakeMove(G, ctx, cardIds) {
       newPlayers[ctx.playOrderPos].splice(id, 1);
     });
 
+  // add remaining cards to log
+  currentPlay.cardsRemaining = newPlayers[ctx.playOrderPos].length;
+
   ctx.events.endTurn();
 
   // store move into game log
-  const log = G.log.concat(currentPlay);
+  // TODO: the log object should be a standard object
+  const log = G.log.concat({ event: 'move', play: currentPlay });
 
   return {
     ...G,
