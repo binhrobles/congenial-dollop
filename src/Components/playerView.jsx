@@ -69,7 +69,7 @@ function PlayerView(props) {
                   title="Really?"
                   okText="Really."
                   cancelText="No"
-                  onConfirm={moves.Pass}
+                  onConfirm={() => moves.Pass()}
                 >
                   <Button type="default">Pass</Button>
                 </Popconfirm>
