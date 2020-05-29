@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Space, Input } from 'antd';
 import Lobby from './lobby';
+import LobbyClient from '../Http/lobby';
 import useStateWithSessionStorage from '../hooks/useStateWithSessionStorage';
 
 function Landing() {
@@ -8,6 +9,11 @@ function Landing() {
     'playerName'
   );
   const [hasEntered, updateHasEntered] = React.useState(playerName !== '');
+
+  React.useEffect(() => {
+    // wake up Heroku app
+    LobbyClient.ping();
+  }, []);
 
   const handleSubmit = () => {
     updateHasEntered(true);
