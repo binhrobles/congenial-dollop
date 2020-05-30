@@ -35,7 +35,7 @@ function History(props) {
   };
 
   const renderItem = (entry) => (
-    <List.Item style={{ justifyContent: 'center' }}>
+    <List.Item style={{ justifyContent: 'center', color: 'white' }}>
       <Space
         style={{
           display: 'flex',
