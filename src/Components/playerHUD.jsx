@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Avatar from './avatar';
 
 function PlayerHUD(props) {
   const { currentPlayer, playersIn, playerNames } = props;
 
-  const renderPlayerStatus = (player) => {};
+  // const renderPlayerStatus = (player) => {
+  //   return (
+  //     <Avatar playerName=
+  //   );
+  // };
 
   // const statusBar = (
   //   <Space>
