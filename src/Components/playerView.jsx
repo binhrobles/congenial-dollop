@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Row } from 'antd';
+import { INVALID_MOVE } from 'boardgame.io/core';
+import { Divider, Row, message } from 'antd';
+import { tryStandardMove, tryOpeningMove } from '../Move/makeMove';
 import Card from '../Card';
 import Hand from './hand';
 import PlayerOptions from './playerOptions';
@@ -9,12 +11,13 @@ import PlayerHUD from './playerHUD';
 function PlayerView(props) {
   const {
     cards,
-    playerID,
     currentPlayer,
-    playersIn,
     isActive,
+    lastPlay,
     moves,
+    playerID,
     playerNames,
+    playersIn,
   } = props;
   const [selected, updateSelected] = React.useState([]);
   const playerCards = cards[playerID];
@@ -27,12 +30,20 @@ function PlayerView(props) {
     updateSelected([]);
   }
 
-  // should only return IDs
   function playMove() {
-    moves.MakeMove(selected);
+    // first dry run the move for validation
+    const selectedCards = playerCards.filter((_, idx) =>
+      selected.includes(idx)
+    );
+    const attempt = lastPlay
+      ? tryStandardMove(lastPlay, selectedCards)
+      : tryOpeningMove(selectedCards);
 
-    // TODO: we don't get feedback on the result of the move: https://github.com/nicolodavis/boardgame.io/issues/592
-    // so check if we're still active, or something, implying the move didn't fire
+    if (attempt === INVALID_MOVE) {
+      message.error("You can't do that");
+    } else {
+      moves.MakeMove(selected);
+    }
 
     clear();
   }
@@ -58,6 +69,7 @@ function PlayerView(props) {
         <Row align="center" style={{ padding: 10 }}>
           <PlayerOptions
             selected={selected}
+            lastPlay={lastPlay}
             playMove={playMove}
             pass={() => moves.Pass()}
             clear={clear}
@@ -74,14 +86,15 @@ function PlayerView(props) {
 
 PlayerView.propTypes = {
   cards: PropTypes.objectOf(PropTypes.arrayOf(Card)).isRequired,
-  playerID: PropTypes.number.isRequired,
   currentPlayer: PropTypes.string.isRequired,
-  playersIn: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isActive: PropTypes.bool.isRequired,
+  lastPlay: PropTypes.instanceOf(Card).isRequired,
   moves: PropTypes.shape({
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
-  isActive: PropTypes.bool.isRequired,
+  playerID: PropTypes.number.isRequired,
+  playersIn: PropTypes.arrayOf(PropTypes.string).isRequired,
   playerNames: PropTypes.arrayOf(PropTypes.string),
 };
 

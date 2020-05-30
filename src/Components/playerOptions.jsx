@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Space, Popconfirm } from 'antd';
 import Card from '../Card';
+import Play from '../Play';
 
 function PlayerOptions(props) {
-  const { selected, playMove, pass, clear } = props;
+  const { selected, lastPlay, playMove, pass, clear } = props;
 
   if (selected.length > 0) {
     return (
@@ -19,23 +20,28 @@ function PlayerOptions(props) {
     );
   }
 
-  return (
-    <Popconfirm
-      title="Really?"
-      okText="Really."
-      cancelText="No"
-      onConfirm={pass}
-    >
-      <Button type="default">Pass</Button>
-    </Popconfirm>
-  );
+  if (lastPlay) {
+    return (
+      <Popconfirm
+        title="Really?"
+        okText="Really."
+        cancelText="No"
+        onConfirm={pass}
+      >
+        <Button type="default">Pass</Button>
+      </Popconfirm>
+    );
+  }
+
+  return <></>;
 }
 
 PlayerOptions.propTypes = {
-  selected: PropTypes.arrayOf(Card).isRequired,
-  playMove: PropTypes.func.isRequired,
-  pass: PropTypes.func.isRequired,
   clear: PropTypes.func.isRequired,
+  lastPlay: PropTypes.instanceOf(Play).isRequired,
+  pass: PropTypes.func.isRequired,
+  playMove: PropTypes.func.isRequired,
+  selected: PropTypes.arrayOf(Card).isRequired,
 };
 
 export default PlayerOptions;

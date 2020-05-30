@@ -51,6 +51,7 @@ function Table(props) {
       </Row>
       {playerID !== null && (
         <PlayerView
+          lastPlay={G.lastPlay}
           cards={G.players}
           playerID={playerID}
           currentPlayer={ctx.currentPlayer}
