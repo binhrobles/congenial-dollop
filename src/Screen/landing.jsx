@@ -36,7 +36,7 @@ function Landing() {
         style={{
           borderRadius: '30%',
           padding: 10,
-          width: '20vw',
+          width: '15vw',
           marginLeft: 'auto',
           marginRight: 'auto',
           display: 'block',
