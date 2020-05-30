@@ -40,7 +40,7 @@ function Foyer(props) {
   return (
     <>
       <h2 style={{ padding: 10, textAlign: 'center' }}>Room: {roomID}</h2>
-      <Row align="top" justify="center" style={{ padding: 30 }}>
+      <Row align="top" justify="center">
         <FoyerBuddies roomID={roomID} notifyReady={updateAreReady} />
       </Row>
       <Row align="bottom" justify="center" style={{ padding: 10 }}>

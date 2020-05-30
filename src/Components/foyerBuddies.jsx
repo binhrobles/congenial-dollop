@@ -40,7 +40,7 @@ function FoyerBuddies(props) {
       renderItem={(bud) => {
         if (bud.name) {
           return (
-            <Space align="center" direction="vertical">
+            <Space align="center" direction="vertical" style={{ padding: 10 }}>
               <Avatar
                 playerName={bud.name}
                 style={{
