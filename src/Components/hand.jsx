@@ -35,7 +35,6 @@ function Hand(props) {
         display: 'flex',
         flexWrap: 'nowrap',
         overflowX: 'auto',
-        maxWidth: '100vw',
       }}
     >
       {cardComponents}

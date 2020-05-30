@@ -36,7 +36,14 @@ function History(props) {
 
   const renderItem = (entry) => (
     <List.Item style={{ justifyContent: 'center' }}>
-      <Space size="large">
+      <Space
+        style={{
+          display: 'flex',
+          flexWrap: 'nowrap',
+          overflowX: 'auto',
+          maxWidth: '100vw',
+        }}
+      >
         <Avatar
           playerName={getPlayerName(entry.player)}
           style={{
