@@ -120,3 +120,40 @@ it('should pass power to the person after the winner, if all pass after a win', 
   expect(ctx.playOrderPos).toBe(1);
   expect(G.lastPlay).toBeNull();
 });
+
+it('should mark gameover after 3rd person goes out', () => {
+  const scenario = {
+    ...Game,
+    setup: () => ({
+      players: {
+        '0': [new Card(RANK.TWO, SUIT.H)],
+        '1': [],
+        '2': [],
+        '3': [5, 6, 7],
+      },
+      log: [],
+      has3S: '0',
+      lastPlay: null,
+      playersInGame: ['0', '3'],
+      playersInRound: ['0', '3'],
+      winOrder: ['1', '2'],
+    }),
+  };
+
+  const client = Client({
+    game: scenario,
+    numPlayers: 4,
+  });
+
+  client.moves.MakeMove([0]); // p0 plays last card
+
+  const { G, ctx } = client.store.getState();
+
+  // and p0 should be removed from game
+  expect(G.playersInGame).not.toContain('0');
+  expect(G.playersInRound).not.toContain('0');
+  expect(G.winOrder).toContain('0');
+
+  // and p1 should be declared winner
+  expect(ctx.gameover.winner).toBe('1');
+});

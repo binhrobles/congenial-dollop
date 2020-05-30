@@ -19,7 +19,12 @@ export function setup(ctx) {
 
   return {
     lastPlay: null,
-    log: [],
+    log: [
+      {
+        event: 'power',
+        player: has3S,
+      },
+    ],
     playersInRound: [...ctx.playOrder],
     playersInGame: [...ctx.playOrder],
     winOrder: [],
@@ -38,10 +43,13 @@ export function onBegin(G, ctx) {
       G.lastPlay.player === ctx.currentPlayer) ||
     G.playersInRound.length === 0
   ) {
-    const log = G.log.concat({
-      event: 'power',
-      player: ctx.currentPlayer,
-    });
+    // clears log (except last item) and states who has power
+    const log = [G.log[G.log.length - 1]].concat([
+      {
+        event: 'power',
+        player: ctx.currentPlayer,
+      },
+    ]);
     return {
       ...G,
       log,
@@ -86,10 +94,6 @@ export function endIf(G) {
   if (G.winOrder.length === 3) {
     return { winner: G.winOrder[0] };
   }
-}
-
-export function onGameEnd(G, ctx) {
-  // update scores for every player
 }
 
 // Handles turn progression, but only cycles through `G.playersInRound`
