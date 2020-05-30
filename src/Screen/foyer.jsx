@@ -39,8 +39,8 @@ function Foyer(props) {
 
   return (
     <>
-      <h2 style={{ padding: 20, textAlign: 'center' }}>Room: {roomID}</h2>
-      <Row align="top" justify="center" style={{ padding: 30 }}>
+      <h2 style={{ padding: 10, textAlign: 'center' }}>Room: {roomID}</h2>
+      <Row align="top" justify="center">
         <FoyerBuddies roomID={roomID} notifyReady={updateAreReady} />
       </Row>
       <Row align="bottom" justify="center" style={{ padding: 10 }}>
@@ -63,7 +63,7 @@ Foyer.propTypes = {
   roomID: PropTypes.string.isRequired,
   player: PropTypes.shape({
     playerToken: PropTypes.string.isRequired,
-    playerID: PropTypes.string.isRequired,
+    playerID: PropTypes.number.isRequired,
   }).isRequired,
   exitFoyer: PropTypes.func.isRequired,
 };

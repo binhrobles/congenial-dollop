@@ -1,8 +1,11 @@
 import React from 'react';
 import { Button, Space, Input } from 'antd';
+import Avatar from '../Components/avatar';
 import Lobby from './lobby';
 import LobbyClient from '../Http/lobby';
 import useStateWithSessionStorage from '../hooks/useStateWithSessionStorage';
+
+const MAX_LENGTH = 10;
 
 function Landing() {
   const [playerName, updatePlayerName] = useStateWithSessionStorage(
@@ -29,19 +32,39 @@ function Landing() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ textAlign: 'center', padding: 10 }}>
-      <Space>
-        <Input
-          size="large"
-          placeholder="Who are you?"
-          value={playerName}
-          onChange={(event) => updatePlayerName(event.target.value)}
+    <>
+      <div style={{ textAlign: 'center', width: '100vw' }}>
+        <Avatar
+          playerName={playerName}
+          style={{
+            padding: 10,
+            width: '20vh',
+            height: '20vh',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            display: 'block',
+          }}
         />
-        <Button type="primary" htmlType="submit">
-          Enter
-        </Button>
-      </Space>
-    </form>
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        style={{ textAlign: 'center', padding: 10 }}
+      >
+        <Space>
+          <Input
+            size="large"
+            placeholder="Who are you?"
+            value={playerName}
+            onChange={(event) =>
+              updatePlayerName(event.target.value.slice(0, MAX_LENGTH))
+            }
+          />
+          <Button type="primary" htmlType="submit">
+            Enter
+          </Button>
+        </Space>
+      </form>
+    </>
   );
 }
 

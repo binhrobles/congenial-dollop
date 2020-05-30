@@ -89,7 +89,11 @@ export default function MakeMove(G, ctx, cardIds) {
 
   // store move into game log
   // TODO: the log object should be a standard object
-  const log = G.log.concat({ event: 'move', play: currentPlay });
+  const log = G.log.concat({
+    event: 'move',
+    player: ctx.currentPlayer,
+    play: currentPlay,
+  });
 
   return {
     ...G,

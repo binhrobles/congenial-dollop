@@ -1,19 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Divider, Space, Popconfirm, Row } from 'antd';
-import Hand from './hand';
+import { INVALID_MOVE } from 'boardgame.io/core';
+import { Divider, Row, message } from 'antd';
+import { tryStandardMove, tryOpeningMove } from '../Move/makeMove';
 import Card from '../Card';
+import Hand from './hand';
+import PlayerOptions from './playerOptions';
+import PlayerHUD from './playerHUD';
 
 function PlayerView(props) {
   const {
     cards,
     currentPlayer,
-    playersIn,
     isActive,
+    lastPlay,
     moves,
+    playerID,
     playerNames,
+    playersIn,
   } = props;
   const [selected, updateSelected] = React.useState([]);
+  const playerCards = cards[playerID];
 
   function selectCard(id) {
     updateSelected((prev) => prev.concat(id));
@@ -23,81 +30,71 @@ function PlayerView(props) {
     updateSelected([]);
   }
 
-  // should only return IDs
   function playMove() {
-    moves.MakeMove(selected);
+    // first dry run the move for validation
+    const selectedCards = playerCards.filter((_, idx) =>
+      selected.includes(idx)
+    );
+    const attempt = lastPlay
+      ? tryStandardMove(lastPlay, selectedCards)
+      : tryOpeningMove(selectedCards);
 
-    // TODO: we don't get feedback on the result of the move: https://github.com/nicolodavis/boardgame.io/issues/592
-    // so check if we're still active, or something, implying the move didn't fire
+    if (attempt === INVALID_MOVE) {
+      message.error("You can't do that");
+    } else {
+      moves.MakeMove(selected);
+    }
 
     clear();
   }
 
-  const statusBar = (
-    <Space>
-      <div>
-        In: {playersIn.map((id) => playerNames[parseInt(id, 10)]).join(', ')}
-      </div>
-      <div>Waiting on {playerNames[parseInt(currentPlayer, 10)]}</div>
-    </Space>
-  );
-  const cardPlaceholder = <div style={{ minHeight: 120 }} />;
-
-  // TODO: break into smaller components
   return (
     <>
-      {isActive ? (
+      {isActive && (
         <Row align="center">
-          <Space direction="vertical" align="center">
-            {selected.length ? (
-              <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
-            ) : (
-              cardPlaceholder
-            )}
-            <Space>
-              {selected.length > 0 ? (
-                <Space>
-                  <Button type="primary" onClick={playMove}>
-                    Play it!
-                  </Button>
-                  <Button type="default" onClick={clear}>
-                    Clear
-                  </Button>
-                </Space>
-              ) : (
-                <Popconfirm
-                  title="Really?"
-                  okText="Really."
-                  cancelText="No"
-                  onConfirm={() => moves.Pass()}
-                >
-                  <Button type="default">Pass</Button>
-                </Popconfirm>
-              )}
-            </Space>
-          </Space>
+          <Hand
+            cards={playerCards.filter((_, idx) => selected.includes(idx))}
+          />
         </Row>
-      ) : (
-        cardPlaceholder
       )}
-      <Row align="center">{isActive || statusBar}</Row>
+      {selected.length === 0 && (
+        <PlayerHUD
+          cards={cards}
+          currentPlayer={currentPlayer}
+          playersIn={playersIn}
+          playerNames={playerNames}
+        />
+      )}
+      {isActive && (
+        <Row align="center" style={{ padding: 10 }}>
+          <PlayerOptions
+            selected={selected}
+            lastPlay={lastPlay}
+            playMove={playMove}
+            pass={() => moves.Pass()}
+            clear={clear}
+          />
+        </Row>
+      )}
       <Divider style={{ margin: '10px 0' }} />
-      <Row align="center">
-        <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
+      <Row align="bottom" justify="center">
+        <Hand cards={playerCards} isActive={isActive} onSelect={selectCard} />
       </Row>
     </>
   );
 }
 
 PlayerView.propTypes = {
-  cards: PropTypes.arrayOf(Card).isRequired,
+  cards: PropTypes.objectOf(PropTypes.arrayOf(Card)).isRequired,
   currentPlayer: PropTypes.string.isRequired,
-  playersIn: PropTypes.arrayOf(PropTypes.string).isRequired,
+  isActive: PropTypes.bool.isRequired,
+  lastPlay: PropTypes.instanceOf(Card).isRequired,
   moves: PropTypes.shape({
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
-  isActive: PropTypes.bool.isRequired,
+  playerID: PropTypes.number.isRequired,
+  playersIn: PropTypes.arrayOf(PropTypes.string).isRequired,
   playerNames: PropTypes.arrayOf(PropTypes.string),
 };
 

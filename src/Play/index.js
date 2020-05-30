@@ -95,7 +95,7 @@ export default class Play {
       case COMBO.BOMB:
         return attempt.length === play.cards.length && isBomb(attempt);
       default:
-        throw new Error(COMBO.INVALID);
+        return false;
     }
   }
 }

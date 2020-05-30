@@ -20,6 +20,7 @@ src/stories
 
 # misc
 /db
+*.hide
 
 .DS_Store
 .env.local

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Result, Row } from 'antd';
+import { Button, Modal, Row } from 'antd';
 import Card from '../Card';
 import Play from '../Play';
 import PlayerView from '../Components/playerView';
@@ -9,57 +9,75 @@ import History from '../Components/history';
 function Table(props) {
   const { G, ctx, playerID, isActive, moves, gameMetadata, exitGame } = props;
 
-  if (ctx.gameover) {
-    if (ctx.gameover.winner === playerID) {
-      return (
-        <Result
-          status="success"
-          title="Wow you did it"
-          extra={
-            <Button type="primary" onClick={exitGame}>
-              Back to Lobby
-            </Button>
-          }
-        />
-      );
-    }
-
-    return (
-      <Result
-        status="403"
-        title="You're bad!"
-        extra={
-          <Button type="primary" onClick={exitGame}>
-            Back to Lobby
-          </Button>
-        }
-      />
-    );
-  }
-
   const playerNames = gameMetadata.map((player) => player.name);
 
+  const getResults = () => {
+    const lastPlayerId = Object.keys(G.players).filter(
+      (player) => !G.winOrder.includes(player)
+    );
+    return (
+      <>
+        <p>🏆 {gameMetadata[G.winOrder[0]].name}</p>
+        <p>🥈 {gameMetadata[G.winOrder[1]].name}</p>
+        <p>🥉 {gameMetadata[G.winOrder[2]].name}</p>
+        <p>💩 {gameMetadata[lastPlayerId].name}</p>
+      </>
+    );
+  };
+
   return (
-    <div style={{ backgroundColor: '#35654d', minHeight: '100vh' }}>
-      <Row
-        align="center"
-        style={{
-          minHeight: '50vh',
-        }}
+    <>
+      <Modal
+        title="Wow you did it"
+        style={{ top: 20 }}
+        closable={false}
+        maskClosable={false}
+        visible={ctx.gameover && ctx.gameover.winner === playerID}
+        footer={[
+          <Button key="back" onClick={exitGame}>
+            Back to Lobby
+          </Button>,
+        ]}
       >
-        <History log={G.log} playerNames={playerNames} />
-      </Row>
-      {playerID !== null && (
-        <PlayerView
-          cards={G.players[playerID]}
-          currentPlayer={ctx.currentPlayer}
-          playersIn={G.playersInRound}
-          isActive={isActive}
-          moves={moves}
-          playerNames={playerNames}
-        />
-      )}
-    </div>
+        {getResults()}
+      </Modal>
+      <Modal
+        title="You're bad!"
+        style={{ top: 20 }}
+        closable={false}
+        maskClosable={false}
+        visible={ctx.gameover && ctx.gameover.winner !== playerID}
+        footer={[
+          <Button key="back" onClick={exitGame}>
+            Back to Lobby
+          </Button>,
+        ]}
+      >
+        {getResults()}
+      </Modal>
+      <div style={{ backgroundColor: '#35654d', minHeight: '100vh' }}>
+        <Row
+          align="center"
+          style={{
+            minHeight: '50vh',
+          }}
+        >
+          <History log={G.log} playerNames={playerNames} />
+        </Row>
+        {playerID !== null && (
+          <PlayerView
+            lastPlay={G.lastPlay}
+            cards={G.players}
+            playerID={playerID}
+            currentPlayer={ctx.currentPlayer}
+            playersIn={G.playersInRound}
+            isActive={isActive}
+            moves={moves}
+            playerNames={playerNames}
+          />
+        )}
+      </div>
+    </>
   );
 }
 
@@ -69,6 +87,7 @@ Table.propTypes = {
     log: PropTypes.arrayOf(Play),
     lastPlay: PropTypes.instanceOf(Card),
     playersInRound: PropTypes.arrayOf(PropTypes.string),
+    winOrder: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   ctx: PropTypes.shape({
     currentPlayer: PropTypes.string,
@@ -79,7 +98,7 @@ Table.propTypes = {
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
-  gameMetadata: PropTypes.any,
+  gameMetadata: PropTypes.objectOf(PropTypes.any),
   isActive: PropTypes.bool.isRequired,
   exitGame: PropTypes.func.isRequired,
   playerID: PropTypes.string,

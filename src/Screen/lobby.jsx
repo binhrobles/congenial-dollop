@@ -27,7 +27,7 @@ function Lobby(props) {
     let playerDetails = JSON.parse(sessionStorage.getItem(id));
 
     if (!playerDetails) {
-      // if no association existed, attempt to join the rrom
+      // if no association existed, attempt to join the room
       playerDetails = await LobbyClient.joinRoom({
         roomID: id,
         playerName,
@@ -62,7 +62,7 @@ function Lobby(props) {
   };
 
   const exitFoyer = () => {
-    updateRoomID(null);
+    updateRoomID('');
   };
 
   if (roomID) {
