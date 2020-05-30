@@ -7,6 +7,11 @@ import CardComponent from './card';
 function Hand(props) {
   const { cards, isActive, onSelect } = props;
 
+  if (cards.length === 0) {
+    // if no cards present, block off the space
+    return <div style={{ minHeight: 120 }} />;
+  }
+
   let cardComponents = cards.map((x) => (
     <CardComponent key={x.value} card={x} />
   ));

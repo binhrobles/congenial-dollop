@@ -42,31 +42,27 @@ function PlayerView(props) {
       <div>Waiting on {playerNames[parseInt(currentPlayer, 10)]}</div>
     </Space>
   );
-  const cardPlaceholder = <div style={{ minHeight: 120 }} />;
+  const cardPlaceholder = <div style={{ minHeight: 130 }} />;
 
   // TODO: break into smaller components
   return (
     <>
-      {isActive ? (
+      {isActive && (
         <Row align="center">
-          <Space direction="vertical" align="center">
-            {selected.length ? (
-              <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
-            ) : (
-              cardPlaceholder
-            )}
-            <PlayerOptions
-              selected={selected}
-              playMove={playMove}
-              pass={() => moves.Pass()}
-              clear={clear}
-            />
-          </Space>
+          <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
         </Row>
-      ) : (
-        cardPlaceholder
       )}
-      <Row align="center">{isActive || statusBar}</Row>
+      {isActive || cardPlaceholder}
+      {isActive && (
+        <Row align="center">
+          <PlayerOptions
+            selected={selected}
+            playMove={playMove}
+            pass={() => moves.Pass()}
+            clear={clear}
+          />
+        </Row>
+      )}
       <Divider style={{ margin: '10px 0' }} />
       <Row align="center">
         <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
