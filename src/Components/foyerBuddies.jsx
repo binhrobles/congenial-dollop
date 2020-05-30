@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Avatar, List } from 'antd';
+import { List, Space } from 'antd';
+import Avatar from './avatar';
 import LobbyClient from '../Http/lobby';
 import useInterval from '../hooks/useInterval';
-
-const ColorList = ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae'];
 
 function FoyerBuddies(props) {
   const { roomID, notifyReady } = props;
@@ -35,22 +34,22 @@ function FoyerBuddies(props) {
 
   return (
     <List
-      grid={{ gutter: 16, column: 4 }}
+      grid={{ gutter: 8 }}
       loading={isLoading}
       dataSource={buddies}
       renderItem={(bud) => {
         if (bud.name) {
           return (
-            <Avatar
-              size={64}
-              src={`https://api.adorable.io/avatars/65/${bud.name}.png`}
-              style={{
-                backgroundColor: ColorList[bud.id],
-                verticalAlign: 'middle',
-              }}
-            >
+            <Space align="center" direction="vertical">
+              <Avatar
+                playerName={bud.name}
+                style={{
+                  borderRadius: '30%',
+                  width: '10vw',
+                }}
+              />
               {bud.name}
-            </Avatar>
+            </Space>
           );
         }
       }}
