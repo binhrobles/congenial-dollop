@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { List, Space } from 'antd';
+import { List } from 'antd';
 import Avatar from './avatar';
 import LobbyClient from '../Http/lobby';
 import useInterval from '../hooks/useInterval';

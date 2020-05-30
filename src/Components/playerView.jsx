@@ -9,6 +9,7 @@ import PlayerHUD from './playerHUD';
 function PlayerView(props) {
   const {
     cards,
+    playerID,
     currentPlayer,
     playersIn,
     isActive,
@@ -16,6 +17,7 @@ function PlayerView(props) {
     playerNames,
   } = props;
   const [selected, updateSelected] = React.useState([]);
+  const playerCards = cards[playerID];
 
   function selectCard(id) {
     updateSelected((prev) => prev.concat(id));
@@ -39,11 +41,14 @@ function PlayerView(props) {
     <>
       {isActive && (
         <Row align="center">
-          <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
+          <Hand
+            cards={playerCards.filter((_, idx) => selected.includes(idx))}
+          />
         </Row>
       )}
       {selected.length === 0 && (
         <PlayerHUD
+          cards={cards}
           currentPlayer={currentPlayer}
           playersIn={playersIn}
           playerNames={playerNames}
@@ -61,14 +66,15 @@ function PlayerView(props) {
       )}
       <Divider style={{ margin: '10px 0' }} />
       <Row align="bottom" justify="center">
-        <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
+        <Hand cards={playerCards} isActive={isActive} onSelect={selectCard} />
       </Row>
     </>
   );
 }
 
 PlayerView.propTypes = {
-  cards: PropTypes.arrayOf(Card).isRequired,
+  cards: PropTypes.objectOf(PropTypes.arrayOf(Card)).isRequired,
+  playerID: PropTypes.number.isRequired,
   currentPlayer: PropTypes.string.isRequired,
   playersIn: PropTypes.arrayOf(PropTypes.string).isRequired,
   moves: PropTypes.shape({

@@ -22,8 +22,10 @@ function Avatar(props) {
         alt={playerName}
         style={compositeStyle}
       />
-      {withName && playerName}
-      {cardCount !== null && cardCount}
+      <Space>
+        {withName && playerName}
+        {cardCount !== null && `• ${cardCount}`}
+      </Space>
     </Space>
   );
 }
