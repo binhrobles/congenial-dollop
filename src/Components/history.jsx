@@ -44,14 +44,7 @@ function History(props) {
           maxWidth: '100vw',
         }}
       >
-        <Avatar
-          playerName={getPlayerName(entry.player)}
-          style={{
-            borderRadius: '30%',
-            width: 70,
-            height: 70,
-          }}
-        />
+        <Avatar playerName={getPlayerName(entry.player)} />
         {renderLogItem(entry)}
       </Space>
     </List.Item>

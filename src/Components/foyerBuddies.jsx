@@ -39,16 +39,7 @@ function FoyerBuddies(props) {
       dataSource={buddies}
       renderItem={(bud) => {
         if (bud.name) {
-          return (
-            <Avatar
-              playerName={bud.name}
-              withName
-              style={{
-                borderRadius: '30%',
-                width: '10vw',
-              }}
-            />
-          );
+          return <Avatar playerName={bud.name} withName />;
         }
       }}
     />
