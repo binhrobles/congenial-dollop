@@ -79,7 +79,7 @@ Table.propTypes = {
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
-  gameMetadata: PropTypes.any,
+  gameMetadata: PropTypes.objectOf(PropTypes.any),
   isActive: PropTypes.bool.isRequired,
   exitGame: PropTypes.func.isRequired,
   playerID: PropTypes.string,

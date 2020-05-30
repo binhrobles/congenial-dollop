@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Divider, Space, Popconfirm, Row } from 'antd';
-import Hand from './hand';
+import { Divider, Row } from 'antd';
 import Card from '../Card';
+import Hand from './hand';
 import PlayerOptions from './playerOptions';
+import PlayerHUD from './playerHUD';
 
 function PlayerView(props) {
   const {
@@ -34,17 +35,6 @@ function PlayerView(props) {
     clear();
   }
 
-  const statusBar = (
-    <Space>
-      <div>
-        In: {playersIn.map((id) => playerNames[parseInt(id, 10)]).join(', ')}
-      </div>
-      <div>Waiting on {playerNames[parseInt(currentPlayer, 10)]}</div>
-    </Space>
-  );
-  const cardPlaceholder = <div style={{ minHeight: 130 }} />;
-
-  // TODO: break into smaller components
   return (
     <>
       {isActive && (
@@ -52,9 +42,15 @@ function PlayerView(props) {
           <Hand cards={cards.filter((_, idx) => selected.includes(idx))} />
         </Row>
       )}
-      {isActive || cardPlaceholder}
+      {selected.length === 0 && (
+        <PlayerHUD
+          currentPlayer={currentPlayer}
+          playersIn={playersIn}
+          playerNames={playerNames}
+        />
+      )}
       {isActive && (
-        <Row align="center">
+        <Row align="center" style={{ padding: 10 }}>
           <PlayerOptions
             selected={selected}
             playMove={playMove}
@@ -64,7 +60,7 @@ function PlayerView(props) {
         </Row>
       )}
       <Divider style={{ margin: '10px 0' }} />
-      <Row align="center">
+      <Row align="bottom" justify="center">
         <Hand cards={cards} isActive={isActive} onSelect={selectCard} />
       </Row>
     </>
