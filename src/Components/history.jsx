@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { List, Space } from 'antd';
+import Emoji from 'a11y-react-emoji';
 import Play from '../Play';
 import Card from '../Card';
 import Hand from './hand';
@@ -28,7 +29,11 @@ function History(props) {
       case 'power':
         return <>has power</>;
       case 'win':
-        return <>is out! 🎇</>;
+        return (
+          <>
+            is out! <Emoji symbol="🎇" label="fireworks" />
+          </>
+        );
       default:
         return <></>;
     }

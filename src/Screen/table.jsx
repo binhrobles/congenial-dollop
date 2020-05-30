@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, Row } from 'antd';
+import Emoji from 'a11y-react-emoji';
 import Card from '../Card';
 import Play from '../Play';
 import PlayerView from '../Components/playerView';
@@ -12,17 +13,33 @@ function Table(props) {
   const playerNames = gameMetadata.map((player) => player.name);
 
   const getResults = () => {
-    const lastPlayerId = Object.keys(G.players).filter(
-      (player) => !G.winOrder.includes(player)
-    );
-    return (
-      <>
-        <p>🏆 {gameMetadata[G.winOrder[0]].name}</p>
-        <p>🥈 {gameMetadata[G.winOrder[1]].name}</p>
-        <p>🥉 {gameMetadata[G.winOrder[2]].name}</p>
-        <p>💩 {gameMetadata[lastPlayerId].name}</p>
-      </>
-    );
+    if (G.winOrder.length === 3) {
+      const lastPlayerId = Object.keys(G.players).filter(
+        (player) => !G.winOrder.includes(player)
+      );
+      return (
+        <>
+          <p>
+            <Emoji symbol="🏆" label="first" />{' '}
+            {gameMetadata[G.winOrder[0]].name}
+          </p>
+          <p>
+            <Emoji symbol="🥈" label="second" />{' '}
+            {gameMetadata[G.winOrder[1]].name}
+          </p>
+          <p>
+            <Emoji symbol="🥉" label="third" />{' '}
+            {gameMetadata[G.winOrder[2]].name}
+          </p>
+          <p>
+            <Emoji symbol="💩" label="shitty last" />{' '}
+            {gameMetadata[lastPlayerId].name}
+          </p>
+        </>
+      );
+    }
+
+    return <></>;
   };
 
   return (
