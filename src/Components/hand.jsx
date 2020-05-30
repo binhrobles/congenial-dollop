@@ -4,7 +4,7 @@ import { Space } from 'antd';
 import Card from '../Card';
 import CardComponent from './card';
 
-const Hand = (props) => {
+function Hand(props) {
   const { cards, isActive, onSelect } = props;
 
   let cardComponents = cards.map((x) => (
@@ -41,7 +41,7 @@ const Hand = (props) => {
       {cardComponents}
     </Space>
   );
-};
+}
 
 Hand.propTypes = {
   cards: PropTypes.arrayOf(Card).isRequired,

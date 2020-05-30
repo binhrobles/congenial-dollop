@@ -6,7 +6,7 @@ import Card from '../Card';
 import Hand from './hand';
 import Avatar from './avatar';
 
-const History = (props) => {
+function History(props) {
   const { log, playerNames } = props;
 
   // auto scroll to list footer, whenever there's a new log item
@@ -63,7 +63,7 @@ const History = (props) => {
       renderItem={renderItem}
     />
   );
-};
+}
 
 History.propTypes = {
   log: PropTypes.arrayOf(Play).isRequired,

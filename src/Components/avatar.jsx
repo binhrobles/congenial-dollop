@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Avatar = (props) => {
+function Avatar(props) {
   const { playerName, style } = props;
 
   return (
@@ -11,7 +11,7 @@ const Avatar = (props) => {
       style={style}
     />
   );
-};
+}
 
 Avatar.propTypes = {
   playerName: PropTypes.string.isRequired,

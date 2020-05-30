@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '../Card';
 
-const CardComponent = (props) => {
+function CardComponent(props) {
   const { card } = props;
 
   return (
@@ -16,7 +16,7 @@ const CardComponent = (props) => {
       alt={`${card.rankText} of ${card.suitText}`}
     />
   );
-};
+}
 
 CardComponent.propTypes = {
   card: PropTypes.objectOf(Card).isRequired,

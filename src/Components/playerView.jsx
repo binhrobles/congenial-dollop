@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, Divider, Space, Popconfirm, Row } from 'antd';
 import Hand from './hand';
 import Card from '../Card';
+import PlayerOptions from './playerOptions';
 
 function PlayerView(props) {
   const {
@@ -54,27 +55,12 @@ function PlayerView(props) {
             ) : (
               cardPlaceholder
             )}
-            <Space>
-              {selected.length > 0 ? (
-                <Space>
-                  <Button type="primary" onClick={playMove}>
-                    Play it!
-                  </Button>
-                  <Button type="default" onClick={clear}>
-                    Clear
-                  </Button>
-                </Space>
-              ) : (
-                <Popconfirm
-                  title="Really?"
-                  okText="Really."
-                  cancelText="No"
-                  onConfirm={() => moves.Pass()}
-                >
-                  <Button type="default">Pass</Button>
-                </Popconfirm>
-              )}
-            </Space>
+            <PlayerOptions
+              selected={selected}
+              playMove={playMove}
+              pass={() => moves.Pass()}
+              clear={clear}
+            />
           </Space>
         </Row>
       ) : (
