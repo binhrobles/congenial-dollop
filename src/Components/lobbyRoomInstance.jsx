@@ -2,23 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { List, Button } from 'antd';
 
+const description = (room) => {
+  const waiting = room.players.filter((x) => 'name' in x);
+  const total = room.players.length;
+
+  if (waiting.length !== 0) {
+    return `${waiting.length} of ${total}`;
+  }
+
+  return 'Empty Room';
+};
+
 function LobbyRoomInstance(props) {
   const { room, onJoin } = props;
-  const playersIn = room.players.filter((x) => 'name' in x);
-
-  const description = () => {
-    if (playersIn.length !== 0) {
-      return `Players waiting: ${playersIn.map((p) => p.name).join(', ')}`;
-    }
-
-    return 'Empty Room';
-  };
 
   return (
     <List.Item>
       <List.Item.Meta
         title={`Room ID: ${room.gameID}`}
-        description={description()}
+        description={description(room)}
       />
       <Button type="primary" onClick={() => onJoin(room.gameID)}>
         Join
