@@ -39,7 +39,9 @@ function Foyer(props) {
 
   return (
     <>
-      <h2 style={{ padding: 10, textAlign: 'center' }}>Room: {roomID}</h2>
+      <h2 style={{ padding: 10, textAlign: 'center' }}>
+        Room: {roomID.slice(0, 4)}
+      </h2>
       <Row align="top" justify="center">
         <FoyerBuddies roomID={roomID} notifyReady={updateAreReady} />
       </Row>

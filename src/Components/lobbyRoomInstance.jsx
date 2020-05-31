@@ -15,7 +15,7 @@ function LobbyRoomInstance(props) {
   return (
     <List.Item>
       <List.Item.Meta
-        title={`Room ID: ${room.gameID}`}
+        title={`Room ID: ${room.gameID.slice(0, 4)}`}
         description={description(room)}
       />
       <Button type="primary" onClick={() => onJoin(room.gameID)}>
