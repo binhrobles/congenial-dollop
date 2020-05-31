@@ -6,11 +6,7 @@ const description = (room) => {
   const waiting = room.players.filter((x) => 'name' in x);
   const total = room.players.length;
 
-  if (waiting.length !== 0) {
-    return `${waiting.length} of ${total}`;
-  }
-
-  return 'Empty Room';
+  return `${waiting.length} of ${total}`;
 };
 
 function LobbyRoomInstance(props) {
