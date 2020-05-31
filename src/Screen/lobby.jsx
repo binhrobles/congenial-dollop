@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Spin, Row, Col, message } from 'antd';
+import { Button, Drawer, Form, Radio, Spin, Row, Col, message } from 'antd';
 import LobbyClient from '../Http/lobby';
 import LobbyRoomList from '../Components/lobbyRoomList';
 import Foyer from './foyer';
@@ -12,6 +12,10 @@ function Lobby(props) {
   const [roomID, updateRoomID] = useStateWithSessionStorage('roomID');
   const [isCreating, updateIsCreating] = React.useState(false);
   const [isJoining, updateIsJoining] = React.useState(false);
+
+  // Create Room Drawer
+  const [showCreateRoom, updateShowCreateRoom] = React.useState(false);
+  const [numPlayers, updateNumPlayers] = React.useState(4);
 
   if (!playerName) {
     logOut();
@@ -57,7 +61,7 @@ function Lobby(props) {
 
   const createRoom = async () => {
     updateIsCreating(true);
-    joinRoom(await LobbyClient.createRoom({ numPlayers: 4 }));
+    joinRoom(await LobbyClient.createRoom({ numPlayers }));
     updateIsCreating(false);
   };
 
@@ -78,13 +82,37 @@ function Lobby(props) {
   return (
     <>
       <Row align="top" justify="center" style={{ padding: 10 }}>
-        <Button type="primary" loading={isCreating} onClick={createRoom}>
+        <Button
+          type="primary"
+          loading={isCreating}
+          onClick={() => updateShowCreateRoom(true)}
+        >
           Create Room
         </Button>
       </Row>
       <Col offset={1} span={22}>
         <LobbyRoomList onJoin={joinRoom} />
       </Col>
+      <Drawer
+        title="Room Settings"
+        placement="bottom"
+        closable={false}
+        onClose={() => updateShowCreateRoom(false)}
+        visible={showCreateRoom}
+      >
+        <Form>
+          <Form.Item label="Players">
+            <Radio.Group
+              onChange={(e) => updateNumPlayers(e.target.value)}
+              value={numPlayers}
+            >
+              <Radio.Button value={2}>2</Radio.Button>
+              <Radio.Button value={3}>3</Radio.Button>
+              <Radio.Button value={4}>4</Radio.Button>
+            </Radio.Group>
+          </Form.Item>
+        </Form>
+      </Drawer>
     </>
   );
 }
