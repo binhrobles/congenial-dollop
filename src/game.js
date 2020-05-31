@@ -9,27 +9,29 @@ export function setup(ctx) {
     ctx.numPlayers,
     ctx.random.Shuffle(GenerateStandardDeck())
   );
+
+  let startingPlayer = 0;
   Object.keys(players).forEach((key, index) => {
     players[key] = hands[index];
+    // the player with the lowest card will have starting power
+    if (players[index][0] < hands[startingPlayer][0]) {
+      startingPlayer = index;
+    }
   });
-
-  // find the player with the 3 of Spades as their low card
-  const has3S =
-    Object.keys(players).filter((x) => players[x][0].value === 0)[0] || '0';
 
   return {
     lastPlay: null,
     log: [
       {
         event: 'power',
-        player: has3S,
+        player: startingPlayer.toString(),
       },
     ],
     playersInRound: [...ctx.playOrder],
     playersInGame: [...ctx.playOrder],
     winOrder: [],
     players,
-    has3S,
+    startingPlayer,
   };
 }
 
@@ -130,7 +132,7 @@ const Game = {
     onBegin,
     onEnd: onTurnEnd,
     order: {
-      first: (G) => parseInt(G.has3S, 10),
+      first: (G) => G.startingPlayer,
       next,
     },
   },

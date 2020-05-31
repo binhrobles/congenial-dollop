@@ -12,7 +12,7 @@ function PlayerHUD(props) {
     let max = 70;
     let opacity = 1.0;
 
-    // emphasize the person who's turn it is
+    // emphasize the person whose turn it is
     if (playerID.toString() === currentPlayer) {
       base = Math.floor(base * 1.4);
       max = Math.floor(max * 1.4);
