@@ -14,7 +14,7 @@ export function setup(ctx) {
   Object.keys(players).forEach((key, index) => {
     players[key] = hands[index];
     // the player with the lowest card will have starting power
-    if (players[index][0] < hands[startingPlayer][0]) {
+    if (hands[index][0].value < hands[startingPlayer][0].value) {
       startingPlayer = index;
     }
   });
