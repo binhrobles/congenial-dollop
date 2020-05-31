@@ -61,6 +61,7 @@ function Lobby(props) {
 
   const createRoom = async () => {
     updateIsCreating(true);
+    updateShowCreateRoom(false);
     joinRoom(await LobbyClient.createRoom({ numPlayers }));
     updateIsCreating(false);
   };
@@ -100,7 +101,7 @@ function Lobby(props) {
         onClose={() => updateShowCreateRoom(false)}
         visible={showCreateRoom}
       >
-        <Form>
+        <Form onFinish={() => createRoom()}>
           <Form.Item label="Players">
             <Radio.Group
               onChange={(e) => updateNumPlayers(e.target.value)}
@@ -110,6 +111,11 @@ function Lobby(props) {
               <Radio.Button value={3}>3</Radio.Button>
               <Radio.Button value={4}>4</Radio.Button>
             </Radio.Group>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
           </Form.Item>
         </Form>
       </Drawer>
