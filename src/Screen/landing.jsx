@@ -1,11 +1,12 @@
 import React from 'react';
 import { Button, Space, Input } from 'antd';
+import { GithubOutlined } from '@ant-design/icons';
 import Avatar from '../Components/avatar';
 import Lobby from './lobby';
 import LobbyClient from '../Http/lobby';
 import useStateWithSessionStorage from '../hooks/useStateWithSessionStorage';
 
-const MAX_LENGTH = 10;
+const MAX_NAME_LENGTH = 10;
 
 function Landing() {
   const [playerName, updatePlayerName] = useStateWithSessionStorage(
@@ -38,8 +39,8 @@ function Landing() {
           playerName={playerName}
           style={{
             padding: 10,
-            width: '20vh',
-            height: '20vh',
+            width: '35vw',
+            height: '35vw',
             marginLeft: 'auto',
             marginRight: 'auto',
             display: 'block',
@@ -56,7 +57,7 @@ function Landing() {
             placeholder="Who are you?"
             value={playerName}
             onChange={(event) =>
-              updatePlayerName(event.target.value.slice(0, MAX_LENGTH))
+              updatePlayerName(event.target.value.slice(0, MAX_NAME_LENGTH))
             }
           />
           <Button type="primary" htmlType="submit">
@@ -64,6 +65,21 @@ function Landing() {
           </Button>
         </Space>
       </form>
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          padding: 20,
+          width: '100vw',
+          textAlign: 'center',
+        }}
+      >
+        <Button
+          shape="circle"
+          icon={<GithubOutlined />}
+          href="https://github.com/binhrobles/thirteen"
+        />
+      </div>
     </>
   );
 }
