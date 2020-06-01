@@ -265,5 +265,39 @@ it('should not allow a 6 bomb to beat a pair of twos', () => {
 
   const attemptedPlay = tryStandardMove(lastPlay, attemptedCards);
 
-  expect(attemptedPlay).toEqual(INVALID_MOVE);
+  expect(attemptedPlay).toBe(INVALID_MOVE);
+});
+
+it('should allow a better run to win', () => {
+  const lastPlay = new Play(COMBO.RUN, [
+    new Card(RANK.THREE, SUIT.H),
+    new Card(RANK.FOUR, SUIT.D),
+    new Card(RANK.FIVE, SUIT.H),
+  ]);
+  const attemptedCards = [
+    new Card(RANK.QUEEN, SUIT.C),
+    new Card(RANK.KING, SUIT.H),
+    new Card(RANK.ACE, SUIT.D),
+  ];
+
+  const attemptedPlay = tryStandardMove(lastPlay, attemptedCards);
+
+  expect(attemptedPlay).not.toBe(INVALID_MOVE);
+});
+
+it('should disallow a worse run to win', () => {
+  const lastPlay = new Play(COMBO.RUN, [
+    new Card(RANK.THREE, SUIT.H),
+    new Card(RANK.FOUR, SUIT.D),
+    new Card(RANK.FIVE, SUIT.H),
+  ]);
+  const attemptedCards = [
+    new Card(RANK.THREE, SUIT.C),
+    new Card(RANK.FOUR, SUIT.H),
+    new Card(RANK.FIVE, SUIT.D),
+  ];
+
+  const attemptedPlay = tryStandardMove(lastPlay, attemptedCards);
+
+  expect(attemptedPlay).toBe(INVALID_MOVE);
 });
