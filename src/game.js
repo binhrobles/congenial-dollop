@@ -93,8 +93,8 @@ export function onTurnEnd(G, ctx) {
 
 // eslint-disable-next-line consistent-return
 export function endIf(G) {
-  if (G.winOrder.length === 3) {
-    return { winner: G.winOrder[0] };
+  if (G.playersInGame === 1) {
+    return { winOrder: G.winOrder };
   }
 }
 
@@ -138,7 +138,7 @@ const Game = {
   },
   endIf,
   // phases: trade -> play
-  minPlayers: 4,
+  minPlayers: 2,
   maxPlayers: 4,
 };
 
