@@ -10,11 +10,11 @@ function PlayerOptions(props) {
   if (selected.length > 0) {
     return (
       <Space>
-        <Button type="primary" onClick={playMove}>
-          Play it!
-        </Button>
         <Button type="default" onClick={clear}>
           Clear
+        </Button>
+        <Button type="primary" onClick={playMove}>
+          Play it!
         </Button>
       </Space>
     );

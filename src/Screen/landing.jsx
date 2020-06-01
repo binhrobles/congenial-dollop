@@ -60,7 +60,7 @@ function Landing() {
               updatePlayerName(event.target.value.slice(0, MAX_NAME_LENGTH))
             }
           />
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" size="large" htmlType="submit">
             Enter
           </Button>
         </Space>

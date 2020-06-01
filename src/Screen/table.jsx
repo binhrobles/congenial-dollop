@@ -57,11 +57,11 @@ function Table(props) {
         maskClosable={false}
         visible={ctx.gameover && ctx.gameover.winOrder[0] === playerID}
         footer={[
-          <Button key="playAgain" onClick={playAgain}>
-            Run it back
-          </Button>,
           <Button key="back" onClick={exitGame}>
             Back to Lobby
+          </Button>,
+          <Button key="playAgain" type="primary" onClick={playAgain}>
+            Run it back
           </Button>,
         ]}
       >
@@ -74,11 +74,11 @@ function Table(props) {
         maskClosable={false}
         visible={ctx.gameover && ctx.gameover.winOrder[0] !== playerID}
         footer={[
-          <Button key="playAgain" onClick={playAgain}>
-            Run it back
-          </Button>,
           <Button key="back" onClick={exitGame}>
             Back to Lobby
+          </Button>,
+          <Button key="playAgain" type="primary" onClick={playAgain}>
+            Run it back
           </Button>,
         ]}
       >

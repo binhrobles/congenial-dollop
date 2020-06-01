@@ -53,6 +53,7 @@ function Foyer(props) {
       </Row>
       <Row align="bottom" justify="center" style={{ padding: 10 }}>
         <Space>
+          <Button onClick={exitFoyer}>Back to Lobby</Button>
           <Button
             type="primary"
             disabled={!areReady}
@@ -60,7 +61,6 @@ function Foyer(props) {
           >
             Play!
           </Button>
-          <Button onClick={exitFoyer}>Back to Lobby</Button>
         </Space>
       </Row>
     </>
