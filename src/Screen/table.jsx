@@ -9,7 +9,16 @@ import PlayerView from '../Components/playerView';
 import History from '../Components/history';
 
 function Table(props) {
-  const { G, ctx, playerID, isActive, moves, gameMetadata, exitGame } = props;
+  const {
+    G,
+    ctx,
+    playerID,
+    isActive,
+    moves,
+    gameMetadata,
+    playAgain,
+    exitGame,
+  } = props;
 
   const playerNames = gameMetadata.map((player) => player.name);
 
@@ -46,11 +55,10 @@ function Table(props) {
         style={{ top: 20 }}
         closable={false}
         maskClosable={false}
-        visible={ctx.gameover && ctx.gameover.winner === playerID}
+        visible={ctx.gameover && ctx.gameover.winOrder[0] === playerID}
         footer={[
-          <Button key="back" onClick={exitGame}>
-            Back to Lobby
-          </Button>,
+          <Button onClick={playAgain}>Run it back</Button>,
+          <Button onClick={exitGame}>Back to Lobby</Button>,
         ]}
       >
         {getResults()}
@@ -60,11 +68,10 @@ function Table(props) {
         style={{ top: 20 }}
         closable={false}
         maskClosable={false}
-        visible={ctx.gameover && ctx.gameover.winner !== playerID}
+        visible={ctx.gameover && ctx.gameover.winOrder[0] !== playerID}
         footer={[
-          <Button key="back" onClick={exitGame}>
-            Back to Lobby
-          </Button>,
+          <Button onClick={playAgain}>Run it back</Button>,
+          <Button onClick={exitGame}>Back to Lobby</Button>,
         ]}
       >
         {getResults()}
@@ -115,6 +122,7 @@ Table.propTypes = {
   }).isRequired,
   gameMetadata: PropTypes.objectOf(PropTypes.any),
   isActive: PropTypes.bool.isRequired,
+  playAgain: PropTypes.func.isRequired,
   exitGame: PropTypes.func.isRequired,
   playerID: PropTypes.string,
 };

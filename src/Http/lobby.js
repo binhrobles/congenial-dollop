@@ -11,73 +11,113 @@ function handleError(e) {
   console.error(JSON.stringify(e, null, 2));
 }
 
-const LobbyClient = {
-  createRoom: async ({ numPlayers, setupData }) => {
-    try {
-      const response = await instance.post('/games/thirteen/create', {
+async function createRoom({ numPlayers, setupData }) {
+  try {
+    const response = await instance.post('/games/thirteen/create', {
+      numPlayers,
+      setupData,
+    });
+    return response.data.gameID;
+  } catch (e) {
+    handleError(e);
+    return null;
+  }
+}
+
+async function getRoomByID(roomID) {
+  try {
+    const response = await instance.get(`/games/thirteen/${roomID}`);
+    return response.data;
+  } catch (e) {
+    handleError(e);
+    return [];
+  }
+}
+
+async function getBuddies({ roomID }) {
+  try {
+    const response = await instance.get(`/games/thirteen/${roomID}`);
+    return response.data.players;
+  } catch (e) {
+    handleError(e);
+    return [];
+  }
+}
+
+async function getRooms() {
+  try {
+    const response = await instance.get('/games/thirteen');
+    return response.data.rooms;
+  } catch (e) {
+    handleError(e);
+    return [];
+  }
+}
+
+async function joinRoom({ roomID, playerName, data }) {
+  try {
+    // find first seat at table with no one in it
+    const room = await instance.get(`/games/thirteen/${roomID}`);
+    const openSeats = room.data.players.filter((p) => !('name' in p));
+
+    if (openSeats.length === 0) return null;
+
+    const firstOpenSeat = openSeats[0].id;
+
+    const join = await instance.post(`/games/thirteen/${roomID}/join`, {
+      playerID: firstOpenSeat,
+      playerName,
+      data,
+    });
+    return {
+      playerID: firstOpenSeat,
+      playerToken: join.data.playerCredentials,
+    };
+  } catch (e) {
+    handleError(e);
+    return null;
+  }
+}
+
+async function playAgain({ roomID, playerID, playerToken }) {
+  try {
+    // first get the numPlayers of previous game
+    // https://github.com/nicolodavis/boardgame.io/issues/718
+    const prevRoom = await getRoomByID(roomID);
+    const numPlayers = Object.keys(prevRoom.players).length;
+
+    const response = await instance.post(
+      `/games/thirteen/${roomID}/playAgain`,
+      {
+        playerID,
+        credentials: playerToken,
         numPlayers,
-        setupData,
-      });
-      return response.data.gameID;
-    } catch (e) {
-      handleError(e);
-      return null;
-    }
-  },
+      }
+    );
+    return response.data.nextRoomID;
+  } catch (e) {
+    handleError(e);
+    return null;
+  }
+}
 
-  getBuddies: async ({ roomID }) => {
-    try {
-      const response = await instance.get(`/games/thirteen/${roomID}`);
-      return response.data.players;
-    } catch (e) {
-      handleError(e);
-      return [];
-    }
-  },
+async function ping() {
+  try {
+    await instance.get();
+  } catch (e) {
+    // toss error because there's no root route
+    console.log('pinged server');
+  }
+}
 
-  getRooms: async () => {
-    try {
-      const response = await instance.get('/games/thirteen');
-      return response.data.rooms;
-    } catch (e) {
-      handleError(e);
-      return [];
-    }
-  },
-
-  joinRoom: async ({ roomID, playerName, data }) => {
-    try {
-      // find first seat at table with no one in it
-      const room = await instance.get(`/games/thirteen/${roomID}`);
-      const openSeats = room.data.players.filter((p) => !('name' in p));
-
-      if (openSeats.length === 0) return null;
-
-      const firstOpenSeat = openSeats[0].id;
-
-      const join = await instance.post(`/games/thirteen/${roomID}/join`, {
-        playerID: firstOpenSeat,
-        playerName,
-        data,
-      });
-      return {
-        playerID: firstOpenSeat,
-        playerToken: join.data.playerCredentials,
-      };
-    } catch (e) {
-      handleError(e);
-      return null;
-    }
-  },
-
-  ping: async () => {
-    try {
-      await instance.get();
-    } catch (e) {
-      // toss error because there's no root route
-      console.log('pinged server');
-    }
-  },
+const LobbyClient = {
+  createRoom,
+  getBuddies,
+  getRoomByID,
+  getRooms,
+  joinRoom,
+  ping,
+  playAgain,
 };
 
 export default LobbyClient;

@@ -9,7 +9,7 @@ import Table from './table';
 import keys from '../keys';
 
 function Foyer(props) {
-  const { roomID, player, exitFoyer } = props;
+  const { roomID, player, playAgain, exitFoyer } = props;
   const { playerID, playerToken } = player;
   const [areReady, updateAreReady] = React.useState(false);
   const [startGame, updateStartGame] = React.useState(false);
@@ -17,6 +17,11 @@ function Foyer(props) {
   const exitGame = () => {
     updateStartGame(false);
     exitFoyer();
+  };
+
+  const playAgainProxy = () => {
+    updateStartGame(false);
+    playAgain();
   };
 
   if (startGame) {
@@ -33,6 +38,7 @@ function Foyer(props) {
         playerID={playerID.toString()}
         credentials={playerToken}
         exitGame={exitGame}
+        playAgain={playAgainProxy}
       />
     );
   }
@@ -67,6 +73,7 @@ Foyer.propTypes = {
     playerToken: PropTypes.string.isRequired,
     playerID: PropTypes.number.isRequired,
   }).isRequired,
+  playAgain: PropTypes.func.isRequired,
   exitFoyer: PropTypes.func.isRequired,
 };
 

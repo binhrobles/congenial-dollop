@@ -70,11 +70,26 @@ function Lobby(props) {
     updateRoomID('');
   };
 
+  const playAgain = async () => {
+    updateIsCreating(true);
+    const playerDetails = JSON.parse(sessionStorage.getItem(roomID));
+
+    if (!playerDetails) {
+      message.error("Couldn't create a duplicate room");
+      updateRoomID('');
+    } else {
+      joinRoom(await LobbyClient.playAgain({ roomID, ...playerDetails }));
+    }
+
+    updateIsCreating(false);
+  };
+
   if (roomID) {
     return (
       <Foyer
         roomID={roomID}
         player={JSON.parse(sessionStorage.getItem(roomID))}
+        playAgain={playAgain}
         exitFoyer={exitFoyer}
       />
     );
