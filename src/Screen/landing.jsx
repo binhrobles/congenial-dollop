@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Space, Input } from 'antd';
+import { Button, Layout, Space, Input } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
 import Avatar from '../Components/avatar';
 import Lobby from './lobby';
@@ -65,21 +65,13 @@ function Landing() {
           </Button>
         </Space>
       </form>
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          padding: 20,
-          width: '100vw',
-          textAlign: 'center',
-        }}
-      >
+      <Layout.Footer style={{ textAlign: 'center' }}>
         <Button
           shape="circle"
           icon={<GithubOutlined />}
           href="https://github.com/binhrobles/thirteen"
         />
-      </div>
+      </Layout.Footer>
     </>
   );
 }

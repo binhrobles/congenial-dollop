@@ -15,4 +15,9 @@ Hosted at https://shitty-thirteen.binhrobles.com/
 ### Server
 
 - Node server using same boardgame.io engine
-- Hosted on Heroku for now
+- Hosted on Heroku for the time being
+
+## Credits
+
+- UI Framework: [ant.design](https://ant.design)
+- Fun avatars: [avatars.adorable.io](http://avatars.adorable.io)
