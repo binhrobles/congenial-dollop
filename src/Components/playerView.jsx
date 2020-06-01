@@ -22,8 +22,18 @@ function PlayerView(props) {
   const [selected, updateSelected] = React.useState([]);
   const playerCards = cards[playerID];
 
-  function selectCard(id) {
-    updateSelected((prev) => prev.concat(id));
+  function selectCard(cardValue) {
+    const cardValueInt = parseInt(cardValue, 10);
+    const card = playerCards.filter((c) => c.value === cardValueInt)[0];
+
+    updateSelected((prev) => prev.concat(card));
+  }
+
+  function deselectCard(cardValue) {
+    const cardValueInt = parseInt(cardValue, 10);
+    updateSelected((prev) =>
+      prev.filter((card) => card.value !== cardValueInt)
+    );
   }
 
   function clear() {
@@ -32,12 +42,9 @@ function PlayerView(props) {
 
   function playMove() {
     // first dry run the move for validation
-    const selectedCards = playerCards.filter((_, idx) =>
-      selected.includes(idx)
-    );
     const attempt = lastPlay
-      ? tryStandardMove(lastPlay, selectedCards)
-      : tryOpeningMove(selectedCards);
+      ? tryStandardMove(lastPlay, selected)
+      : tryOpeningMove(selected);
 
     if (attempt === INVALID_MOVE) {
       message.error("You can't do that");
@@ -52,9 +59,7 @@ function PlayerView(props) {
     <>
       {isActive && (
         <Row align="center">
-          <Hand
-            cards={playerCards.filter((_, idx) => selected.includes(idx))}
-          />
+          <Hand cards={selected} isActive={isActive} onSelect={deselectCard} />
         </Row>
       )}
       {selected.length === 0 && (
@@ -78,7 +83,11 @@ function PlayerView(props) {
       )}
       <Divider style={{ margin: '10px 0' }} />
       <Row align="bottom" justify="center">
-        <Hand cards={playerCards} isActive={isActive} onSelect={selectCard} />
+        <Hand
+          cards={playerCards.filter((c) => !selected.includes(c))}
+          isActive={isActive}
+          onSelect={selectCard}
+        />
       </Row>
     </>
   );

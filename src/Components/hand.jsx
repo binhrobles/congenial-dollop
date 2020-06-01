@@ -12,7 +12,7 @@ function Hand(props) {
   ));
 
   if (isActive) {
-    cardComponents = cardComponents.map((x, idx) => (
+    cardComponents = cardComponents.map((x) => (
       <button
         style={{
           borderRadius: 8,
@@ -21,8 +21,7 @@ function Hand(props) {
         }}
         key={x.key}
         type="button"
-        onClick={() => onSelect(idx)}
-        disabled={!isActive}
+        onClick={() => onSelect(x.key)}
       >
         {x}
       </button>

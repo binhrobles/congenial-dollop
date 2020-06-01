@@ -29,7 +29,7 @@ it('should mark winner after playing final card', () => {
     numPlayers: 4,
   });
 
-  client.moves.MakeMove([0]); // p0 plays last card
+  client.moves.MakeMove([new Card(RANK.TWO, SUIT.H)]); // p0 plays last card
 
   {
     const { G } = client.store.getState();
@@ -78,7 +78,7 @@ it('should mark second after playing last card', () => {
     numPlayers: 4,
   });
 
-  client.moves.MakeMove([0]); // p1 plays last card
+  client.moves.MakeMove([new Card(RANK.TWO, SUIT.H)]); // p1 plays last card
 
   const { G, ctx } = client.store.getState();
 
@@ -145,7 +145,7 @@ it('should mark gameover after 3rd person goes out', () => {
     numPlayers: 4,
   });
 
-  client.moves.MakeMove([0]); // p0 plays last card
+  client.moves.MakeMove([new Card(RANK.TWO, SUIT.H)]); // p0 plays last card
 
   const { G, ctx } = client.store.getState();
 
@@ -180,7 +180,7 @@ it('should mark gameover in a two person game', () => {
     numPlayers: 2,
   });
 
-  client.moves.MakeMove([0]); // p0 plays last card
+  client.moves.MakeMove([new Card(RANK.TWO, SUIT.H)]); // p0 plays last card
 
   const { G, ctx } = client.store.getState();
 

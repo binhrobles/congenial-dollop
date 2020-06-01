@@ -57,8 +57,12 @@ function Table(props) {
         maskClosable={false}
         visible={ctx.gameover && ctx.gameover.winOrder[0] === playerID}
         footer={[
-          <Button onClick={playAgain}>Run it back</Button>,
-          <Button onClick={exitGame}>Back to Lobby</Button>,
+          <Button key="playAgain" onClick={playAgain}>
+            Run it back
+          </Button>,
+          <Button key="back" onClick={exitGame}>
+            Back to Lobby
+          </Button>,
         ]}
       >
         {getResults()}
@@ -70,15 +74,19 @@ function Table(props) {
         maskClosable={false}
         visible={ctx.gameover && ctx.gameover.winOrder[0] !== playerID}
         footer={[
-          <Button onClick={playAgain}>Run it back</Button>,
-          <Button onClick={exitGame}>Back to Lobby</Button>,
+          <Button key="playAgain" onClick={playAgain}>
+            Run it back
+          </Button>,
+          <Button key="back" onClick={exitGame}>
+            Back to Lobby
+          </Button>,
         ]}
       >
         {getResults()}
       </Modal>
       <div style={{ backgroundColor: '#35654d', minHeight: '100vh' }}>
         <Row
-          align="center"
+          align="middle"
           style={{
             minHeight: '50vh',
           }}

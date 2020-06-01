@@ -3,17 +3,6 @@ import Play from '../Play';
 import { COMBO } from '../Play/constants';
 import { RANK } from '../Card/constants';
 
-export function getCardsFromIds(hand, ids) {
-  const cards = [];
-
-  ids.forEach((id) => {
-    // instead of copying from proxied `G` object, create local versions
-    cards.push({ ...hand[id] });
-  });
-
-  return cards;
-}
-
 export function tryChop(lastPlayLength, attemptedCards) {
   const attemptedCombo = Play.DetermineCombo(attemptedCards);
 
@@ -59,12 +48,10 @@ export function tryOpeningMove(cards) {
   return new Play(combo, cards);
 }
 
-export default function MakeMove(G, ctx, cardIds) {
+export default function MakeMove(G, ctx, cards) {
   // ensure card selection is valid (should be done on the client as well)
-  const selectionSet = new Set(cardIds);
-  if (cardIds.length !== selectionSet.size) return INVALID_MOVE;
-
-  const cards = getCardsFromIds(G.players[ctx.playOrderPos], cardIds);
+  const selectionSet = new Set(cards);
+  if (cards.length !== selectionSet.size) return INVALID_MOVE;
 
   const currentPlay = G.lastPlay
     ? tryStandardMove(G.lastPlay, cards)
@@ -75,12 +62,12 @@ export default function MakeMove(G, ctx, cardIds) {
   // deep copy object so we don't modify state
   const newPlayers = JSON.parse(JSON.stringify(G.players));
 
-  // reverse array before splicing ids, since array will be modified
-  cardIds
-    .sort((a, b) => b - a) // sorts descending order
-    .forEach((id) => {
-      newPlayers[ctx.playOrderPos].splice(id, 1);
-    });
+  // find and remove the cards from the state array
+  const playedCardValues = cards.map((c) => c.value);
+
+  newPlayers[ctx.playOrderPos] = newPlayers[ctx.playOrderPos].filter(
+    (card) => !playedCardValues.includes(card.value)
+  );
 
   // add remaining cards to log
   currentPlay.cardsRemaining = newPlayers[ctx.playOrderPos].length;
@@ -88,7 +75,6 @@ export default function MakeMove(G, ctx, cardIds) {
   ctx.events.endTurn();
 
   // store move into game log
-  // TODO: the log object should be a standard object
   const log = G.log.concat({
     event: 'move',
     player: ctx.currentPlayer,

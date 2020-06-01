@@ -19,7 +19,7 @@ it('should allow a stronger single to beat a weaker single', () => {
     },
   };
 
-  const newG = MakeMove(G, ctx, [0]);
+  const newG = MakeMove(G, ctx, G.players['0']);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
   expect(newG.players[0].length).toBe(0);
@@ -40,7 +40,7 @@ it('should not allow a weaker single to beat a stronger single', () => {
     },
   };
 
-  expect(MakeMove(G, ctx, [0])).toBe(INVALID_MOVE);
+  expect(MakeMove(G, ctx, [new Card(RANK.THREE, SUIT.S)])).toBe(INVALID_MOVE);
   expect(ctx.events.endTurn).not.toHaveBeenCalled();
 });
 
@@ -67,7 +67,7 @@ it('should allow a stronger double to beat a weaker double', () => {
     },
   };
 
-  const newG = MakeMove(G, ctx, [0, 2]);
+  const newG = MakeMove(G, ctx, [G.players['0'][0], G.players['0'][2]]);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
   expect(newG.players[0].length).toBe(1);
@@ -98,7 +98,7 @@ it('should allow a stronger trip to beat a weaker trip', () => {
     },
   };
 
-  const newG = MakeMove(G, ctx, [0, 1, 2]);
+  const newG = MakeMove(G, ctx, G.players['0']);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
   expect(newG.players[0].length).toBe(0);
@@ -131,7 +131,7 @@ it('should allow a stronger quad to beat a weaker quad', () => {
     },
   };
 
-  const newG = MakeMove(G, ctx, [0, 1, 2, 3]);
+  const newG = MakeMove(G, ctx, G.players['0']);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
   expect(newG.players[0].length).toBe(0);
@@ -163,7 +163,7 @@ it('should not allow a weaker quad to beat a stronger quad', () => {
     },
   };
 
-  expect(MakeMove(G, ctx, [0, 1, 2, 3])).toBe(INVALID_MOVE);
+  expect(MakeMove(G, ctx, G.players['0'])).toBe(INVALID_MOVE);
   expect(ctx.events.endTurn).not.toHaveBeenCalled();
 });
 
@@ -188,7 +188,7 @@ it('should allow a quad to beat a two', () => {
     },
   };
 
-  const newG = MakeMove(G, ctx, [0, 1, 2, 3]);
+  const newG = MakeMove(G, ctx, G.players['0']);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
   expect(newG.players[0].length).toBe(0);
@@ -219,7 +219,7 @@ it('should allow a bomb to beat a two', () => {
     },
   };
 
-  const newG = MakeMove(G, ctx, [0, 1, 2, 3, 4, 5]);
+  const newG = MakeMove(G, ctx, G.players['0']);
 
   expect(ctx.events.endTurn).toHaveBeenCalled();
   expect(newG.players[0].length).toBe(0);
