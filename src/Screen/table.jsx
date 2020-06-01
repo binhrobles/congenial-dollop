@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal, Row } from 'antd';
+import { Button, Modal, Row, Space } from 'antd';
 import Emoji from 'a11y-react-emoji';
 import Card from '../Card';
 import Play from '../Play';
+import Avatar from '../Components/avatar';
 import PlayerView from '../Components/playerView';
 import History from '../Components/history';
 
@@ -13,29 +14,25 @@ function Table(props) {
   const playerNames = gameMetadata.map((player) => player.name);
 
   const getResults = () => {
-    if (G.winOrder.length === 3) {
-      const lastPlayerId = Object.keys(G.players).filter(
-        (player) => !G.winOrder.includes(player)
-      );
+    const trophyEmojis = ['🏆', '🥈', '🥉', '💩'];
+    if (ctx.gameover && ctx.gameover.winOrder) {
       return (
-        <>
-          <p>
-            <Emoji symbol="🏆" label="first" />{' '}
-            {gameMetadata[G.winOrder[0]].name}
-          </p>
-          <p>
-            <Emoji symbol="🥈" label="second" />{' '}
-            {gameMetadata[G.winOrder[1]].name}
-          </p>
-          <p>
-            <Emoji symbol="🥉" label="third" />{' '}
-            {gameMetadata[G.winOrder[2]].name}
-          </p>
-          <p>
-            <Emoji symbol="💩" label="shitty last" />{' '}
-            {gameMetadata[lastPlayerId].name}
-          </p>
-        </>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          {ctx.gameover.winOrder.map((id, position) => {
+            return (
+              <Space size="small" key={id}>
+                <Emoji symbol={trophyEmojis[position]} label={position} />
+                <Avatar playerName={gameMetadata[id].name} withName />
+              </Space>
+            );
+          })}
+        </div>
       );
     }
 
@@ -59,7 +56,7 @@ function Table(props) {
         {getResults()}
       </Modal>
       <Modal
-        title="You're bad!"
+        title="You're so bad!"
         style={{ top: 20 }}
         closable={false}
         maskClosable={false}
@@ -104,12 +101,13 @@ Table.propTypes = {
     log: PropTypes.arrayOf(Play),
     lastPlay: PropTypes.instanceOf(Card),
     playersInRound: PropTypes.arrayOf(PropTypes.string),
+    playersInGame: PropTypes.arrayOf(PropTypes.string),
     winOrder: PropTypes.arrayOf(PropTypes.string),
   }).isRequired,
   ctx: PropTypes.shape({
     currentPlayer: PropTypes.string,
     numPlayers: PropTypes.number,
-    gameover: PropTypes.objectOf(PropTypes.string),
+    gameover: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
   }).isRequired,
   moves: PropTypes.shape({
     Pass: PropTypes.func,

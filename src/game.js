@@ -93,8 +93,11 @@ export function onTurnEnd(G, ctx) {
 
 // eslint-disable-next-line consistent-return
 export function endIf(G) {
-  if (G.playersInGame === 1) {
-    return { winOrder: G.winOrder };
+  if (G.playersInGame.length === 1) {
+    const lastPlayerId = Object.keys(G.players).filter(
+      (player) => !G.winOrder.includes(player)
+    );
+    return { winOrder: G.winOrder.concat(lastPlayerId) };
   }
 }
 

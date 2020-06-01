@@ -88,7 +88,7 @@ PlayerView.propTypes = {
   cards: PropTypes.objectOf(PropTypes.arrayOf(Card)).isRequired,
   currentPlayer: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
-  lastPlay: PropTypes.instanceOf(Card).isRequired,
+  lastPlay: PropTypes.instanceOf(Card),
   moves: PropTypes.shape({
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
@@ -100,6 +100,7 @@ PlayerView.propTypes = {
 
 PlayerView.defaultProps = {
   playerNames: ['Adri', 'Binh', 'Chris', 'Drake'],
+  lastPlay: null,
 };
 
 export default PlayerView;

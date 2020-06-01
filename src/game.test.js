@@ -155,5 +155,39 @@ it('should mark gameover after 3rd person goes out', () => {
   expect(G.winOrder).toContain('0');
 
   // and p1 should be declared winner
-  expect(ctx.gameover.winner).toBe('1');
+  expect(ctx.gameover.winOrder).toEqual(['1', '2', '0', '3']);
+});
+
+it('should mark gameover in a two person game', () => {
+  const scenario = {
+    ...Game,
+    setup: () => ({
+      players: {
+        '0': [new Card(RANK.TWO, SUIT.H)],
+        '1': [0],
+      },
+      log: [],
+      startingPlayer: 0,
+      lastPlay: null,
+      playersInGame: ['0', '1'],
+      playersInRound: ['0', '1'],
+      winOrder: [],
+    }),
+  };
+
+  const client = Client({
+    game: scenario,
+    numPlayers: 2,
+  });
+
+  client.moves.MakeMove([0]); // p0 plays last card
+
+  const { G, ctx } = client.store.getState();
+
+  // and p0 should be removed from game
+  expect(G.playersInGame).not.toContain('0');
+  expect(G.playersInRound).not.toContain('0');
+
+  // and p0 should be declared winner
+  expect(ctx.gameover.winOrder).toEqual(['0', '1']);
 });
