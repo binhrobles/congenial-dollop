@@ -39,8 +39,8 @@ function Landing() {
           playerName={playerName}
           style={{
             padding: 10,
-            width: '35vw',
-            height: '35vw',
+            width: 'unset',
+            height: 'unset',
             marginLeft: 'auto',
             marginRight: 'auto',
             display: 'block',
