@@ -26,7 +26,7 @@ function PlayerView(props) {
     const cardValueInt = parseInt(cardValue, 10);
     const card = playerCards.filter((c) => c.value === cardValueInt)[0];
 
-    updateSelected((prev) => prev.concat(card));
+    updateSelected((prev) => [...new Set(prev.concat(card))]);
   }
 
   function deselectCard(cardValue) {
@@ -58,7 +58,7 @@ function PlayerView(props) {
   return (
     <>
       {isActive && (
-        <Row align="center">
+        <Row justify="center">
           <Hand cards={selected} isActive={isActive} onSelect={deselectCard} />
         </Row>
       )}
@@ -71,7 +71,7 @@ function PlayerView(props) {
         />
       )}
       {isActive && (
-        <Row align="center" style={{ padding: 10 }}>
+        <Row justify="center" style={{ padding: 10 }}>
           <PlayerOptions
             selected={selected}
             lastPlay={lastPlay}
@@ -83,11 +83,7 @@ function PlayerView(props) {
       )}
       <Divider style={{ margin: '10px 0' }} />
       <Row align="bottom" justify="center">
-        <Hand
-          cards={playerCards.filter((c) => !selected.includes(c))}
-          isActive={isActive}
-          onSelect={selectCard}
-        />
+        <Hand cards={playerCards} isActive={isActive} onSelect={selectCard} />
       </Row>
     </>
   );
