@@ -10,5 +10,5 @@ variable "root_domain_name" {
 
 variable "application_domain_name" {
   type    = string
-  default = "shitty-thirteen.binhrobles.com"
+  default = "thirteen.binhrobles.com"
 }
