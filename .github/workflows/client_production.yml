@@ -6,7 +6,7 @@ on:
   pull_request:
 
 env:
-  APPLICATION_DOMAIN_NAME: 'shitty-thirteen.binhrobles.com'
+  APPLICATION_DOMAIN_NAME: 'thirteen.binhrobles.com'
   REGION: 'us-west-1'
   TF_WORKING_DIR: 'infra/production/'
 
