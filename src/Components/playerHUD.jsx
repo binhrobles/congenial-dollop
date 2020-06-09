@@ -8,14 +8,14 @@ function PlayerHUD(props) {
   const { cards, currentPlayer, playersIn, playerNames } = props;
 
   const renderPlayerStatus = (playerID) => {
-    let base = 10;
-    let max = 70;
+    let base = 8;
+    let max = 56;
     let opacity = 1.0;
 
     // emphasize the person whose turn it is
     if (playerID.toString() === currentPlayer) {
-      base = Math.floor(base * 1.4);
-      max = Math.floor(max * 1.4);
+      base = Math.floor(base * 2);
+      max = Math.floor(max * 2);
     }
 
     // dim those who passed this round
