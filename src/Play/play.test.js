@@ -66,9 +66,16 @@ it('should verify valid runs', () => {
     new Card(RANK.KING, SUIT.S),
   ];
 
+  const RKA2akaTheJoey = [
+    new Card(RANK.ACE, SUIT.D),
+    new Card(RANK.KING, SUIT.S),
+    new Card(RANK.TWO, SUIT.H),
+  ];
+
   expect(isRun(R345)).toBeTruthy();
   expect(isRun(RJQKA)).toBeTruthy();
   expect(isRun(R346)).toBeFalsy();
+  expect(isRun(RKA2akaTheJoey)).toBeFalsy();
 });
 
 it('should verify bombs', () => {

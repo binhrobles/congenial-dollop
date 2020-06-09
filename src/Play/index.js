@@ -1,4 +1,5 @@
 import Card from '../Card';
+import { RANK } from '../Card/constants';
 import { COMBO } from './constants';
 
 export function isSingle(cards) {
@@ -28,6 +29,7 @@ export function isQuad(cards) {
 export function isRun(cards) {
   const sorted = cards.sort(Card.Compare);
   if (sorted.length < 3) return false;
+  if (cards.some((card) => card.rank === RANK.TWO)) return false;
 
   let running = true;
   for (let i = 0; i < sorted.length - 1; i += 1) {
