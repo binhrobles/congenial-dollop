@@ -23,7 +23,12 @@ function History(props) {
   const renderLogItem = (entry) => {
     switch (entry.event) {
       case 'move':
-        return <Hand cards={entry.play.cards.sort(Card.Compare)} />;
+        return (
+          <>
+            <Hand cards={entry.play.cards.sort(Card.Compare)} />
+            {entry.play.suited && 'Suited'}
+          </>
+        );
       case 'pass':
         return <div>Passed</div>;
       case 'power':

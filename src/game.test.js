@@ -6,11 +6,12 @@ import { COMBO } from './Play/constants';
 import Game from './game';
 
 it('should mark winner after playing final card', () => {
+  const hand = [new Card(RANK.TWO, SUIT.H)];
   const scenario = {
     ...Game,
     setup: () => ({
       players: {
-        '0': [new Card(RANK.TWO, SUIT.H)],
+        '0': hand,
         '1': [0, 1, 2],
         '2': [2, 3, 4],
         '3': [5, 6, 7],
@@ -29,7 +30,9 @@ it('should mark winner after playing final card', () => {
     numPlayers: 4,
   });
 
-  client.moves.MakeMove([new Card(RANK.TWO, SUIT.H)]); // p0 plays last card
+  const play = new Play(COMBO.SINGLE, hand);
+  play.player = '0';
+  client.moves.MakeMove(play); // p0 plays last card
 
   {
     const { G } = client.store.getState();
@@ -38,12 +41,12 @@ it('should mark winner after playing final card', () => {
     expect(G.playersInGame).not.toContain('0');
     expect(G.playersInRound).not.toContain('0');
     expect(G.winOrder).toContain('0');
-
-    // if everyone passes, power goes to p1
-    client.moves.Pass(); // p1 passes
-    client.moves.Pass(); // p2 passes
-    client.moves.Pass(); // p3 passes
   }
+
+  // if everyone passes, power goes to p1
+  client.moves.Pass(); // p1 passes
+  client.moves.Pass(); // p2 passes
+  client.moves.Pass(); // p3 passes
 
   {
     const { G, ctx } = client.store.getState();
@@ -55,12 +58,13 @@ it('should mark winner after playing final card', () => {
 });
 
 it('should mark second after playing last card', () => {
+  const hand = [new Card(RANK.TWO, SUIT.H)];
   const scenario = {
     ...Game,
     setup: () => ({
       players: {
         '0': [0, 1, 2],
-        '1': [new Card(RANK.TWO, SUIT.H)],
+        '1': hand,
         '2': [],
         '3': [2, 3, 4],
       },
@@ -78,7 +82,8 @@ it('should mark second after playing last card', () => {
     numPlayers: 4,
   });
 
-  client.moves.MakeMove([new Card(RANK.TWO, SUIT.H)]); // p1 plays last card
+  const play = new Play(COMBO.SINGLE, hand);
+  client.moves.MakeMove(play); // p1 plays last card
 
   const { G, ctx } = client.store.getState();
 
@@ -94,13 +99,15 @@ it('should mark second after playing last card', () => {
 });
 
 it('should pass power to the person after the winner, if all pass after a win', () => {
+  const lastPlay = new Play(COMBO.SINGLE, [new Card(RANK.EIGHT, SUIT.D)]);
+  lastPlay.player = '0';
   const scenario = {
     ...Game,
     setup: () => ({
       players: { '0': [], '1': [0, 1, 2], '2': [2, 3, 4], '3': [5, 6, 7] },
       log: [],
       startingPlayer: 3,
-      lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.EIGHT, SUIT.D)], '0'),
+      lastPlay,
       playersInGame: ['1', '2', '3'],
       playersInRound: ['3'],
       winOrder: [0],
@@ -122,11 +129,12 @@ it('should pass power to the person after the winner, if all pass after a win', 
 });
 
 it('should mark gameover after 3rd person goes out', () => {
+  const hand = [new Card(RANK.TWO, SUIT.H)];
   const scenario = {
     ...Game,
     setup: () => ({
       players: {
-        '0': [new Card(RANK.TWO, SUIT.H)],
+        '0': hand,
         '1': [],
         '2': [],
         '3': [5, 6, 7],
@@ -145,7 +153,8 @@ it('should mark gameover after 3rd person goes out', () => {
     numPlayers: 4,
   });
 
-  client.moves.MakeMove([new Card(RANK.TWO, SUIT.H)]); // p0 plays last card
+  const play = new Play(COMBO.SINGLE, hand);
+  client.moves.MakeMove(play); // p0 plays last card
 
   const { G, ctx } = client.store.getState();
 
@@ -159,11 +168,12 @@ it('should mark gameover after 3rd person goes out', () => {
 });
 
 it('should mark gameover in a two person game', () => {
+  const hand = [new Card(RANK.TWO, SUIT.H)];
   const scenario = {
     ...Game,
     setup: () => ({
       players: {
-        '0': [new Card(RANK.TWO, SUIT.H)],
+        '0': hand,
         '1': [0],
       },
       log: [],
@@ -180,7 +190,8 @@ it('should mark gameover in a two person game', () => {
     numPlayers: 2,
   });
 
-  client.moves.MakeMove([new Card(RANK.TWO, SUIT.H)]); // p0 plays last card
+  const play = new Play(COMBO.SINGLE, hand);
+  client.moves.MakeMove(play); // p0 plays last card
 
   const { G, ctx } = client.store.getState();
 

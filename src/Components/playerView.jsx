@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { INVALID_MOVE } from 'boardgame.io/core';
-import { Divider, Row, message } from 'antd';
-import { tryStandardMove, tryOpeningMove } from '../Move/makeMove';
+import { Divider, Row } from 'antd';
 import Card from '../Card';
 import Hand from './hand';
 import PlayerOptions from './playerOptions';
@@ -36,25 +34,6 @@ function PlayerView(props) {
     );
   }
 
-  function clear() {
-    updateSelected([]);
-  }
-
-  function playMove() {
-    // first dry run the move for validation
-    const attempt = lastPlay
-      ? tryStandardMove(lastPlay, selected)
-      : tryOpeningMove(selected);
-
-    if (attempt === INVALID_MOVE) {
-      message.error("You can't do that");
-    } else {
-      moves.MakeMove(selected);
-    }
-
-    clear();
-  }
-
   return (
     <>
       {isActive && (
@@ -75,9 +54,9 @@ function PlayerView(props) {
           <PlayerOptions
             selected={selected}
             lastPlay={lastPlay}
-            playMove={playMove}
-            pass={() => moves.Pass()}
-            clear={clear}
+            moves={moves}
+            updateSelected={updateSelected}
+            playerID={playerID}
           />
         </Row>
       )}

@@ -1,5 +1,5 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import Play from '../Play';
+import Play, { isSuited } from '../Play';
 import { COMBO } from '../Play/constants';
 import { RANK } from '../Card/constants';
 
@@ -14,7 +14,7 @@ export function tryChop(lastPlayLength, attemptedCards) {
     return new Play(attemptedCombo, attemptedCards);
   }
 
-  return INVALID_MOVE;
+  throw new Error(`You need to play a valid chopper`);
 }
 
 export function tryStandardMove(lastPlay, attemptedCards) {
@@ -25,13 +25,25 @@ export function tryStandardMove(lastPlay, attemptedCards) {
       return tryChop(lastPlay.cards.length, attemptedCards);
     }
 
-    return INVALID_MOVE;
+    throw new Error(`You need to play a ${lastPlay.combo}`);
   }
 
-  const attemptedPlay = new Play(lastPlay.combo, attemptedCards);
+  if (
+    lastPlay.combo === COMBO.RUN &&
+    lastPlay.suited &&
+    !isSuited(attemptedCards)
+  ) {
+    throw new Error('You need to play a suited run');
+  }
+
+  const attemptedPlay = new Play(
+    lastPlay.combo,
+    attemptedCards,
+    lastPlay.suited
+  );
 
   if (lastPlay.value > attemptedPlay.value) {
-    return INVALID_MOVE;
+    throw new Error("That doesn't beat the last play");
   }
 
   return attemptedPlay;
@@ -40,37 +52,41 @@ export function tryStandardMove(lastPlay, attemptedCards) {
 export function tryOpeningMove(cards) {
   const combo = Play.DetermineCombo(cards);
 
-  if (combo === COMBO.INVALID || combo === COMBO.BOMB) {
-    return INVALID_MOVE;
+  if (combo === COMBO.INVALID) {
+    throw new Error("That's not a real hand");
+  }
+  if (combo === COMBO.BOMB) {
+    throw new Error("You can't open with a bomb");
   }
 
-  // TODO: suited?
   return new Play(combo, cards);
 }
 
-export default function MakeMove(G, ctx, cards) {
-  // ensure card selection is valid (should be done on the client as well)
-  const selectionSet = new Set(cards);
-  if (cards.length !== selectionSet.size) return INVALID_MOVE;
+export default function MakeMove(G, ctx, play) {
+  // ensure what we're being passed will work
+  // the client should've already packaged this move
+  try {
+    if (!G.lastPlay) {
+      tryOpeningMove(play.cards);
+    } else {
+      tryStandardMove(G.lastPlay, play.cards);
+    }
+  } catch (_) {
+    return INVALID_MOVE;
+  }
 
-  const currentPlay = G.lastPlay
-    ? tryStandardMove(G.lastPlay, cards)
-    : tryOpeningMove(cards);
-  if (currentPlay === INVALID_MOVE) return INVALID_MOVE;
-  currentPlay.player = ctx.currentPlayer;
+  // ensure card selection is valid (should be done on the client as well)
+  if (play === INVALID_MOVE) return INVALID_MOVE;
 
   // deep copy object so we don't modify state
   const newPlayers = JSON.parse(JSON.stringify(G.players));
 
   // find and remove the cards from the state array
-  const playedCardValues = cards.map((c) => c.value);
+  const playedCardValues = play.cards.map((c) => c.value);
 
   newPlayers[ctx.playOrderPos] = newPlayers[ctx.playOrderPos].filter(
     (card) => !playedCardValues.includes(card.value)
   );
-
-  // add remaining cards to log
-  currentPlay.cardsRemaining = newPlayers[ctx.playOrderPos].length;
 
   ctx.events.endTurn();
 
@@ -78,13 +94,13 @@ export default function MakeMove(G, ctx, cards) {
   const log = G.log.concat({
     event: 'move',
     player: ctx.currentPlayer,
-    play: currentPlay,
+    play,
   });
 
   return {
     ...G,
     log,
     players: newPlayers,
-    lastPlay: currentPlay,
+    lastPlay: play,
   };
 }

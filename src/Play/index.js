@@ -61,12 +61,17 @@ export function isBomb(cards) {
   return bombing;
 }
 
+export function isSuited(cards) {
+  const suits = cards.map((card) => card.suit);
+  const suitSet = new Set(suits);
+  return suitSet.size === 1;
+}
+
 export default class Play {
-  constructor(combo, cards, player) {
+  constructor(combo, cards, suited = false) {
     this.cards = cards.sort(Card.Compare).reverse(); // cards[0] now holds highest value card
     this.combo = combo;
-    this.player = player;
-    // TODO: this.remaining
+    this.suited = suited;
     this.value = this.cards[0].value;
   }
 
