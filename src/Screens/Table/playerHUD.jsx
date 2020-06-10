@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'antd';
-import Card from '../Card';
-import Avatar from './avatar';
+import Card from '../../Game/Card';
+import { Avatar } from '../../Components';
 
 function PlayerHUD(props) {
   const { cards, currentPlayer, playersIn, playerNames } = props;

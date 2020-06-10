@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, Layout, Space, Input } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
-import Avatar from '../Components/avatar';
-import Lobby from './lobby';
-import LobbyClient from '../Http/lobby';
-import useStateWithSessionStorage from '../hooks/useStateWithSessionStorage';
+import Avatar from '../../Components/avatar';
+import Lobby from '../Lobby';
+import { LobbyClient } from '../../Http';
+import useStateWithSessionStorage from '../../hooks/useStateWithSessionStorage';
 
 const MAX_NAME_LENGTH = 10;
 

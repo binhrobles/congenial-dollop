@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'antd';
-import LobbyClient from '../Http/lobby';
+import { LobbyClient } from '../../Http';
 import LobbyRoomInstance from './lobbyRoomInstance';
-import useInterval from '../hooks/useInterval';
+import useInterval from '../../hooks/useInterval';
 
 function LobbyRoomList(props) {
   const { onJoin } = props;

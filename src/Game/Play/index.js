@@ -1,6 +1,7 @@
-import Card from '../Card';
-import { RANK } from '../Card/constants';
+import Card, { RANK } from '../Card';
 import { COMBO } from './constants';
+
+export { COMBO };
 
 export function isSingle(cards) {
   return cards.length === 1;

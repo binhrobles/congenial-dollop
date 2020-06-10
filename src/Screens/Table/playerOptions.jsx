@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import { INVALID_MOVE } from 'boardgame.io/core';
 import { Button, Space, Popconfirm, message } from 'antd';
 import { MehOutlined } from '@ant-design/icons';
-import { tryStandardMove, tryOpeningMove } from '../Move/makeMove';
-import { COMBO } from '../Play/constants';
-import Card from '../Card';
-import Play, { isSuited } from '../Play';
+import Card from '../../Game/Card';
+import Play, { COMBO, isSuited } from '../../Game/Play';
+import { tryStandardMove, tryOpeningMove } from '../../Game/Move/makeMove';
 
 function PlayerOptions(props) {
   const { selected, lastPlay, moves, updateSelected, playerID } = props;

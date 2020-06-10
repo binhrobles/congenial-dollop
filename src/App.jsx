@@ -1,8 +1,8 @@
 import React from 'react';
 import { Layout } from 'antd';
 import keys from './keys';
-import Debug from './Screen/debug';
-import Landing from './Screen/landing';
+import Debug from './Screens/Debug';
+import Landing from './Screens/Landing';
 
 function App() {
   if (keys.debug) {

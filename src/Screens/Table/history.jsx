@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { List, Space } from 'antd';
 import Emoji from 'a11y-react-emoji';
-import Play from '../Play';
-import Card from '../Card';
-import Hand from './hand';
-import Avatar from './avatar';
+import Play from '../../Game/Play';
+import Card from '../../Game/Card';
+import { Avatar, Hand } from '../../Components';
 
 function History(props) {
   const { log, playerNames } = props;

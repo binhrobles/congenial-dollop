@@ -13,3 +13,5 @@ export default class Card {
     return a.value - b.value;
   }
 }
+
+export { RANK, SUIT };

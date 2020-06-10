@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Space } from 'antd';
-import Card from '../Card';
+import Card from '../Game/Card';
 import CardComponent from './card';
 
 function Hand(props) {

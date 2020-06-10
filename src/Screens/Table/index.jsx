@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Modal, Row, Space } from 'antd';
 import Emoji from 'a11y-react-emoji';
-import Card from '../Card';
-import Play from '../Play';
-import Avatar from '../Components/avatar';
-import PlayerView from '../Components/playerView';
-import History from '../Components/history';
+import Card from '../../Game/Card';
+import Play from '../../Game/Play';
+import { Avatar } from '../../Components';
+import PlayerView from './playerView';
+import History from './history';
 
 function Table(props) {
   const {

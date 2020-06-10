@@ -1,8 +1,8 @@
 import React from 'react';
 import { Local } from 'boardgame.io/multiplayer';
 import { Client } from 'boardgame.io/react';
-import Game from '../game';
-import Table from './table';
+import Game from '../../Game';
+import Table from '../Table';
 
 function Debug() {
   const DebugClient = Client({

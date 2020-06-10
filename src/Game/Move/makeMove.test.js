@@ -1,9 +1,7 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
 import MakeMove, { tryStandardMove } from './makeMove';
-import Card from '../Card';
-import { RANK, SUIT } from '../Card/constants';
-import Play from '../Play';
-import { COMBO } from '../Play/constants';
+import Card, { RANK, SUIT } from '../Card';
+import Play, { COMBO } from '../Play';
 
 it('should allow a stronger single to beat a weaker single', () => {
   const lastPlay = new Play(COMBO.SINGLE, [new Card(RANK.THREE, SUIT.H)]);

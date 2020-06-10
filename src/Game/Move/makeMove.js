@@ -1,7 +1,6 @@
 import { INVALID_MOVE } from 'boardgame.io/core';
-import Play, { isSuited } from '../Play';
-import { COMBO } from '../Play/constants';
-import { RANK } from '../Card/constants';
+import Play, { COMBO, isSuited } from '../Play';
+import { RANK } from '../Card';
 
 export function tryChop(lastPlayLength, attemptedCards) {
   const attemptedCombo = Play.DetermineCombo(attemptedCards);

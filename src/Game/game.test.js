@@ -1,9 +1,7 @@
 import { Client } from 'boardgame.io/client';
-import Card from './Card';
-import { SUIT, RANK } from './Card/constants';
-import Play from './Play';
-import { COMBO } from './Play/constants';
-import Game from './game';
+import Card, { SUIT, RANK } from './Card';
+import Play, { COMBO } from './Play';
+import Game from '.';
 
 it('should mark winner after playing final card', () => {
   const hand = [new Card(RANK.TWO, SUIT.H)];

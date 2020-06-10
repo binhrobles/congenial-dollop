@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Divider, Row } from 'antd';
-import Card from '../Card';
-import Hand from './hand';
+import Card from '../../Game/Card';
+import { Hand } from '../../Components';
 import PlayerOptions from './playerOptions';
 import PlayerHUD from './playerHUD';
 

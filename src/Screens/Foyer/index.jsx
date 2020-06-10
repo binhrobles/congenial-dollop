@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { Button, Row, Space, Spin } from 'antd';
 import { SocketIO } from 'boardgame.io/multiplayer';
 import { Client } from 'boardgame.io/react';
-import FoyerBuddies from '../Components/foyerBuddies';
-import Game from '../game';
-import Table from './table';
-import keys from '../keys';
+import FoyerBuddies from './foyerBuddies';
+import Game from '../../Game';
+import Table from '../Table';
+import keys from '../../keys';
 
 function Foyer(props) {
   const { roomID, player, playAgain, exitFoyer } = props;

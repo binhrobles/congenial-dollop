@@ -1,5 +1,4 @@
-import { SUIT, RANK } from '../Card/constants';
-import Card from '../Card';
+import Card, { RANK, SUIT } from '../Card';
 
 export function GenerateStandardDeck() {
   const deck = [];

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Drawer, Form, Radio, Spin, Row, Col, message } from 'antd';
-import LobbyClient from '../Http/lobby';
-import LobbyRoomList from '../Components/lobbyRoomList';
-import Foyer from './foyer';
-import useStateWithSessionStorage from '../hooks/useStateWithSessionStorage';
+import { LobbyClient } from '../../Http';
+import LobbyRoomList from './lobbyRoomList';
+import Foyer from '../Foyer';
+import useStateWithSessionStorage from '../../hooks/useStateWithSessionStorage';
 
 // TODO: probably want to use reducer here
 function Lobby(props) {

@@ -1,7 +1,5 @@
-import Card from '../Card';
-import { RANK, SUIT } from '../Card/constants';
-import Play, { isRun, isBomb } from './index';
-import { COMBO } from './constants';
+import Card, { RANK, SUIT } from '../Card';
+import Play, { isRun, isBomb, COMBO } from './index';
 
 const H2 = new Card(RANK.TWO, SUIT.H);
 const D2 = new Card(RANK.TWO, SUIT.D);

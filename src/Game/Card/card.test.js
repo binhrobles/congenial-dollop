@@ -1,5 +1,4 @@
-import Card from './index';
-import { RANK, SUIT } from './constants';
+import Card, { RANK, SUIT } from './index';
 
 it('should correctly compare various single cards', () => {
   expect(
