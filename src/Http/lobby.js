@@ -81,17 +81,11 @@ async function joinRoom({ roomID, playerName, data }) {
 
 async function playAgain({ roomID, playerID, playerToken }) {
   try {
-    // first get the numPlayers of previous game
-    // https://github.com/nicolodavis/boardgame.io/issues/718
-    const prevRoom = await getRoomByID(roomID);
-    const numPlayers = Object.keys(prevRoom.players).length;
-
     const response = await instance.post(
       `/games/thirteen/${roomID}/playAgain`,
       {
         playerID,
         credentials: playerToken,
-        numPlayers,
       }
     );
     return response.data.nextRoomID;
