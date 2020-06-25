@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal, Row, Space } from 'antd';
-import Emoji from 'a11y-react-emoji';
+import { Row } from 'antd';
 import Card from '../../Game/Card';
 import Play from '../../Game/Play';
-import { Avatar } from '../../Components';
 import PlayerView from './playerView';
 import History from './history';
+import Results from './results';
 
 function Table(props) {
   const {
@@ -22,68 +21,15 @@ function Table(props) {
 
   const playerNames = gameMetadata.map((player) => player.name);
 
-  const getResults = () => {
-    const trophyEmojis = ['🏆', '🥈', '🥉', '💩'];
-    if (ctx.gameover && ctx.gameover.winOrder) {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          {ctx.gameover.winOrder.map((id, position) => {
-            return (
-              <Space size="small" key={id}>
-                <Emoji symbol={trophyEmojis[position]} label={position} />
-                <Avatar playerName={gameMetadata[id].name} withName />
-              </Space>
-            );
-          })}
-        </div>
-      );
-    }
-
-    return <></>;
-  };
-
   return (
     <>
-      <Modal
-        title="Wow you did it"
-        style={{ top: 20 }}
-        closable={false}
-        maskClosable={false}
-        visible={ctx.gameover && ctx.gameover.winOrder[0] === playerID}
-        footer={[
-          <Button key="back" onClick={exitGame}>
-            Back to Lobby
-          </Button>,
-          <Button key="playAgain" type="primary" onClick={playAgain}>
-            Run it back
-          </Button>,
-        ]}
-      >
-        {getResults()}
-      </Modal>
-      <Modal
-        title="You're so bad!"
-        style={{ top: 20 }}
-        closable={false}
-        maskClosable={false}
-        visible={ctx.gameover && ctx.gameover.winOrder[0] !== playerID}
-        footer={[
-          <Button key="back" onClick={exitGame}>
-            Back to Lobby
-          </Button>,
-          <Button key="playAgain" type="primary" onClick={playAgain}>
-            Run it back
-          </Button>,
-        ]}
-      >
-        {getResults()}
-      </Modal>
+      <Results
+        playAgain={playAgain}
+        exitGame={exitGame}
+        gameover={ctx.gameover}
+        gameMetadata={gameMetadata}
+        playerID={playerID}
+      />
       <div style={{ backgroundColor: '#35654d', minHeight: '100vh' }}>
         <Row
           align="middle"
