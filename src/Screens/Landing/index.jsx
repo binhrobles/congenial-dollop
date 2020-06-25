@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Layout, Space, Input } from 'antd';
-import { GithubOutlined } from '@ant-design/icons';
+import PropTypes from 'prop-types';
+import { Button, Space, Input } from 'antd';
 import Avatar from '../../Components/avatar';
 import Lobby from '../Lobby';
 import { LobbyClient } from '../../Http';
@@ -8,11 +8,10 @@ import useStateWithSessionStorage from '../../hooks/useStateWithSessionStorage';
 
 const MAX_NAME_LENGTH = 10;
 
-function Landing() {
+function Landing({ hasEntered, updateHasEntered }) {
   const [playerName, updatePlayerName] = useStateWithSessionStorage(
     'playerName'
   );
-  const [hasEntered, updateHasEntered] = React.useState(playerName !== '');
 
   React.useEffect(() => {
     // wake up Heroku app
@@ -65,15 +64,13 @@ function Landing() {
           </Button>
         </Space>
       </form>
-      <Layout.Footer style={{ textAlign: 'center' }}>
-        <Button
-          shape="circle"
-          icon={<GithubOutlined />}
-          href="https://github.com/binhrobles/thirteen"
-        />
-      </Layout.Footer>
     </>
   );
 }
+
+Landing.propTypes = {
+  hasEntered: PropTypes.bool.isRequired,
+  updateHasEntered: PropTypes.func.isRequired,
+};
 
 export default Landing;
