@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { INVALID_MOVE } from 'boardgame.io/core';
-import { Button, Space, Popconfirm, message } from 'antd';
+import { Button, Space, Popconfirm, message, notification } from 'antd';
 import { MehOutlined } from '@ant-design/icons';
-import Card from '../../Game/Card';
+import Card, { RANK } from '../../Game/Card';
 import Play, { COMBO, isSuited } from '../../Game/Play';
 import { tryStandardMove, tryOpeningMove } from '../../Game/Move/makeMove';
 
@@ -16,6 +16,35 @@ function PlayerOptions(props) {
     attemptedPlay = null;
     showSuitedPrompt(false);
     updateSelected([]);
+  }
+
+  function onPass() {
+    moves.Pass();
+
+    // joey's great suggestion to spam ourselves
+    if (
+      [COMBO.SINGLE, COMBO.PAIR].includes(lastPlay.combo) &&
+      lastPlay.cards[0].rank <= RANK.SIX
+    ) {
+      const reallys = [
+        'really...',
+        'REALLY.',
+        'really?',
+        'reeaaaallly.',
+        'wow really',
+        'real.ly.',
+        'R E A L L Y.',
+        '_-_really_-_',
+      ];
+      for (let i = 0; i < 6; i += 1) {
+        setTimeout(() => {
+          notification.info({
+            message: reallys[Math.floor(Math.random() * reallys.length)],
+            duration: 3,
+          });
+        }, Math.floor(Math.random() * 1000));
+      }
+    }
   }
 
   function executeMove() {
@@ -100,7 +129,7 @@ function PlayerOptions(props) {
         title="Really?"
         okText="Really."
         cancelText="No"
-        onConfirm={() => moves.Pass()}
+        onConfirm={onPass}
       >
         <Button type="default">Pass</Button>
       </Popconfirm>
