@@ -1,5 +1,5 @@
 const { Server, FlatFile } = require('boardgame.io/server');
-const Game = require('./game').default;
+const Game = require('./Game/index').default;
 
 const port = process.env.PORT || 8000;
 let serverInput = { games: [Game] };
