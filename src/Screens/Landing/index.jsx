@@ -18,7 +18,7 @@ function Landing({ hasEntered, updateHasEntered }) {
     LobbyClient.ping();
   }, []);
 
-  const handleSubmit = () => {
+  const onClick = () => {
     updateHasEntered(true);
   };
 
@@ -34,22 +34,19 @@ function Landing({ hasEntered, updateHasEntered }) {
   return (
     <>
       <div style={{ textAlign: 'center', width: '100vw' }}>
-        <Avatar
-          playerName={playerName}
-          style={{
-            padding: 10,
-            width: 'unset',
-            height: 'unset',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            display: 'block',
-          }}
-        />
-      </div>
-      <form
-        onSubmit={handleSubmit}
-        style={{ textAlign: 'center', padding: 10 }}
-      >
+        <div>
+          <Avatar
+            playerName={playerName}
+            style={{
+              padding: 10,
+              width: 'unset',
+              height: 'unset',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+              display: 'block',
+            }}
+          />
+        </div>
         <Space>
           <Input
             size="large"
@@ -59,11 +56,11 @@ function Landing({ hasEntered, updateHasEntered }) {
               updatePlayerName(event.target.value.slice(0, MAX_NAME_LENGTH))
             }
           />
-          <Button type="primary" size="large" htmlType="submit">
+          <Button type="primary" size="large" onClick={onClick}>
             Enter
           </Button>
         </Space>
-      </form>
+      </div>
     </>
   );
 }
