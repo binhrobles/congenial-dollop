@@ -5,20 +5,19 @@ import { Space } from 'antd';
 function Avatar(props) {
   const { playerName, withName, cardCount, style } = props;
   const defaultStyle = {
-    borderRadius: '30%',
-    width: 70,
-    height: 70,
+    width: '150px',
+    height: '150px',
   };
 
   const compositeStyle = {
-    ...defaultStyle,
     ...style,
+    ...defaultStyle,
   };
 
   return (
     <Space align="center" direction="vertical" style={{ padding: 10 }}>
       <img
-        src={`https://api.adorable.io/avatars/150/${playerName}.png`}
+        src={`https://avatars.dicebear.com/api/human/${playerName}.svg`}
         alt={playerName}
         style={compositeStyle}
       />
