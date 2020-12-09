@@ -6,6 +6,13 @@ terraform {
       name = "shitty-thirteen"
     }
   }
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.0"
+    }
+  }
 }
 
 provider "aws" {
@@ -26,4 +33,3 @@ module "client" {
   application_domain_name = var.application_domain_name
   root_domain_name        = var.root_domain_name
 }
-
