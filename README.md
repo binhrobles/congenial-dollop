@@ -20,4 +20,4 @@ Hosted at https://thirteen.binhrobles.com/
 ## Credits
 
 - UI Framework: [ant.design](https://ant.design)
-- Fun avatars: [avatars.adorable.io](http://avatars.adorable.io)
+- Fun avatars: [https://avatars.dicebear.com/](https://avatars.dicebear.com/)
