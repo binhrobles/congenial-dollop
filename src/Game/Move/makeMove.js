@@ -10,7 +10,7 @@ export function tryChop(lastPlayLength, attemptedCards) {
     ((lastPlayLength + 2) * 2 === attemptedCards.length && // or if beating with a bomb of adequate length
       attemptedCombo === COMBO.BOMB)
   ) {
-    return new Play(attemptedCombo, attemptedCards);
+    return Play.Get(attemptedCombo, attemptedCards);
   }
 
   throw new Error(`You need to play a valid chopper`);
@@ -35,7 +35,7 @@ export function tryStandardMove(lastPlay, attemptedCards) {
     throw new Error('You need to play a suited run');
   }
 
-  const attemptedPlay = new Play(
+  const attemptedPlay = Play.Get(
     lastPlay.combo,
     attemptedCards,
     lastPlay.suited
@@ -58,7 +58,7 @@ export function tryOpeningMove(cards) {
     throw new Error("You can't open with a bomb");
   }
 
-  return new Play(combo, cards);
+  return Play.Get(combo, cards);
 }
 
 export default function MakeMove(G, ctx, play) {
@@ -74,7 +74,7 @@ export default function MakeMove(G, ctx, play) {
     return INVALID_MOVE;
   }
 
-  // ensure card selection is valid (should be done on the client as well)
+  // ensure card selection is valid
   if (play === INVALID_MOVE) return INVALID_MOVE;
 
   // deep copy object so we don't modify state

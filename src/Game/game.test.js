@@ -4,7 +4,7 @@ import Play, { COMBO } from './Play';
 import Game from '.';
 
 it('should mark winner after playing final card', () => {
-  const hand = [new Card(RANK.TWO, SUIT.H)];
+  const hand = [Card.Get(RANK.TWO, SUIT.H)];
   const scenario = {
     ...Game,
     setup: () => ({
@@ -28,7 +28,7 @@ it('should mark winner after playing final card', () => {
     numPlayers: 4,
   });
 
-  const play = new Play(COMBO.SINGLE, hand);
+  const play = Play.Get(COMBO.SINGLE, hand);
   play.player = '0';
   client.moves.MakeMove(play); // p0 plays last card
 
@@ -56,7 +56,7 @@ it('should mark winner after playing final card', () => {
 });
 
 it('should mark second after playing last card', () => {
-  const hand = [new Card(RANK.TWO, SUIT.H)];
+  const hand = [Card.Get(RANK.TWO, SUIT.H)];
   const scenario = {
     ...Game,
     setup: () => ({
@@ -68,7 +68,7 @@ it('should mark second after playing last card', () => {
       },
       log: [],
       startingPlayer: 1,
-      lastPlay: new Play(COMBO.SINGLE, [new Card(RANK.TWO, SUIT.D)]),
+      lastPlay: Play.Get(COMBO.SINGLE, [Card.Get(RANK.TWO, SUIT.D)]),
       playersInGame: ['0', '1', '3'],
       playersInRound: ['1', '3'],
       winOrder: ['2'],
@@ -80,7 +80,7 @@ it('should mark second after playing last card', () => {
     numPlayers: 4,
   });
 
-  const play = new Play(COMBO.SINGLE, hand);
+  const play = Play.Get(COMBO.SINGLE, hand);
   client.moves.MakeMove(play); // p1 plays last card
 
   const { G, ctx } = client.store.getState();
@@ -97,7 +97,7 @@ it('should mark second after playing last card', () => {
 });
 
 it('should pass power to the person after the winner, if all pass after a win', () => {
-  const lastPlay = new Play(COMBO.SINGLE, [new Card(RANK.EIGHT, SUIT.D)]);
+  const lastPlay = Play.Get(COMBO.SINGLE, [Card.Get(RANK.EIGHT, SUIT.D)]);
   lastPlay.player = '0';
   const scenario = {
     ...Game,
@@ -127,7 +127,7 @@ it('should pass power to the person after the winner, if all pass after a win', 
 });
 
 it('should mark gameover after 3rd person goes out', () => {
-  const hand = [new Card(RANK.TWO, SUIT.H)];
+  const hand = [Card.Get(RANK.TWO, SUIT.H)];
   const scenario = {
     ...Game,
     setup: () => ({
@@ -151,7 +151,7 @@ it('should mark gameover after 3rd person goes out', () => {
     numPlayers: 4,
   });
 
-  const play = new Play(COMBO.SINGLE, hand);
+  const play = Play.Get(COMBO.SINGLE, hand);
   client.moves.MakeMove(play); // p0 plays last card
 
   const { G, ctx } = client.store.getState();
@@ -166,7 +166,7 @@ it('should mark gameover after 3rd person goes out', () => {
 });
 
 it('should mark gameover in a two person game', () => {
-  const hand = [new Card(RANK.TWO, SUIT.H)];
+  const hand = [Card.Get(RANK.TWO, SUIT.H)];
   const scenario = {
     ...Game,
     setup: () => ({
@@ -188,7 +188,7 @@ it('should mark gameover in a two person game', () => {
     numPlayers: 2,
   });
 
-  const play = new Play(COMBO.SINGLE, hand);
+  const play = Play.Get(COMBO.SINGLE, hand);
   client.moves.MakeMove(play); // p0 plays last card
 
   const { G, ctx } = client.store.getState();

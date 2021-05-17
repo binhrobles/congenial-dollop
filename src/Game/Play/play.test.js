@@ -1,27 +1,27 @@
 import Card, { RANK, SUIT } from '../Card';
 import Play, { isRun, isBomb, COMBO } from './index';
 
-const H2 = new Card(RANK.TWO, SUIT.H);
-const D2 = new Card(RANK.TWO, SUIT.D);
-const C2 = new Card(RANK.TWO, SUIT.C);
-const S2 = new Card(RANK.TWO, SUIT.S);
-const H3 = new Card(RANK.THREE, SUIT.H);
-const D3 = new Card(RANK.THREE, SUIT.D);
-const S3 = new Card(RANK.THREE, SUIT.S);
+const H2 = Card.Get(RANK.TWO, SUIT.H);
+const D2 = Card.Get(RANK.TWO, SUIT.D);
+const C2 = Card.Get(RANK.TWO, SUIT.C);
+const S2 = Card.Get(RANK.TWO, SUIT.S);
+const H3 = Card.Get(RANK.THREE, SUIT.H);
+const D3 = Card.Get(RANK.THREE, SUIT.D);
+const S3 = Card.Get(RANK.THREE, SUIT.S);
 
-const SH2 = new Play(COMBO.SINGLE, [H2]);
-const SD2 = new Play(COMBO.SINGLE, [D2]);
-const SH3 = new Play(COMBO.SINGLE, [H3]);
-const SD3 = new Play(COMBO.SINGLE, [D3]);
-const SS3 = new Play(COMBO.SINGLE, [S3]);
+const SH2 = Play.Get(COMBO.SINGLE, [H2]);
+const SD2 = Play.Get(COMBO.SINGLE, [D2]);
+const SH3 = Play.Get(COMBO.SINGLE, [H3]);
+const SD3 = Play.Get(COMBO.SINGLE, [D3]);
+const SS3 = Play.Get(COMBO.SINGLE, [S3]);
 
-const PH2 = new Play(COMBO.PAIR, [D2, H2]);
-const PC2 = new Play(COMBO.PAIR, [S2, C2]);
+const PH2 = Play.Get(COMBO.PAIR, [D2, H2]);
+const PC2 = Play.Get(COMBO.PAIR, [S2, C2]);
 
-const TH2 = new Play(COMBO.TRIPLE, [D2, H2, C2]);
-const TD2 = new Play(COMBO.TRIPLE, [S2, C2, D2]);
+const TH2 = Play.Get(COMBO.TRIPLE, [D2, H2, C2]);
+const TD2 = Play.Get(COMBO.TRIPLE, [S2, C2, D2]);
 
-const QH2 = new Play(COMBO.QUAD, [S2, D2, H2, C2]);
+const QH2 = Play.Get(COMBO.QUAD, [S2, D2, H2, C2]);
 
 it('should eval a stronger single to beat a weaker single', () => {
   expect(SH2.value > SH3.value).toBeTruthy();
@@ -46,28 +46,28 @@ it('should sort pairs, trips, quads with highest card lowest', () => {
 
 it('should verify valid runs', () => {
   const R345 = [
-    new Card(RANK.FIVE, SUIT.S),
-    new Card(RANK.FOUR, SUIT.D),
-    new Card(RANK.THREE, SUIT.H),
+    Card.Get(RANK.FIVE, SUIT.S),
+    Card.Get(RANK.FOUR, SUIT.D),
+    Card.Get(RANK.THREE, SUIT.H),
   ];
 
   const R346 = [
-    new Card(RANK.SIX, SUIT.S),
-    new Card(RANK.FOUR, SUIT.D),
-    new Card(RANK.THREE, SUIT.H),
+    Card.Get(RANK.SIX, SUIT.S),
+    Card.Get(RANK.FOUR, SUIT.D),
+    Card.Get(RANK.THREE, SUIT.H),
   ];
 
   const RJQKA = [
-    new Card(RANK.ACE, SUIT.D),
-    new Card(RANK.JACK, SUIT.S),
-    new Card(RANK.QUEEN, SUIT.H),
-    new Card(RANK.KING, SUIT.S),
+    Card.Get(RANK.ACE, SUIT.D),
+    Card.Get(RANK.JACK, SUIT.S),
+    Card.Get(RANK.QUEEN, SUIT.H),
+    Card.Get(RANK.KING, SUIT.S),
   ];
 
   const RKA2akaTheJoey = [
-    new Card(RANK.ACE, SUIT.D),
-    new Card(RANK.KING, SUIT.S),
-    new Card(RANK.TWO, SUIT.H),
+    Card.Get(RANK.ACE, SUIT.D),
+    Card.Get(RANK.KING, SUIT.S),
+    Card.Get(RANK.TWO, SUIT.H),
   ];
 
   expect(isRun(R345)).toBeTruthy();
@@ -78,34 +78,34 @@ it('should verify valid runs', () => {
 
 it('should verify bombs', () => {
   const B345 = [
-    new Card(RANK.FIVE, SUIT.S),
-    new Card(RANK.FIVE, SUIT.H),
-    new Card(RANK.FOUR, SUIT.H),
-    new Card(RANK.FOUR, SUIT.D),
-    new Card(RANK.THREE, SUIT.C),
-    new Card(RANK.THREE, SUIT.H),
+    Card.Get(RANK.FIVE, SUIT.S),
+    Card.Get(RANK.FIVE, SUIT.H),
+    Card.Get(RANK.FOUR, SUIT.H),
+    Card.Get(RANK.FOUR, SUIT.D),
+    Card.Get(RANK.THREE, SUIT.C),
+    Card.Get(RANK.THREE, SUIT.H),
   ];
   const B3456 = [
-    new Card(RANK.FIVE, SUIT.S),
-    new Card(RANK.FIVE, SUIT.H),
-    new Card(RANK.FOUR, SUIT.H),
-    new Card(RANK.FOUR, SUIT.D),
-    new Card(RANK.THREE, SUIT.C),
-    new Card(RANK.THREE, SUIT.H),
-    new Card(RANK.SIX, SUIT.C),
-    new Card(RANK.SIX, SUIT.D),
+    Card.Get(RANK.FIVE, SUIT.S),
+    Card.Get(RANK.FIVE, SUIT.H),
+    Card.Get(RANK.FOUR, SUIT.H),
+    Card.Get(RANK.FOUR, SUIT.D),
+    Card.Get(RANK.THREE, SUIT.C),
+    Card.Get(RANK.THREE, SUIT.H),
+    Card.Get(RANK.SIX, SUIT.C),
+    Card.Get(RANK.SIX, SUIT.D),
   ];
   const B10JQKA = [
-    new Card(RANK.TEN, SUIT.S),
-    new Card(RANK.TEN, SUIT.H),
-    new Card(RANK.JACK, SUIT.H),
-    new Card(RANK.JACK, SUIT.D),
-    new Card(RANK.QUEEN, SUIT.C),
-    new Card(RANK.QUEEN, SUIT.H),
-    new Card(RANK.KING, SUIT.C),
-    new Card(RANK.KING, SUIT.D),
-    new Card(RANK.ACE, SUIT.C),
-    new Card(RANK.ACE, SUIT.H),
+    Card.Get(RANK.TEN, SUIT.S),
+    Card.Get(RANK.TEN, SUIT.H),
+    Card.Get(RANK.JACK, SUIT.H),
+    Card.Get(RANK.JACK, SUIT.D),
+    Card.Get(RANK.QUEEN, SUIT.C),
+    Card.Get(RANK.QUEEN, SUIT.H),
+    Card.Get(RANK.KING, SUIT.C),
+    Card.Get(RANK.KING, SUIT.D),
+    Card.Get(RANK.ACE, SUIT.C),
+    Card.Get(RANK.ACE, SUIT.H),
   ];
 
   expect(isBomb(B345)).toBeTruthy();

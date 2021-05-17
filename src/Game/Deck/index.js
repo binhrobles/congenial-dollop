@@ -4,7 +4,7 @@ export function GenerateStandardDeck() {
   const deck = [];
   Object.values(SUIT).forEach((suit) => {
     Object.values(RANK).forEach((rank) => {
-      const card = new Card(rank, suit);
+      const card = Card.Get(rank, suit);
       deck.push(card);
     });
   });

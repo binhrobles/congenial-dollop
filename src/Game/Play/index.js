@@ -71,11 +71,16 @@ export function isSuited(cards) {
 }
 
 export default class Play {
-  constructor(combo, cards, suited = false) {
-    this.cards = cards.sort(Card.Compare).reverse(); // cards[0] now holds highest value card
-    this.combo = combo;
-    this.suited = suited;
-    this.value = this.cards[0].value;
+  static Get(combo, cards, suited = false) { 
+    // cards[0] now holds highest value card
+    const sorted = cards.sort(Card.Compare).reverse();
+
+    return {
+      cards: sorted,
+      combo,
+      suited,
+      value: sorted[0].value,
+    }
   }
 
   static DetermineCombo(cards) {
