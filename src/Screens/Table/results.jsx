@@ -7,62 +7,48 @@ import { Avatar } from '../../Components';
 function Results(props) {
   const { gameover, gameMetadata, playAgain, exitGame, playerID } = props;
 
-  const getResults = () => {
-    const trophyEmojis = ['🏆', '🥈', '🥉', '💩'];
-    if (gameover && gameover.winOrder) {
-      return (
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          {gameover.winOrder.map((id, position) => {
-            return (
-              <Space size="small" key={id}>
-                <Emoji symbol={trophyEmojis[position]} label={position} />
-                <Avatar playerName={gameMetadata[id].name} withName />
-              </Space>
-            );
-          })}
-        </div>
-      );
-    }
+  // governs visibility of results modal
+  const [isVisible, setVisible] = React.useState(false);
 
-    return <></>;
-  };
+  if (gameover) {
+    const getResults = () => {
+      const trophyEmojis = ['🏆', '🥈', '🥉', '💩'];
+      if (gameover && gameover.winOrder) {
+        return (
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'space-evenly',
+            }}
+          >
+            {gameover.winOrder.map((id, position) => {
+              return (
+                <Space size="small" key={id}>
+                  <Emoji symbol={trophyEmojis[position]} label={position} />
+                  <Avatar playerName={gameMetadata[id].name} withName />
+                </Space>
+              );
+            })}
+          </div>
+        );
+      }
 
-  if (gameover && gameover.winOrder[0] === playerID) {
+      return <></>;
+    };
+
+    const message = gameover.winOrder[0] === playerID ? 'Wow you did it.' : "You're so bad!";
+
+    // wait a bit so we can see the last play, then pop up the modal
+    setTimeout(() => setVisible(true), 3000);
+
     return (
       <Modal
-        title="Wow you did it"
+        title={message}
         style={{ top: 20 }}
         closable={false}
         maskClosable={false}
-        visible
-        footer={[
-          <Button key="back" onClick={exitGame}>
-            Back to Lobby
-          </Button>,
-          <Button key="playAgain" type="primary" onClick={playAgain}>
-            Run it back
-          </Button>,
-        ]}
-      >
-        {getResults()}
-      </Modal>
-    );
-  }
-
-  if (gameover && gameover.winOrder[0] !== playerID) {
-    return (
-      <Modal
-        title="You're so bad!"
-        style={{ top: 20 }}
-        closable={false}
-        maskClosable={false}
-        visible
+        visible={isVisible}
         footer={[
           <Button key="back" onClick={exitGame}>
             Back to Lobby
