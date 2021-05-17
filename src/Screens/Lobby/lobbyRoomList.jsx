@@ -17,6 +17,7 @@ function LobbyRoomList(props) {
       // component is no longer mounted, indicated
       // by the clean up func having been called
       const r = await LobbyClient.getRooms();
+
       if (isMounted) {
         updateRooms(r);
         updateIsLoading(false);

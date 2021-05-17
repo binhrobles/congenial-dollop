@@ -44,9 +44,10 @@ async function getBuddies({ roomID }) {
   }
 }
 
+// only retrieves incomplete games
 async function getRooms() {
   try {
-    const response = await instance.get('/games/thirteen');
+    const response = await instance.get('/games/thirteen?isGameover=false');
     return response.data.rooms;
   } catch (e) {
     handleError(e);
