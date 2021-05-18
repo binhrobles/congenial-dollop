@@ -17,7 +17,7 @@ async function createRoom({ numPlayers, setupData }) {
       numPlayers,
       setupData,
     });
-    return response.data.gameID;
+    return response.data.matchID;
   } catch (e) {
     handleError(e);
     return null;
@@ -48,7 +48,7 @@ async function getBuddies({ roomID }) {
 async function getRooms() {
   try {
     const response = await instance.get('/games/thirteen?isGameover=false');
-    return response.data.rooms;
+    return response.data.matches;
   } catch (e) {
     handleError(e);
     return [];

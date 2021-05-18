@@ -34,7 +34,7 @@ function Foyer(props) {
 
     return (
       <ThirteenClient
-        gameID={roomID}
+        matchID={roomID}
         playerID={playerID.toString()}
         credentials={playerToken}
         exitGame={exitGame}

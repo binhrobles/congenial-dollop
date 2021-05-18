@@ -15,10 +15,10 @@ function LobbyRoomInstance(props) {
   return (
     <List.Item>
       <List.Item.Meta
-        title={`Room ID: ${room.gameID.slice(0, 4)}`}
+        title={`Room ID: ${room.matchID.slice(0, 4)}`}
         description={description(room)}
       />
-      <Button type="primary" onClick={() => onJoin(room.gameID)}>
+      <Button type="primary" onClick={() => onJoin(room.matchID)}>
         Join
       </Button>
     </List.Item>
@@ -27,7 +27,7 @@ function LobbyRoomInstance(props) {
 
 LobbyRoomInstance.propTypes = {
   room: PropTypes.shape({
-    gameID: PropTypes.string,
+    matchID: PropTypes.string,
     players: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
