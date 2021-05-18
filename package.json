@@ -6,7 +6,7 @@
     "@ant-design/icons": "^4.2.1",
     "a11y-react-emoji": "^1.1.2",
     "antd": "^4.2.5",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "boardgame.io": "^0.44.*",
     "esm": "^3.2.25",
     "node-persist": "^3.0.5",
