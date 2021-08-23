@@ -72,7 +72,7 @@ PlayerView.propTypes = {
   cards: PropTypes.objectOf(PropTypes.arrayOf(Card)).isRequired,
   currentPlayer: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
-  lastPlay: PropTypes.instanceOf(Card),
+  lastPlay: PropTypes.object,
   moves: PropTypes.shape({
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,

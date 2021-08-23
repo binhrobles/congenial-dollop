@@ -58,7 +58,7 @@ function PlayerHUD(props) {
 PlayerHUD.propTypes = {
   cards: PropTypes.objectOf(PropTypes.arrayOf(Card)).isRequired,
   currentPlayer: PropTypes.string.isRequired,
-  playersIn: PropTypes.arrayOf(PropTypes.number).isRequired,
+  playersIn: PropTypes.arrayOf(PropTypes.string).isRequired,
   playerNames: PropTypes.arrayOf(PropTypes.string),
 };
 

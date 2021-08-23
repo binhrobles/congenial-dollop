@@ -5,7 +5,7 @@ import Emoji from 'a11y-react-emoji';
 import { Avatar } from '../../Components';
 
 function Results(props) {
-  const { gameover, gameMetadata, playAgain, exitGame, playerID } = props;
+  const { gameover, matchData, playAgain, exitGame, playerID } = props;
 
   // governs visibility of results modal
   const [isVisible, setVisible] = React.useState(false);
@@ -26,7 +26,7 @@ function Results(props) {
               return (
                 <Space size="small" key={id}>
                   <Emoji symbol={trophyEmojis[position]} label={position} />
-                  <Avatar playerName={gameMetadata[id].name} withName />
+                  <Avatar playerName={matchData[id].name} withName />
                 </Space>
               );
             })}
@@ -37,7 +37,8 @@ function Results(props) {
       return <></>;
     };
 
-    const message = gameover.winOrder[0] === playerID ? 'Wow you did it.' : "You're so bad!";
+    const message =
+      gameover.winOrder[0] === playerID ? 'Wow you did it.' : "You're so bad!";
 
     // wait a bit so we can see the last play, then pop up the modal
     setTimeout(() => setVisible(true), 3000);
@@ -67,8 +68,8 @@ function Results(props) {
 }
 
 Results.propTypes = {
-  gameover: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-  gameMetadata: PropTypes.objectOf(PropTypes.any),
+  gameover: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
+  matchData: PropTypes.arrayOf(PropTypes.any),
   playAgain: PropTypes.func.isRequired,
   exitGame: PropTypes.func.isRequired,
   playerID: PropTypes.string,
@@ -76,7 +77,7 @@ Results.propTypes = {
 
 Results.defaultProps = {
   playerID: null,
-  gameMetadata: [
+  matchData: [
     { name: 'Adri' },
     { name: 'Binh' },
     { name: 'Chris' },

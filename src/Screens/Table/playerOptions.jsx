@@ -4,7 +4,7 @@ import { INVALID_MOVE } from 'boardgame.io/core';
 import { Button, Space, Popconfirm, message, notification } from 'antd';
 import { MehOutlined } from '@ant-design/icons';
 import Card, { RANK } from '../../Game/Card';
-import Play, { COMBO, isSuited } from '../../Game/Play';
+import { COMBO, isSuited } from '../../Game/Play';
 import { tryStandardMove, tryOpeningMove } from '../../Game/Move/makeMove';
 
 function PlayerOptions(props) {
@@ -140,7 +140,7 @@ function PlayerOptions(props) {
 }
 
 PlayerOptions.propTypes = {
-  lastPlay: PropTypes.instanceOf(Play),
+  lastPlay: PropTypes.object,
   selected: PropTypes.arrayOf(Card).isRequired,
   moves: PropTypes.shape({
     Pass: PropTypes.func,

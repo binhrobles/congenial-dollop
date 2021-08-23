@@ -8,18 +8,10 @@ import History from './history';
 import Results from './results';
 
 function Table(props) {
-  const {
-    G,
-    ctx,
-    playerID,
-    isActive,
-    moves,
-    gameMetadata,
-    playAgain,
-    exitGame,
-  } = props;
+  const { G, ctx, playerID, isActive, moves, matchData, playAgain, exitGame } =
+    props;
 
-  const playerNames = gameMetadata.map((player) => player.name);
+  const playerNames = matchData.map((player) => player.name);
 
   return (
     <>
@@ -27,7 +19,7 @@ function Table(props) {
         playAgain={playAgain}
         exitGame={exitGame}
         gameover={ctx.gameover}
-        gameMetadata={gameMetadata}
+        matchData={matchData}
         playerID={playerID}
       />
       <div style={{ backgroundColor: '#35654d', minHeight: '100vh' }}>
@@ -43,7 +35,7 @@ function Table(props) {
           <PlayerView
             lastPlay={G.lastPlay}
             cards={G.players}
-            playerID={playerID}
+            playerID={Number(playerID)}
             currentPlayer={ctx.currentPlayer}
             playersIn={G.playersInRound}
             isActive={isActive}
@@ -60,7 +52,7 @@ Table.propTypes = {
   G: PropTypes.shape({
     players: PropTypes.objectOf(PropTypes.arrayOf(Card)),
     log: PropTypes.arrayOf(Play),
-    lastPlay: PropTypes.instanceOf(Card),
+    lastPlay: PropTypes.object,
     playersInRound: PropTypes.arrayOf(PropTypes.string),
     playersInGame: PropTypes.arrayOf(PropTypes.string),
     winOrder: PropTypes.arrayOf(PropTypes.string),
@@ -74,7 +66,7 @@ Table.propTypes = {
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
-  gameMetadata: PropTypes.objectOf(PropTypes.any),
+  matchData: PropTypes.arrayOf(PropTypes.any),
   isActive: PropTypes.bool.isRequired,
   playAgain: PropTypes.func.isRequired,
   exitGame: PropTypes.func.isRequired,
@@ -83,7 +75,7 @@ Table.propTypes = {
 
 Table.defaultProps = {
   playerID: null,
-  gameMetadata: [
+  matchData: [
     { name: 'Adri' },
     { name: 'Binh' },
     { name: 'Chris' },
