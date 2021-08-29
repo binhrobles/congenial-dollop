@@ -18,6 +18,7 @@
   "scripts": {
     "start": "node -r esm src/server.js",
     "start:client": "react-scripts start",
+    "start:client-local": "REACT_APP_SERVER_URI='http://localhost:8000' react-scripts start",
     "start:client-debug": "REACT_APP_DEBUG=1 react-scripts start",
     "start:server": "node -r esm src/server.js",
     "start:server-debug": "rm -rf db/instance; cp -r db/test-state db/instance; NODE_ENV=development node -r esm src/server.js",
