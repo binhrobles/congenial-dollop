@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "node -r esm src/server.js",
+    "start:local": "concurrently \"npm:start:server\" \"npm:start:client-local\"",
     "start:client": "react-scripts start",
     "start:client-local": "REACT_APP_SERVER_URI='http://localhost:8000' react-scripts start",
     "start:client-debug": "REACT_APP_DEBUG=1 react-scripts start",
@@ -53,6 +54,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "concurrently": "^6.2.1",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
