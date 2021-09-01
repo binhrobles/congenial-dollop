@@ -34,6 +34,7 @@ function Landing({ hasEntered, updateHasEntered }) {
       <div style={{ textAlign: 'center', width: '100vw' }}>
         <div>
           <Avatar
+            playerName={playerName}
             style={{
               padding: 10,
               width: 'unset',
