@@ -6,10 +6,11 @@ import Play from '../../Game/Play';
 import PlayerView from './playerView';
 import History from './history';
 import Results from './results';
+import PlayerContext from '../../Contexts/PlayerContext';
 
 function Table(props) {
-  const { G, ctx, playerID, isActive, moves, matchData, playAgain, exitGame } =
-    props;
+  const { G, ctx, isActive, moves, matchData, playAgain, exitGame } = props;
+  const { playerID, isSpectator } = React.useContext(PlayerContext);
 
   const playerNames = matchData.map((player) => player.name);
 
@@ -31,11 +32,10 @@ function Table(props) {
         >
           <History log={G.log} playerNames={playerNames} />
         </Row>
-        {playerID !== null && (
+        {(playerID !== null || isSpectator) && (
           <PlayerView
             lastPlay={G.lastPlay}
             cards={G.players}
-            playerID={Number(playerID)}
             currentPlayer={ctx.currentPlayer}
             playersIn={G.playersInRound}
             isActive={isActive}
@@ -70,11 +70,9 @@ Table.propTypes = {
   isActive: PropTypes.bool.isRequired,
   playAgain: PropTypes.func.isRequired,
   exitGame: PropTypes.func.isRequired,
-  playerID: PropTypes.string,
 };
 
 Table.defaultProps = {
-  playerID: null,
   matchData: [
     { name: 'Adri' },
     { name: 'Binh' },

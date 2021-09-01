@@ -24,7 +24,7 @@ function History(props) {
       case 'move':
         return (
           <>
-            <Hand cards={entry.play.cards.sort(Card.Compare)} />
+            <Hand cards={[...entry.play.cards].sort(Card.Compare)} />
             {entry.play.suited && 'Suited'}
           </>
         );
@@ -63,7 +63,7 @@ function History(props) {
     <List
       style={{
         textAlign: 'center',
-        maxHeight: '50vh',
+        maxHeight: '60vh',
         overflow: 'auto',
         width: '100%',
       }}

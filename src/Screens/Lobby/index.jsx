@@ -4,12 +4,19 @@ import { Button, Drawer, Form, Radio, Spin, Row, Col, message } from 'antd';
 import { LobbyClient } from '../../Http';
 import LobbyRoomList from './lobbyRoomList';
 import Foyer from '../Foyer';
-import useStateWithSessionStorage from '../../hooks/useStateWithSessionStorage';
+import PlayerContext from '../../Contexts/PlayerContext';
 
-// TODO: probably want to use reducer here
 function Lobby(props) {
-  const { playerName, logOut } = props;
-  const [roomID, updateRoomID] = useStateWithSessionStorage('roomID');
+  const { logOut } = props;
+  const {
+    playerName,
+    playerToken,
+    playerID,
+    roomID,
+
+    dispatch,
+  } = React.useContext(PlayerContext);
+
   const [isCreating, updateIsCreating] = React.useState(false);
   const [isJoining, updateIsJoining] = React.useState(false);
 
@@ -21,30 +28,35 @@ function Lobby(props) {
     logOut();
   }
 
-  // TODO: break into reducer that can be reused b/w here and results page?
-  // ties together `updateLoading` and `updateRoomID`
-  // useEffect doing most of this, on `roomID` change
-  //    -> will need to null check on first run
   const joinRoom = async (id) => {
     updateIsJoining(true);
-    // check session storage for pre-existing association
-    let playerDetails = JSON.parse(sessionStorage.getItem(id));
 
-    if (!playerDetails) {
+    if (!playerToken || !playerID) {
       // if no association existed, attempt to join the room
-      playerDetails = await LobbyClient.joinRoom({
+      const playerDetails = await LobbyClient.joinRoom({
         roomID: id,
         playerName,
       });
 
-      // store room-player association in browser session
-      sessionStorage.setItem(id, JSON.stringify(playerDetails));
-    }
-
-    if (playerDetails) {
-      updateRoomID(id);
+      if (!playerDetails) {
+        message.error("Couldn't join room");
+      } else {
+        dispatch({
+          type: 'set-player',
+          payload: {
+            roomID: id,
+            ...playerDetails,
+          },
+        });
+      }
     } else {
-      message.error('Unable to join room');
+      // if the already have credentials, just re-enter the room
+      dispatch({
+        type: 'set-room',
+        payload: {
+          roomID: id,
+        },
+      });
     }
 
     updateIsJoining(false);
@@ -66,33 +78,32 @@ function Lobby(props) {
     updateIsCreating(false);
   };
 
-  const exitFoyer = () => {
-    updateRoomID('');
+  const spectateRoom = async (id) => {
+    dispatch({ type: 'set-spectate', payload: { roomID: id } });
+  };
+
+  // TODO: exiting foyer shouldn't erase creds
+  //  this will only result in duplicate players
+  //  should maintain PageContext uncoupled from PlayerContext
+  const exitFoyer = async (id) => {
+    await LobbyClient.leaveRoom({ roomID, playerToken, playerID });
+    dispatch({ type: 'eject-player' });
   };
 
   const playAgain = async () => {
     updateIsCreating(true);
-    const playerDetails = JSON.parse(sessionStorage.getItem(roomID));
-
-    if (!playerDetails) {
+    if (!playerID || !playerToken) {
       message.error("Couldn't create a duplicate room");
-      updateRoomID('');
+      dispatch({ type: 'eject-player' });
     } else {
-      joinRoom(await LobbyClient.playAgain({ roomID, ...playerDetails }));
+      joinRoom(await LobbyClient.playAgain({ roomID, playerToken, playerID }));
     }
 
     updateIsCreating(false);
   };
 
   if (roomID) {
-    return (
-      <Foyer
-        roomID={roomID}
-        player={JSON.parse(sessionStorage.getItem(roomID))}
-        playAgain={playAgain}
-        exitFoyer={exitFoyer}
-      />
-    );
+    return <Foyer playAgain={playAgain} exitFoyer={exitFoyer} />;
   }
 
   return (
@@ -107,7 +118,7 @@ function Lobby(props) {
         </Button>
       </Row>
       <Col offset={1} span={22}>
-        <LobbyRoomList onJoin={joinRoom} />
+        <LobbyRoomList onJoin={joinRoom} onSpectate={spectateRoom} />
       </Col>
       <Drawer
         title="Room Settings"
@@ -139,7 +150,6 @@ function Lobby(props) {
 }
 
 Lobby.propTypes = {
-  playerName: PropTypes.string.isRequired,
   logOut: PropTypes.func.isRequired,
 };
 

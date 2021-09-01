@@ -6,9 +6,12 @@ import { MehOutlined } from '@ant-design/icons';
 import Card, { RANK } from '../../Game/Card';
 import { COMBO, isSuited } from '../../Game/Play';
 import { tryStandardMove, tryOpeningMove } from '../../Game/Move/makeMove';
+import PlayerContext from '../../Contexts/PlayerContext';
 
 function PlayerOptions(props) {
-  const { selected, lastPlay, moves, updateSelected, playerID } = props;
+  const { selected, lastPlay, moves, updateSelected } = props;
+  const { playerID } = React.useContext(PlayerContext);
+
   const [shouldSuitedPrompt, showSuitedPrompt] = React.useState(false);
   let attemptedPlay;
 
@@ -77,7 +80,7 @@ function PlayerOptions(props) {
       const tryPlay = isOpeningMove
         ? tryOpeningMove(selected)
         : tryStandardMove(lastPlay, selected);
-      attemptedPlay = { ...tryPlay, player: playerID };
+      attemptedPlay = { ...tryPlay, player: Number(playerID) };
     } catch (e) {
       message.error(e.message);
       return;
@@ -147,7 +150,6 @@ PlayerOptions.propTypes = {
     MakeMove: PropTypes.func,
   }).isRequired,
   updateSelected: PropTypes.func.isRequired,
-  playerID: PropTypes.number.isRequired,
 };
 
 PlayerOptions.defaultProps = {

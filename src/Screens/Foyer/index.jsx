@@ -7,10 +7,13 @@ import FoyerBuddies from './foyerBuddies';
 import Game from '../../Game';
 import Table from '../Table';
 import keys from '../../keys';
+import PlayerContext from '../../Contexts/PlayerContext';
 
 function Foyer(props) {
-  const { roomID, player, playAgain, exitFoyer } = props;
-  const { playerID, playerToken } = player;
+  const { playAgain, exitFoyer } = props;
+  const { playerID, playerToken, isSpectator, roomID } =
+    React.useContext(PlayerContext);
+
   const [areReady, updateAreReady] = React.useState(false);
   const [startGame, updateStartGame] = React.useState(false);
 
@@ -35,7 +38,7 @@ function Foyer(props) {
     return (
       <ThirteenClient
         matchID={roomID}
-        playerID={playerID.toString()}
+        playerID={isSpectator ? null : playerID.toString()}
         credentials={playerToken}
         exitGame={exitGame}
         playAgain={playAgainProxy}
@@ -49,17 +52,17 @@ function Foyer(props) {
         Room: {roomID.slice(0, 4)}
       </h2>
       <Row align="top" justify="center">
-        <FoyerBuddies roomID={roomID} notifyReady={updateAreReady} />
+        <FoyerBuddies notifyReady={updateAreReady} />
       </Row>
       <Row align="bottom" justify="center" style={{ padding: 10 }}>
         <Space>
-          <Button onClick={exitFoyer}>Back to Lobby</Button>
+          <Button onClick={exitFoyer}>Leave</Button>
           <Button
             type="primary"
             disabled={!areReady}
             onClick={() => updateStartGame(true)}
           >
-            Play!
+            {isSpectator ? 'Spectate' : 'Play!'}
           </Button>
         </Space>
       </Row>
@@ -68,11 +71,6 @@ function Foyer(props) {
 }
 
 Foyer.propTypes = {
-  roomID: PropTypes.string.isRequired,
-  player: PropTypes.shape({
-    playerToken: PropTypes.string.isRequired,
-    playerID: PropTypes.number.isRequired,
-  }).isRequired,
   playAgain: PropTypes.func.isRequired,
   exitFoyer: PropTypes.func.isRequired,
 };

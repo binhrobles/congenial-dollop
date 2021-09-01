@@ -80,6 +80,17 @@ async function joinRoom({ roomID, playerName, data }) {
   }
 }
 
+async function leaveRoom({ roomID, playerID, playerToken }) {
+  try {
+    await instance.post(`/games/thirteen/${roomID}/leave`, {
+      playerID,
+      credentials: playerToken,
+    });
+  } catch (e) {
+    handleError(e);
+  }
+}
+
 async function playAgain({ roomID, playerID, playerToken }) {
   try {
     const response = await instance.post(
@@ -111,6 +122,7 @@ const LobbyClient = {
   getRoomByID,
   getRooms,
   joinRoom,
+  leaveRoom,
   ping,
   playAgain,
 };

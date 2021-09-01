@@ -6,7 +6,7 @@ import LobbyRoomInstance from './lobbyRoomInstance';
 import useInterval from '../../hooks/useInterval';
 
 function LobbyRoomList(props) {
-  const { onJoin } = props;
+  const { onJoin, onSpectate } = props;
   const [rooms, updateRooms] = React.useState([]);
   const [isLoading, updateIsLoading] = React.useState(true);
 
@@ -38,13 +38,20 @@ function LobbyRoomList(props) {
       bordered
       loading={isLoading}
       dataSource={rooms}
-      renderItem={(room) => <LobbyRoomInstance room={room} onJoin={onJoin} />}
+      renderItem={(room) => (
+        <LobbyRoomInstance
+          room={room}
+          onJoin={onJoin}
+          onSpectate={onSpectate}
+        />
+      )}
     />
   );
 }
 
 LobbyRoomList.propTypes = {
   onJoin: PropTypes.func.isRequired,
+  onSpectate: PropTypes.func.isRequired,
 };
 
 export default LobbyRoomList;

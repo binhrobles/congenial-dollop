@@ -40,9 +40,7 @@ export function onBegin(G, ctx) {
   // if everyone (else other than the lastPlay.player) has passed, clear the board
   // lastPlayer.player may have gone `out`, so other condition would be playersInRound === 0
   if (
-    (G.lastPlay &&
-      G.lastPlay.player &&
-      G.lastPlay.player === ctx.currentPlayer) ||
+    (G.lastPlay && Number(G.lastPlay.player) === Number(ctx.currentPlayer)) ||
     G.playersInRound.length === 0
   ) {
     // clears log (except last item) and states who has power
