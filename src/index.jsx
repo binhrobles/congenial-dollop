@@ -5,9 +5,13 @@ import 'antd/dist/antd.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import { PlayerProvider } from './Contexts/PlayerContext';
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <PlayerProvider>
+      <App />
+    </PlayerProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

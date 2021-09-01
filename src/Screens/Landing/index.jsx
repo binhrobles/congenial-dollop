@@ -4,14 +4,12 @@ import { Button, Space, Input } from 'antd';
 import Avatar from '../../Components/avatar';
 import Lobby from '../Lobby';
 import { LobbyClient } from '../../Http';
-import useStateWithSessionStorage from '../../hooks/useStateWithSessionStorage';
+import PlayerContext from '../../Contexts/PlayerContext';
 
 const MAX_NAME_LENGTH = 10;
 
 function Landing({ hasEntered, updateHasEntered }) {
-  const [playerName, updatePlayerName] = useStateWithSessionStorage(
-    'playerName'
-  );
+  const { playerName, dispatch } = React.useContext(PlayerContext);
 
   React.useEffect(() => {
     // wake up Heroku app
@@ -23,12 +21,12 @@ function Landing({ hasEntered, updateHasEntered }) {
   };
 
   const logOut = () => {
-    updatePlayerName('');
+    dispatch({ type: 'name-player', payload: { playerName: '' } });
     updateHasEntered(false);
   };
 
   if (hasEntered) {
-    return <Lobby playerName={playerName} logOut={logOut} />;
+    return <Lobby logOut={logOut} />;
   }
 
   return (
@@ -36,7 +34,6 @@ function Landing({ hasEntered, updateHasEntered }) {
       <div style={{ textAlign: 'center', width: '100vw' }}>
         <div>
           <Avatar
-            playerName={playerName}
             style={{
               padding: 10,
               width: 'unset',
@@ -53,7 +50,12 @@ function Landing({ hasEntered, updateHasEntered }) {
             placeholder="Who are you?"
             value={playerName}
             onChange={(event) =>
-              updatePlayerName(event.target.value.slice(0, MAX_NAME_LENGTH))
+              dispatch({
+                type: 'name-player',
+                payload: {
+                  playerName: event.target.value.slice(0, MAX_NAME_LENGTH),
+                },
+              })
             }
           />
           <Button type="primary" size="large" onClick={onClick}>

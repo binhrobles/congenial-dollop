@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Space } from 'antd';
+import PlayerContext from '../Contexts/PlayerContext';
 
 function Avatar(props) {
-  const { playerName, withName, cardCount, style } = props;
+  const { playerName } = React.useContext(PlayerContext);
+  const { withName, cardCount, style } = props;
   const defaultStyle = {
     width: '150px',
     height: '150px',
@@ -30,7 +32,6 @@ function Avatar(props) {
 }
 
 Avatar.propTypes = {
-  playerName: PropTypes.string.isRequired,
   withName: PropTypes.bool,
   cardCount: PropTypes.number,
   style: PropTypes.objectOf(PropTypes.any),

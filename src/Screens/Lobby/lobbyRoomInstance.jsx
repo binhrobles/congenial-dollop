@@ -10,7 +10,7 @@ const description = (room) => {
 };
 
 function LobbyRoomInstance(props) {
-  const { room, onJoin } = props;
+  const { room, onJoin, onSpectate } = props;
 
   return (
     <List.Item>
@@ -18,6 +18,7 @@ function LobbyRoomInstance(props) {
         title={`Room ID: ${room.matchID.slice(0, 4)}`}
         description={description(room)}
       />
+      <Button onClick={() => onSpectate(room.matchID)}>Spectate</Button>
       <Button type="primary" onClick={() => onJoin(room.matchID)}>
         Join
       </Button>
@@ -36,6 +37,7 @@ LobbyRoomInstance.propTypes = {
     setupData: PropTypes.object,
   }).isRequired,
   onJoin: PropTypes.func.isRequired,
+  onSpectate: PropTypes.func.isRequired,
 };
 
 export default LobbyRoomInstance;
