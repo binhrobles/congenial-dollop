@@ -11,7 +11,8 @@ import PlayerContext from '../../Contexts/PlayerContext';
 
 function Foyer(props) {
   const { playAgain, exitFoyer } = props;
-  const { playerID, playerToken, roomID } = React.useContext(PlayerContext);
+  const { playerID, playerToken, isSpectator, roomID } =
+    React.useContext(PlayerContext);
 
   const [areReady, updateAreReady] = React.useState(false);
   const [startGame, updateStartGame] = React.useState(false);
@@ -37,7 +38,7 @@ function Foyer(props) {
     return (
       <ThirteenClient
         matchID={roomID}
-        playerID={playerID.toString()}
+        playerID={isSpectator ? null : playerID.toString()}
         credentials={playerToken}
         exitGame={exitGame}
         playAgain={playAgainProxy}

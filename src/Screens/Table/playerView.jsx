@@ -5,6 +5,7 @@ import Card from '../../Game/Card';
 import { Hand } from '../../Components';
 import PlayerOptions from './playerOptions';
 import PlayerHUD from './playerHUD';
+import PlayerContext from '../../Contexts/PlayerContext';
 
 function PlayerView(props) {
   const {
@@ -13,10 +14,11 @@ function PlayerView(props) {
     isActive,
     lastPlay,
     moves,
-    playerID,
     playerNames,
     playersIn,
   } = props;
+  const { playerID, isSpectator } = React.useContext(PlayerContext);
+
   const [selected, updateSelected] = React.useState([]);
   const playerCards = cards[playerID];
 
@@ -60,10 +62,18 @@ function PlayerView(props) {
           />
         </Row>
       )}
-      <Divider style={{ margin: '10px 0' }} />
-      <Row align="bottom" justify="center">
-        <Hand cards={playerCards} isActive={isActive} onSelect={selectCard} />
-      </Row>
+      {!isSpectator && (
+        <>
+          <Divider style={{ margin: '10px 0' }} />
+          <Row align="bottom" justify="center">
+            <Hand
+              cards={playerCards}
+              isActive={isActive}
+              onSelect={selectCard}
+            />
+          </Row>
+        </>
+      )}
     </>
   );
 }
@@ -77,7 +87,6 @@ PlayerView.propTypes = {
     Pass: PropTypes.func,
     MakeMove: PropTypes.func,
   }).isRequired,
-  playerID: PropTypes.number.isRequired,
   playersIn: PropTypes.arrayOf(PropTypes.string).isRequired,
   playerNames: PropTypes.arrayOf(PropTypes.string),
 };
