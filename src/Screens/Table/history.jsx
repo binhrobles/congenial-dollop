@@ -63,7 +63,7 @@ function History(props) {
     <List
       style={{
         textAlign: 'center',
-        maxHeight: '50vh',
+        maxHeight: '60vh',
         overflow: 'auto',
         width: '100%',
       }}

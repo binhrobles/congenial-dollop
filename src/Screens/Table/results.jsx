@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { Button, Space, Modal } from 'antd';
 import Emoji from 'a11y-react-emoji';
 import { Avatar } from '../../Components';
+import PlayerContext from '../../Contexts/PlayerContext';
 
 function Results(props) {
-  const { gameover, matchData, playAgain, exitGame, playerID } = props;
+  const { gameover, matchData, playAgain, exitGame } = props;
+  const { playerID } = React.useContext(PlayerContext);
 
   // governs visibility of results modal
   const [isVisible, setVisible] = React.useState(false);
@@ -72,11 +74,9 @@ Results.propTypes = {
   matchData: PropTypes.arrayOf(PropTypes.any),
   playAgain: PropTypes.func.isRequired,
   exitGame: PropTypes.func.isRequired,
-  playerID: PropTypes.string,
 };
 
 Results.defaultProps = {
-  playerID: null,
   matchData: [
     { name: 'Adri' },
     { name: 'Binh' },

@@ -58,7 +58,6 @@ function PlayerView(props) {
             lastPlay={lastPlay}
             moves={moves}
             updateSelected={updateSelected}
-            playerID={playerID}
           />
         </Row>
       )}

@@ -5,8 +5,8 @@ import { Space } from 'antd';
 function Avatar(props) {
   const { playerName, withName, cardCount, style } = props;
   const defaultStyle = {
-    width: '150px',
-    height: '150px',
+    width: '130px',
+    height: '130px',
   };
 
   const compositeStyle = {
