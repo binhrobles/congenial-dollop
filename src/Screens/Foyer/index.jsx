@@ -51,7 +51,7 @@ function Foyer(props) {
         Room: {roomID.slice(0, 4)}
       </h2>
       <Row align="top" justify="center">
-        <FoyerBuddies roomID={roomID} notifyReady={updateAreReady} />
+        <FoyerBuddies notifyReady={updateAreReady} />
       </Row>
       <Row align="bottom" justify="center" style={{ padding: 10 }}>
         <Space>

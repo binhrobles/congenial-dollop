@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Space } from 'antd';
-import PlayerContext from '../Contexts/PlayerContext';
 
 function Avatar(props) {
   const { playerName, withName, cardCount, style } = props;

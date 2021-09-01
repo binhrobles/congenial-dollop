@@ -4,9 +4,12 @@ import { List } from 'antd';
 import { Avatar } from '../../Components';
 import { LobbyClient } from '../../Http';
 import useInterval from '../../hooks/useInterval';
+import PlayerContext from '../../Contexts/PlayerContext';
 
 function FoyerBuddies(props) {
-  const { roomID, notifyReady } = props;
+  const { notifyReady } = props;
+  const { roomID } = React.useContext(PlayerContext);
+
   const [buddies, updateBuddies] = React.useState([]);
   const [isLoading, updateIsLoading] = React.useState(true);
 
@@ -47,7 +50,6 @@ function FoyerBuddies(props) {
 }
 
 FoyerBuddies.propTypes = {
-  roomID: PropTypes.string.isRequired,
   notifyReady: PropTypes.func.isRequired,
 };
 

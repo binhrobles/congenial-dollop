@@ -13,15 +13,18 @@ function LobbyRoomInstance(props) {
   const { room, onJoin, onSpectate } = props;
 
   return (
-    <List.Item>
+    <List.Item
+      actions={[
+        <Button onClick={() => onSpectate(room.matchID)}>Spectate</Button>,
+        <Button type="primary" onClick={() => onJoin(room.matchID)}>
+          Join
+        </Button>,
+      ]}
+    >
       <List.Item.Meta
         title={`Room ID: ${room.matchID.slice(0, 4)}`}
         description={description(room)}
       />
-      <Button onClick={() => onSpectate(room.matchID)}>Spectate</Button>
-      <Button type="primary" onClick={() => onJoin(room.matchID)}>
-        Join
-      </Button>
     </List.Item>
   );
 }
