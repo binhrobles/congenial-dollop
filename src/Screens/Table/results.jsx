@@ -7,7 +7,7 @@ import PlayerContext from '../../Contexts/PlayerContext';
 
 function Results(props) {
   const { gameover, matchData, playAgain, exitGame } = props;
-  const { playerID } = React.useContext(PlayerContext);
+  const { playerID, isSpectator } = React.useContext(PlayerContext);
 
   // governs visibility of results modal
   const [isVisible, setVisible] = React.useState(false);
@@ -56,9 +56,13 @@ function Results(props) {
           <Button key="back" onClick={exitGame}>
             Back to Lobby
           </Button>,
-          <Button key="playAgain" type="primary" onClick={playAgain}>
-            Run it back
-          </Button>,
+          ...(isSpectator
+            ? []
+            : [
+                <Button key="playAgain" type="primary" onClick={playAgain}>
+                  Run it back
+                </Button>,
+              ]),
         ]}
       >
         {getResults()}

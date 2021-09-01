@@ -80,7 +80,7 @@ function PlayerOptions(props) {
       const tryPlay = isOpeningMove
         ? tryOpeningMove(selected)
         : tryStandardMove(lastPlay, selected);
-      attemptedPlay = { ...tryPlay, player: playerID };
+      attemptedPlay = { ...tryPlay, player: Number(playerID) };
     } catch (e) {
       message.error(e.message);
       return;

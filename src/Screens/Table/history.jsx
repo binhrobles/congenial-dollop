@@ -24,7 +24,7 @@ function History(props) {
       case 'move':
         return (
           <>
-            <Hand cards={entry.play.cards.sort(Card.Compare)} />
+            <Hand cards={[...entry.play.cards].sort(Card.Compare)} />
             {entry.play.suited && 'Suited'}
           </>
         );
