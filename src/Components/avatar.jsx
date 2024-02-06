@@ -17,7 +17,7 @@ function Avatar(props) {
   return (
     <Space align="center" direction="vertical" style={{ padding: 10 }}>
       <img
-        src={`https://avatars.dicebear.com/api/human/${playerName}.svg`}
+        src={`https://api.dicebear.com/7.x/croodles/svg?seed=${playerName}`}
         alt={playerName}
         style={compositeStyle}
       />
